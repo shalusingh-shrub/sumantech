@@ -45,3 +45,5 @@
     <div class="card-footer">{{ $pages->links() }}</div>
 </div>
 @endsection
+
+

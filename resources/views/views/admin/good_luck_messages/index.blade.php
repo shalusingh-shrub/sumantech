@@ -47,3 +47,5 @@
     </table>
 </div><div class="card-footer">{{ $messages->links() }}</div></div>
 @endsection
+
+

@@ -1,7 +1,7 @@
 {{-- File: resources/views/frontend/team.blade.php --}}
 @extends('layouts.frontend')
 
-@section('title', 'Our Team - Teachers of Bihar')
+@section('title', 'Our Team - Suman Tech')
 
 @section('content')
 
@@ -144,3 +144,5 @@
 
 </div>
 @endsection
+
+

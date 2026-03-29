@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Admin - Teachers of Bihar')</title>
+    <title>@yield('title', 'Admin - Suman Tech')</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -85,8 +85,23 @@
 <div class="sidebar">
     <div class="brand">
         <div>ToB Admin</div>
-        <small>Teachers of Bihar</small>
+        <small>Suman Tech</small>
     </div>
+
+
+    <div class="nav-section">Registration</div>
+<a href="{{ route('admin.registration.index') }}"
+   class="nav-link {{ request()->is('admin/registration*') ? 'active' : '' }}">
+    <i class="fas fa-user-plus"></i> Registration
+</a>
+<a href="{{ route('admin.registration.index') }}"
+   class="nav-link {{ request()->is('admin/registration') ? 'active' : '' }}"
+   style="padding-left:35px;font-size:13px;">
+    <i class="fas fa-users"></i> Registered User
+</a>
+<a href="#" class="nav-link" style="padding-left:35px;font-size:13px;">
+    <i class="fas fa-book"></i> Course
+</a>
 
     <div class="nav-section">Main</div>
     <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->is('admin') ? 'active' : '' }}">
@@ -266,3 +281,5 @@ document.getElementById("sidebarOverlay").addEventListener("click", function() {
 </script>
 </body>
 </html>
+
+

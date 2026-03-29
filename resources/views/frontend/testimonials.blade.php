@@ -1,6 +1,6 @@
 {{-- File: resources/views/frontend/testimonials.blade.php --}}
 @extends('layouts.frontend')
-@section('title', 'Testimonials - Teachers of Bihar')
+@section('title', 'Testimonials - Suman Tech')
 @section('content')
 <div class="page-banner"><div class="container"><h1>Testimonials</h1></div></div>
 <div class="container py-5">
@@ -28,3 +28,5 @@
     <div class="mt-4">{{ $testimonials->links() }}</div>
 </div>
 @endsection
+
+

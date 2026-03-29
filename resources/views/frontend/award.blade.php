@@ -1,6 +1,6 @@
 {{-- File: resources/views/frontend/award.blade.php --}}
 @extends('layouts.frontend')
-@section('title', 'Awards - Teachers of Bihar')
+@section('title', 'Awards - Suman Tech')
 @push('styles')
 <style>
 .award-card { border-radius:12px; overflow:hidden; transition:transform 0.2s, box-shadow 0.2s; cursor:pointer; }
@@ -44,3 +44,5 @@
     </div>
 </div>
 @endsection
+
+

@@ -1,6 +1,6 @@
 {{-- File: resources/views/frontend/podcast.blade.php --}}
 @extends('layouts.frontend')
-@section('title', 'Shiksha Shruti Podcast - Teachers of Bihar')
+@section('title', 'Shiksha Shruti Podcast - Suman Tech')
 @section('content')
 <div class="page-banner"><div class="container"><h1>Shiksha Shruti - Podcast</h1></div></div>
 <div class="container py-5">
@@ -19,3 +19,5 @@
     </div>
 </div>
 @endsection
+
+

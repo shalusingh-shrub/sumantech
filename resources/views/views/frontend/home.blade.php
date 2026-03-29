@@ -1,7 +1,7 @@
 {{-- File: resources/views/frontend/home.blade.php --}}
 @extends('layouts.frontend')
 
-@section('title', 'Teachers of Bihar - The Change Makers')
+@section('title', 'Suman Tech - The Learning Platform')
 
 @section('content')
 
@@ -31,8 +31,8 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-7">
-                <div class="section-title">Welcome to Teachers of Bihar</div>
-                <p>Teachers of Bihar (ToB) is a voluntary organization of government school teachers of Bihar. It was established with the aim to improve the quality of education in Bihar and to empower teachers with resources, training, and community support.</p>
+                <div class="section-title">Welcome to Suman Tech</div>
+                <p>Suman Tech (ToB) is a voluntary organization of government school Suman Tech. It was established with the aim to improve the quality of education in Bihar and to empower teachers with resources, training, and community support.</p>
                 <p class="hindi-text">हम बिहार के सरकारी विद्यालय के शिक्षकों का एक स्वैच्छिक संगठन हैं जो शिक्षा की गुणवत्ता में सुधार के लिए कार्यरत हैं।</p>
                 <a href="{{ route('about') }}" class="btn btn-success me-2">Learn More</a>
                 <a href="{{ route('team') }}" class="btn btn-outline-primary">Our Team</a>
@@ -226,3 +226,5 @@ $(document).ready(function() {
 });
 </script>
 @endpush
+
+

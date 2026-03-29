@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Team - Teachers of Bihar</title>
+    <title>Our Team - Suman Tech</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -92,8 +92,8 @@
                 <img src="https://www.teachersofbihar.org/public/web/images/logo-1.png" alt="Logo" class="logo-img"
                      onerror="this.src='https://ui-avatars.com/api/?name=T&background=1b2a4a&color=fff&size=55'">
                 <div>
-                    <div class="site-title">Teachers of Bihar</div>
-                    <div class="site-tagline">The Change Makers</div>
+                    <div class="site-title">Suman Tech</div>
+                    <div class="site-tagline">The Learning Platform</div>
                 </div>
             </div>
             @auth
@@ -253,7 +253,7 @@
 
 <!-- FOOTER -->
 <div style="background:#1b2a4a;color:rgba(255,255,255,0.7);text-align:center;padding:18px;font-size:12px;">
-    &copy; {{ date('Y') }} Teachers of Bihar &middot; The Change Makers
+    &copy; {{ date('Y') }} Suman Tech &middot; The Learning Platform
 </div>
 
 <!-- Hidden Data -->
@@ -307,4 +307,6 @@ function filterAll(btn){
 </script>
 </body>
 </html>
+
+
 

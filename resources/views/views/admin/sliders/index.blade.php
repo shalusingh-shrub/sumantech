@@ -60,3 +60,5 @@
     <div class="card-footer">{{ $sliders->links() }}</div>
 </div>
 @endsection
+
+

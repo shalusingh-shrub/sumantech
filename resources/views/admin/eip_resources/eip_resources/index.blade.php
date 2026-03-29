@@ -47,3 +47,5 @@
     <div class="card-footer">{{ $resources->links() }}</div>
 </div>
 @endsection
+
+

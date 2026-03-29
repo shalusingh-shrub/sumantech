@@ -1,0 +1,69 @@
+# Laravel 12 .gitignore
+
+# Dependencies
+
+/vendor/
+/node_modules/
+
+# Environment files
+
+.env
+.env.*
+!.env.example
+
+# Application key & secrets
+
+/storage/*.key
+
+# Laravel storage (keep structure, ignore contents)
+
+/storage/*
+!/storage/app/
+/storage/app/*
+!/storage/app/public/
+/storage/framework/
+/storage/logs/
+
+# Public storage symlink
+
+/public/storage
+
+# Build / frontend
+
+/public/build
+/public/hot
+
+# Logs
+
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Cache
+
+.phpunit.result.cache
+
+# OS / Editor
+
+.DS_Store
+Thumbs.db
+
+# IDEs
+
+/.vscode/
+/.idea/
+/.phpactor.json
+
+# Vagrant
+
+/.vagrant
+
+# Homestead
+
+Homestead.yaml
+Homestead.json
+
+# Misc
+
+auth.json

@@ -33,3 +33,5 @@
     {{ $activities->links() }}
 </div>
 @endsection
+
+

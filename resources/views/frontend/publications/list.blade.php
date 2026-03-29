@@ -1,6 +1,6 @@
 {{-- File: resources/views/frontend/publications/list.blade.php --}}
 @extends('layouts.frontend')
-@section('title', $title . ' - Teachers of Bihar')
+@section('title', $title . ' - Suman Tech')
 @section('content')
 <div class="page-banner">
     <div class="container">
@@ -45,3 +45,5 @@
     <div class="mt-4">{{ $publications->links() }}</div>
 </div>
 @endsection
+
+

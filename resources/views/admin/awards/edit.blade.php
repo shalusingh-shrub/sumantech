@@ -97,3 +97,5 @@ document.getElementById('hasCert').addEventListener('change', function() {
 <script>CKEDITOR.replace('descriptionEditor', { height: 250, removePlugins: 'elementspath' });</script>
 @endpush
 {{-- This content is appended --}}
+
+

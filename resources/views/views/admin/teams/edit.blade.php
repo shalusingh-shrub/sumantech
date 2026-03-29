@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Team Member - Teachers of Bihar</title>
+    <title>Add Team Member - Suman Tech</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -32,7 +32,7 @@
 <div class="sidebar">
     <div class="brand">
         <img src="https://www.teachersofbihar.org/public/web/images/logo-1.png" alt="Logo" onerror="this.onerror=null;this.style.opacity='0.3'">
-        <h5>Teachers of Bihar</h5>
+        <h5>Suman Tech</h5>
     </div>
     <div class="nav-heading">Main Menu</div>
     <a href="{{ route('admin.dashboard') }}" class="nav-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
@@ -182,3 +182,5 @@ function previewImage(input) {
 </script>
 </body>
 </html>
+
+

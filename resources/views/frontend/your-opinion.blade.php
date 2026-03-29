@@ -1,6 +1,6 @@
 {{-- File: resources/views/frontend/your-opinion.blade.php --}}
 @extends('layouts.frontend')
-@section('title', 'Your Opinion Matters - Teachers of Bihar')
+@section('title', 'Your Opinion Matters - Suman Tech')
 @section('content')
 <div class="page-banner">
     <div class="container">
@@ -66,3 +66,5 @@
     </div>
 </div>
 @endsection
+
+

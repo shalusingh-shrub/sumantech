@@ -1,6 +1,6 @@
-﻿{{-- File: resources/views/frontend/award_show.blade.php --}}
+{{-- File: resources/views/frontend/award_show.blade.php --}}
 @extends('layouts.frontend')
-@section('title', $award->title . ' - Teachers of Bihar')
+@section('title', $award->title . ' - Suman Tech')
 @push('styles')
 <style>
 .participant-card{border-radius:10px;overflow:hidden;transition:transform 0.2s;}
@@ -95,3 +95,5 @@ bg.onerror=function(){btn.disabled=false;btn.innerHTML='<i class="fas fa-downloa
 wrap.appendChild(bg);bg.src=CB;}
 </script>
 @endpush
+
+

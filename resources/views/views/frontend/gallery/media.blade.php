@@ -1,6 +1,6 @@
 {{-- File: resources/views/frontend/gallery/media.blade.php --}}
 @extends('layouts.frontend')
-@section('title', 'Media - Teachers of Bihar')
+@section('title', 'Media - Suman Tech')
 @section('content')
 <div class="page-banner"><div class="container"><h1>Media</h1></div></div>
 <div class="container py-5">
@@ -19,3 +19,5 @@
     <div class="mt-4">{{ $items->links() }}</div>
 </div>
 @endsection
+
+

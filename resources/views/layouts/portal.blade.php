@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'My Profile') - Teachers of Bihar</title>
+    <title>@yield('title', 'My Profile') - Suman Tech</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -33,7 +33,7 @@
 <body>
 {{-- Top Navbar --}}
 <div class="top-navbar">
-    <div class="brand"><i class="fas fa-chalkboard-teacher me-2"></i>Teachers of Bihar</div>
+    <div class="brand"><i class="fas fa-chalkboard-teacher me-2"></i>Suman Tech</div>
     <div class="user-info">
         <img src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}">
         <div>
@@ -124,3 +124,5 @@
 @stack('scripts')
 </body>
 </html>
+
+

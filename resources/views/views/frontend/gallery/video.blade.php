@@ -1,6 +1,6 @@
 {{-- File: resources/views/frontend/gallery/video.blade.php --}}
 @extends('layouts.frontend')
-@section('title', 'Video Gallery - Teachers of Bihar')
+@section('title', 'Video Gallery - Suman Tech')
 @section('content')
 <div class="page-banner">
     <div class="container"><h1>Video Gallery</h1></div>
@@ -35,3 +35,5 @@
     <div class="mt-4">{{ $videos->links() }}</div>
 </div>
 @endsection
+
+

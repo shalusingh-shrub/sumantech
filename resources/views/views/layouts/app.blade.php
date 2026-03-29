@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Teachers of Bihar')</title>
+    <title>@yield('title', 'Suman Tech')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -81,8 +81,8 @@
         <div class="d-flex align-items-center gap-3">
             <img src="https://www.teachersofbihar.org/public/web/images/logo-1.png" alt="ToB Logo" onerror="this.onerror=null;this.style.opacity='0.3'">
             <div>
-                <h1>Teachers of Bihar</h1>
-                <p>The Change Makers</p>
+                <h1>Suman Tech</h1>
+                <p>The Learning Platform</p>
             </div>
         </div>
     </div>
@@ -198,7 +198,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 mb-4">
-                <h5>Teachers of Bihar</h5>
+                <h5>Suman Tech</h5>
                 <p style="color:#bdc3c7;font-size:14px;">Bihar's largest teachers community working for quality education.</p>
                 <p style="color:#bdc3c7;font-size:14px;"><i class="fas fa-phone me-2"></i>+91 7250 8180 80</p>
                 <p style="color:#bdc3c7;font-size:14px;"><i class="fas fa-envelope me-2"></i>teachersofbihar@gmail.com</p>
@@ -223,7 +223,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; {{ date('Y') }} <strong>Teachers of Bihar</strong>. All Rights Reserved.</p>
+            <p>&copy; {{ date('Y') }} <strong>Suman Tech</strong>. All Rights Reserved.</p>
             <p>Developed & Maintained by Shivendra Suman</p>
         </div>
     </div>
@@ -233,3 +233,5 @@
 @yield('scripts')
 </body>
 </html>
+
+

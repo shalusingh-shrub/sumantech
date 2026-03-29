@@ -65,3 +65,5 @@
     <div class="card-footer">{{ $publications->links() }}</div>
 </div>
 @endsection
+
+

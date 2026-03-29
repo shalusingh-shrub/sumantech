@@ -1,6 +1,6 @@
 {{-- File: resources/views/frontend/news/show.blade.php --}}
 @extends('layouts.frontend')
-@section('title', $item->title . ' - Teachers of Bihar')
+@section('title', $item->title . ' - Suman Tech')
 @section('content')
 <div class="page-banner">
     <div class="container">
@@ -55,3 +55,5 @@
     </div>
 </div>
 @endsection
+
+

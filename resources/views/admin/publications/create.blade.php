@@ -100,3 +100,5 @@ CKEDITOR.replace('descriptionEditor', {
 });
 </script>
 @endpush
+
+

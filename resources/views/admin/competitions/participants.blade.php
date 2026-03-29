@@ -57,3 +57,5 @@
     <div class="card-footer">{{ $participants->links() }}</div>
 </div>
 @endsection
+
+

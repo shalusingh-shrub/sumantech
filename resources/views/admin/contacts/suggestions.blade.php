@@ -31,3 +31,5 @@
     <div class="card-footer">{{ $suggestions->links() }}</div>
 </div>
 @endsection
+
+

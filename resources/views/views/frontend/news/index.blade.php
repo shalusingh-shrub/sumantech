@@ -1,6 +1,6 @@
 {{-- File: resources/views/frontend/news/index.blade.php --}}
 @extends('layouts.frontend')
-@section('title', 'News & Events - Teachers of Bihar')
+@section('title', 'News & Events - Suman Tech')
 @section('content')
 <div class="page-banner">
     <div class="container">
@@ -45,3 +45,5 @@
     <div class="mt-4">{{ $news->links() }}</div>
 </div>
 @endsection
+
+

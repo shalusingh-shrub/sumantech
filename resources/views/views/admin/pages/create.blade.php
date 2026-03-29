@@ -46,3 +46,5 @@
 <script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
 <script>CKEDITOR.replace('contentEditor', { height: 400, removePlugins: 'elementspath' });</script>
 @endpush
+
+

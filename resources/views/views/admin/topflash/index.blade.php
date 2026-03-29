@@ -57,3 +57,5 @@
     <div class="card-footer">{{ $flashes->links() }}</div>
 </div>
 @endsection
+
+

@@ -1,6 +1,6 @@
 {{-- File: resources/views/frontend/suggestion-box.blade.php --}}
 @extends('layouts.frontend')
-@section('title', 'Suggestion Box - Teachers of Bihar')
+@section('title', 'Suggestion Box - Suman Tech')
 @section('content')
 <div class="page-banner">
     <div class="container">
@@ -61,3 +61,5 @@
     </div>
 </div>
 @endsection
+
+

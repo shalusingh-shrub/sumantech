@@ -94,3 +94,5 @@
     <div class="card-footer">{{ $news->links() }}</div>
 </div>
 @endsection
+
+

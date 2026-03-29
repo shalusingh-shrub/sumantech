@@ -1,6 +1,6 @@
 {{-- File: resources/views/frontend/competition_show.blade.php --}}
 @extends('layouts.frontend')
-@section('title', $comp->title . ' - Teachers of Bihar')
+@section('title', $comp->title . ' - Suman Tech')
 @section('content')
 <div class="page-banner"><div class="container"><h1>Competition</h1></div></div>
 <div class="container py-5">
@@ -84,3 +84,5 @@
     </div>
 </div>
 @endsection
+
+

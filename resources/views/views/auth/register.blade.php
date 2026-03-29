@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Teachers of Bihar</title>
+    <title>Register - Suman Tech</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -24,7 +24,7 @@
         <div class="register-box">
             <div class="reg-header">
                 <h3><i class="fas fa-user-plus me-2"></i>Create Account</h3>
-                <p style="margin:5px 0 0;opacity:0.85;font-size:13px;">Teachers of Bihar - Register</p>
+                <p style="margin:5px 0 0;opacity:0.85;font-size:13px;">Suman Tech - Register</p>
             </div>
             <div class="reg-body">
                 @if($errors->any())
@@ -61,3 +61,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+

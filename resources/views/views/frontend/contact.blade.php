@@ -1,6 +1,6 @@
 {{-- File: resources/views/frontend/contact.blade.php --}}
 @extends('layouts.frontend')
-@section('title', 'Contact Us - Teachers of Bihar')
+@section('title', 'Contact Us - Suman Tech')
 @section('content')
 <div class="page-banner">
     <div class="container">
@@ -80,3 +80,5 @@
     </div>
 </div>
 @endsection
+
+

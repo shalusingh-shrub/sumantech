@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', $categoryName . ' - Teachers of Bihar')
+@section('title', $categoryName . ' - Suman Tech')
 @section('content')
 <div class="page-header">
     <div class="container">
@@ -57,3 +57,5 @@
     </div>
 </div>
 @endsection
+
+

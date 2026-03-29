@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Teachers of Bihar - The Change Makers')</title>
-    <meta name="description" content="@yield('meta_description', 'Teachers of Bihar - A voluntary organization of government school teachers working to improve education quality in Bihar.')">
+    <title>@yield('title', 'Suman Tech - The Learning Platform')</title>
+    <meta name="description" content="@yield('meta_description', 'Suman Tech - A voluntary organization of government school teachers working to improve education quality in Bihar.')">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}">
@@ -359,10 +359,10 @@
 <div class="site-header">
     <div class="container">
         <div class="d-flex align-items-center">
-            <img src="{{ asset('images/logo.png') }}" alt="Teachers of Bihar" height="70" class="me-3" onerror="this.onerror=null;this.style.opacity='0.3'">
+            <img src="{{ asset('images/logo.png') }}" alt="Suman Tech" height="70" class="me-3" onerror="this.onerror=null;this.style.opacity='0.3'">
             <div class="logo-text">
-                <h1>Teachers of Bihar</h1>
-                <p>The Change Makers</p>
+                <h1>Suman Tech</h1>
+                <p>The Learning Platform</p>
             </div>
         </div>
     </div>
@@ -524,9 +524,9 @@ function copyPageLink(e) {
     <div class="container">
         <div class="row">
             <div class="col-md-4 mb-4">
-                <h5>Teachers of Bihar</h5>
+                <h5>Suman Tech</h5>
                 <p style="color:rgba(255,255,255,0.8);font-size:13px;">
-                    Teachers of Bihar (ToB) is a voluntary organization of government school teachers of Bihar, working to improve the quality of education.
+                    Suman Tech (ToB) is a voluntary organization of government school Suman Tech, working to improve the quality of education.
                 </p>
                 <div class="social-icons mt-3">
                     <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
@@ -566,7 +566,7 @@ function copyPageLink(e) {
     </div>
     <div class="footer-bottom">
         <div class="container">
-            &copy; {{ date('Y') }} Teachers of Bihar - The Change Makers. All Rights Reserved.
+            &copy; {{ date('Y') }} Suman Tech - The Learning Platform. All Rights Reserved.
         </div>
     </div>
 </footer>
@@ -641,3 +641,5 @@ function showMemberDetail(id) {
 @stack('scripts')
 </body>
 </html>
+
+

@@ -82,3 +82,5 @@
 CKEDITOR.replace('descriptionEditor', { height: 300, removePlugins: 'elementspath' });
 </script>
 @endpush
+
+

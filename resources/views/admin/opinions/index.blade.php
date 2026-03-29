@@ -38,3 +38,5 @@
     <div class="card-footer">{{ $opinions->links() }}</div>
 </div>
 @endsection
+
+

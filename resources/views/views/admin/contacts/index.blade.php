@@ -35,3 +35,5 @@
     <div class="card-footer">{{ $contacts->links() }}</div>
 </div>
 @endsection
+
+

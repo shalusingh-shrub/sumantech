@@ -173,6 +173,22 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
 
     // Users & Roles Management
     Route::resource('users', UserController::class);
+     // ── Registration Module ──
+Route::prefix('registration')->name('registration.')->group(function () {
+    Route::get('/',                               [\App\Http\Controllers\Admin\RegistrationController::class, 'index'])        ->name('index');
+    Route::get('/create',                         [\App\Http\Controllers\Admin\RegistrationController::class, 'create'])       ->name('create');
+    Route::post('/',                              [\App\Http\Controllers\Admin\RegistrationController::class, 'store'])        ->name('store');
+    Route::get('/{student}',                      [\App\Http\Controllers\Admin\RegistrationController::class, 'show'])         ->name('show');
+    Route::get('/{student}/edit',                 [\App\Http\Controllers\Admin\RegistrationController::class, 'edit'])         ->name('edit');
+    Route::put('/{student}',                      [\App\Http\Controllers\Admin\RegistrationController::class, 'update'])       ->name('update');
+    Route::delete('/{student}',                   [\App\Http\Controllers\Admin\RegistrationController::class, 'destroy'])      ->name('destroy');
+    Route::get('/{student}/add-course',           [\App\Http\Controllers\Admin\RegistrationController::class, 'addCourseForm'])->name('add-course');
+    Route::post('/{student}/add-course',          [\App\Http\Controllers\Admin\RegistrationController::class, 'storeCourse'])  ->name('store-course');
+    Route::get('/{student}/course/{course}/edit', [\App\Http\Controllers\Admin\RegistrationController::class, 'editCourse'])   ->name('edit-course');
+    Route::put('/{student}/course/{course}',      [\App\Http\Controllers\Admin\RegistrationController::class, 'updateCourse']) ->name('update-course');
+});
+
+
 
     // Registered Users (Sign Up List)
     Route::get('registered-users', [App\Http\Controllers\Admin\RegisteredUserController::class, 'index'])->name('registered-users.index');
@@ -195,3 +211,31 @@ Route::middleware('auth')->prefix('portal')->name('portal.')->group(function () 
     Route::post('/security', [App\Http\Controllers\Portal\PortalController::class, 'changePassword'])->name('security.save');
     Route::get('/activity', [App\Http\Controllers\Portal\PortalController::class, 'activity'])->name('activity');
 });
+// Fee Management
+Route::get('/admin/fees', [App\Http\Controllers\Admin\FeeController::class, 'index'])->name('admin.fees.index')->middleware('auth');
+Route::post('/admin/fees', [App\Http\Controllers\Admin\FeeController::class, 'store'])->name('admin.fees.store')->middleware('auth');
+Route::delete('/admin/fees/{fee}', [App\Http\Controllers\Admin\FeeController::class, 'destroy'])->name('admin.fees.destroy')->middleware('auth');
+Route::post('/admin/fees/{fee}/mark-paid', [App\Http\Controllers\Admin\FeeController::class, 'markPaid'])->name('admin.fees.markPaid')->middleware('auth');
+Route::get('/admin/fees/categories', [App\Http\Controllers\Admin\FeeController::class, 'categories'])->name('admin.fees.categories')->middleware('auth');
+Route::post('/admin/fees/categories', [App\Http\Controllers\Admin\FeeController::class, 'storeCategory'])->name('admin.fees.categories.store')->middleware('auth');
+Route::delete('/admin/fees/categories/{category}', [App\Http\Controllers\Admin\FeeController::class, 'destroyCategory'])->name('admin.fees.categories.destroy')->middleware('auth');
+// Student Registration System
+Route::get('/admin/students', [App\Http\Controllers\Admin\StudentController::class, 'index'])->name('admin.students.index')->middleware('auth');
+Route::get('/admin/students/create', [App\Http\Controllers\Admin\StudentController::class, 'create'])->name('admin.students.create')->middleware('auth');
+Route::post('/admin/students', [App\Http\Controllers\Admin\StudentController::class, 'store'])->name('admin.students.store')->middleware('auth');
+Route::get('/admin/students/{student}', [App\Http\Controllers\Admin\StudentController::class, 'show'])->name('admin.students.show')->middleware('auth');
+Route::get('/admin/students/{student}/edit', [App\Http\Controllers\Admin\StudentController::class, 'edit'])->name('admin.students.edit')->middleware('auth');
+Route::put('/admin/students/{student}', [App\Http\Controllers\Admin\StudentController::class, 'update'])->name('admin.students.update')->middleware('auth');
+Route::delete('/admin/students/{student}', [App\Http\Controllers\Admin\StudentController::class, 'destroy'])->name('admin.students.destroy')->middleware('auth');
+Route::get('/admin/students/{student}/toggle', [App\Http\Controllers\Admin\StudentController::class, 'toggleStatus'])->name('admin.students.toggleStatus')->middleware('auth');
+Route::post('/admin/students/{student}/add-course', [App\Http\Controllers\Admin\StudentController::class, 'addCourse'])->name('admin.students.addCourse')->middleware('auth');
+Route::get('/admin/student-courses/{studentCourse}/certificate', [App\Http\Controllers\Admin\StudentController::class, 'certificate'])->name('admin.students.certificate')->middleware('auth');
+Route::put('/admin/student-courses/{studentCourse}/certificate', [App\Http\Controllers\Admin\StudentController::class, 'updateCertificate'])->name('admin.students.updateCertificate')->middleware('auth');
+
+// Course Management
+Route::get('/admin/courses', [App\Http\Controllers\Admin\CourseController::class, 'index'])->name('admin.courses.index')->middleware('auth');
+Route::get('/admin/courses/create', [App\Http\Controllers\Admin\CourseController::class, 'create'])->name('admin.courses.create')->middleware('auth');
+Route::post('/admin/courses', [App\Http\Controllers\Admin\CourseController::class, 'store'])->name('admin.courses.store')->middleware('auth');
+Route::get('/admin/courses/{course}/edit', [App\Http\Controllers\Admin\CourseController::class, 'edit'])->name('admin.courses.edit')->middleware('auth');
+Route::put('/admin/courses/{course}', [App\Http\Controllers\Admin\CourseController::class, 'update'])->name('admin.courses.update')->middleware('auth');
+Route::delete('/admin/courses/{course}', [App\Http\Controllers\Admin\CourseController::class, 'destroy'])->name('admin.courses.destroy')->middleware('auth');

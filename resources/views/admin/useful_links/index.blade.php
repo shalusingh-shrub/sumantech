@@ -48,3 +48,5 @@
     </table>
 </div><div class="card-footer">{{ $links->links() }}</div></div>
 @endsection
+
+

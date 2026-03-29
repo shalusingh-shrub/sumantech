@@ -99,3 +99,5 @@
     <div class="card-footer">{{ $galleries->links() }}</div>
 </div>
 @endsection
+
+

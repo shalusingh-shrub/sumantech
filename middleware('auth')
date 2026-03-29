@@ -1,0 +1,67 @@
+At line:1 char:115
++ ... ::get('/admin/fees', 
+[App\Http\Controllers\Admin\FeeController::class ...
++                                                              
+    ~
+Missing ] at end of attribute or type literal.
+At line:1 char:116
++ ... admin/fees', 
+[App\Http\Controllers\Admin\FeeController::class, 'index ...
++                                                           
+~~~~~~~
+Unexpected token '::class' in expression or statement.
+At line:1 char:116
++ ... :get('/admin/fees', 
+[App\Http\Controllers\Admin\FeeController::class, ...
++                                                              
+    ~
+Missing closing ')' in expression.
+At line:1 char:133
++ ... , [App\Http\Controllers\Admin\FeeController::class, 
+'index'])-;`nRout ...
++                                                              
+   ~
+Unexpected token ')' in expression or statement.
+At line:1 char:135
++ ...  [App\Http\Controllers\Admin\FeeController::class, 
+'index'])-;`nRoute ...
++                                                              
+    ~
+Missing expression after unary operator '-'.
+At line:1 char:205
++ ... :post('/admin/fees', 
+[App\Http\Controllers\Admin\FeeController::class ...
++                                                              
+    ~
+Missing ] at end of attribute or type literal.
+At line:1 char:206
++ ... admin/fees', 
+[App\Http\Controllers\Admin\FeeController::class, 'store ...
++                                                           
+~~~~~~~
+Unexpected token '::class' in expression or statement.
+At line:1 char:206
++ ... post('/admin/fees', 
+[App\Http\Controllers\Admin\FeeController::class, ...
++                                                              
+    ~
+Missing closing ')' in expression.
+At line:1 char:223
++ ... , [App\Http\Controllers\Admin\FeeController::class, 
+'store'])-;`nRout ...
++                                                              
+   ~
+Unexpected token ')' in expression or statement.
+At line:1 char:225
++ ...  [App\Http\Controllers\Admin\FeeController::class, 
+'store'])-;`nRoute ...
++                                                              
+    ~
+Missing expression after unary operator '-'.
+Not all parse errors were reported.  Correct the reported 
+errors and try again.
+    + CategoryInfo          : ParserError: (:) [], ParentConta 
+   insErrorRecordException
+    + FullyQualifiedErrorId : EndSquareBracketExpectedAtEndOfA 
+   ttribute
+ 

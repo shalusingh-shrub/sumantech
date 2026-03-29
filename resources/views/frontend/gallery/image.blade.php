@@ -1,6 +1,6 @@
 {{-- File: resources/views/frontend/gallery/image.blade.php --}}
 @extends('layouts.frontend')
-@section('title', 'Image Gallery - Teachers of Bihar')
+@section('title', 'Image Gallery - Suman Tech')
 @section('content')
 <div class="page-banner">
     <div class="container">
@@ -56,3 +56,5 @@ function showImage(url, title) {
 </script>
 @endpush
 @endsection
+
+

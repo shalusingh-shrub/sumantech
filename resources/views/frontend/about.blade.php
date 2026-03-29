@@ -1,11 +1,11 @@
 {{-- File: resources/views/frontend/about.blade.php --}}
 @extends('layouts.frontend')
-@section('title', 'About Us - Teachers of Bihar')
+@section('title', 'About Us - Suman Tech')
 @section('content')
 <div class="page-banner">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center">
-            <h1>About Teachers of Bihar</h1>
+            <h1>About Suman Tech</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
@@ -18,8 +18,8 @@
 <div class="container py-5">
     <div class="row">
         <div class="col-md-8">
-            <h2 class="section-title">About Teachers of Bihar (ToB)</h2>
-            <p>Teachers of Bihar (ToB) is a voluntary organization of government school teachers of Bihar. It was established in 2016 with the aim to improve the quality of education in Bihar and to empower teachers with resources, training, and community support.</p>
+            <h2 class="section-title">About Suman Tech (ToB)</h2>
+            <p>Suman Tech (ToB) is a voluntary organization of government school Suman Tech. It was established in 2016 with the aim to improve the quality of education in Bihar and to empower teachers with resources, training, and community support.</p>
             <p>ToB works with teachers to enhance their professional skills, share best practices, and create innovative teaching materials. The organization has been instrumental in bringing positive changes in Bihar's education system.</p>
             <h4 class="mt-4 mb-3" style="color:#1a2a6c;">Our Mission</h4>
             <p>To empower teachers with resources, training and community support to deliver quality education to every child in Bihar.</p>
@@ -49,3 +49,5 @@
     </div>
 </div>
 @endsection
+
+
