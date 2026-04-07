@@ -1,6 +1,4 @@
 <?php
-// app/Http/Controllers/Admin/RegistrationController.php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -24,11 +22,9 @@ class RegistrationController extends Controller
         'Programming (C/C++/Python)'               => ['duration' => '3 MONTH', 'fee' => 4999],
     ];
 
-    // ── LIST ──────────────────────────────────────────────
     public function index(Request $request)
     {
         $query = Student::query();
-
         if ($request->filled('search')) {
             $s = $request->search;
             $query->where(function ($q) use ($s) {
@@ -39,41 +35,39 @@ class RegistrationController extends Controller
                   ->orWhere('father_name',        'like', "%$s%");
             });
         }
-
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
-
-        $perPage  = $request->get('per_page', 10);
-        $students = $query->latest()->paginate($perPage)->withQueryString();
+        $students = $query->latest()->paginate($request->get('per_page', 10))->withQueryString();
         $total    = Student::count();
-
         return view('admin.registration.index', compact('students', 'total'));
     }
 
-    // ── CREATE FORM ────────────────────────────────────────
     public function create()
     {
         return view('admin.registration.create');
     }
 
-    // ── STORE ─────────────────────────────────────────────
     public function store(Request $request)
     {
         $request->validate([
             'name'          => 'required|string|max:100',
             'father_name'   => 'required|string|max:100',
             'date_of_birth' => 'required|date',
-            'mobile'        => 'required|digits:10|unique:students,mobile',
+            'mobile'        => 'required|digits:10',
             'address'       => 'required|string',
             'gender'        => 'required|in:male,female,other',
             'password'      => 'required|string|min:4',
+            'registration_number' => 'nullable|unique:students,registration_number',
         ]);
 
-        // Auto-generate unique Reg Number
-        do {
-            $regNum = 'ST-' . random_int(1000000000, 9999999999);
-        } while (Student::where('registration_number', $regNum)->exists());
+        if ($request->filled('registration_number')) {
+            $regNum = $request->registration_number;
+        } else {
+            do {
+                $regNum = 'ST-' . random_int(1000000000, 9999999999);
+            } while (Student::where('registration_number', $regNum)->exists());
+        }
 
         $data = [
             'registration_number' => $regNum,
@@ -92,32 +86,27 @@ class RegistrationController extends Controller
         ];
 
         if ($request->hasFile('image')) {
-            $data['image'] = basename($request->file('image')->store('students', 'public'));
+            $data['image'] = $request->file('image')->store('students', 'public');
         }
         if ($request->hasFile('aadhaar_card')) {
             $data['aadhaar_card'] = basename($request->file('aadhaar_card')->store('students/aadhaar', 'public'));
         }
 
         Student::create($data);
-
-        return redirect()->route('admin.registration.index')
-                         ->with('success', 'Student registered successfully!');
+        return redirect()->route('admin.registration.index')->with('success', 'Student registered successfully!');
     }
 
-    // ── SHOW ──────────────────────────────────────────────
     public function show(Student $student)
     {
         $student->load('courses');
         return view('admin.registration.show', compact('student'));
     }
 
-    // ── EDIT FORM ─────────────────────────────────────────
     public function edit(Student $student)
     {
         return view('admin.registration.edit', compact('student'));
     }
 
-    // ── UPDATE ────────────────────────────────────────────
     public function update(Request $request, Student $student)
     {
         $request->validate([
@@ -145,28 +134,24 @@ class RegistrationController extends Controller
 
         if ($request->hasFile('image')) {
             if ($student->image) Storage::disk('public')->delete('students/' . $student->image);
-            $data['image'] = basename($request->file('image')->store('students', 'public'));
+            $data['image'] = $request->file('image')->store('students', 'public');
         }
         if ($request->hasFile('aadhaar_card')) {
             if ($student->aadhaar_card) Storage::disk('public')->delete('students/aadhaar/' . $student->aadhaar_card);
-            $data['aadhaar_card'] = basename($request->file('aadhaar_card')->store('students/aadhaar', 'public'));
+            $data['aadhaar_card'] = $request->file('aadhaar_card')->store('students/aadhaar', 'public');
         }
 
         $student->update($data);
-        return redirect()->route('admin.registration.show', $student)
-                         ->with('success', 'Student updated successfully!');
+        return redirect()->route('admin.registration.show', $student)->with('success', 'Student updated!');
     }
 
-    // ── DELETE ────────────────────────────────────────────
     public function destroy(Student $student)
     {
         if ($student->image) Storage::disk('public')->delete('students/' . $student->image);
         $student->delete();
-        return redirect()->route('admin.registration.index')
-                         ->with('success', 'Student deleted!');
+        return redirect()->route('admin.registration.index')->with('success', 'Student deleted!');
     }
 
-    // ── ADD COURSE FORM ───────────────────────────────────
     public function addCourseForm(Student $student)
     {
         $courses = $this->courseList;
@@ -174,7 +159,6 @@ class RegistrationController extends Controller
         return view('admin.registration.add_course', compact('student', 'courses'));
     }
 
-    // ── STORE COURSE ──────────────────────────────────────
     public function storeCourse(Request $request, Student $student)
     {
         $request->validate([
@@ -188,36 +172,44 @@ class RegistrationController extends Controller
         $student->courses()->create([
             'course_name'     => $request->course_name,
             'course_duration' => $selected['duration'] ?? null,
-            'course_fee'      => $selected['fee']      ?? null,
-            'start_date'      => $request->start_date,
-            'end_date'        => $request->end_date,
+            'amount'          => $selected['fee'] ?? null,
+            'discount'        => $request->discount ?? 0,
+            'start_date'      => $request->start_date ?: null,
+            'end_date'        => $request->end_date ?: null,
             'reg_date'        => $request->reg_date,
             'status'          => $request->status,
             'cert_status'     => 'Pending',
         ]);
 
-        return redirect()->route('admin.registration.show', $student)
-                         ->with('success', 'Course added successfully!');
+        return redirect()->route('admin.invoices.index', $student)->with('success', 'Course added! Ab invoice banao.');
     }
 
-    // ── EDIT COURSE ───────────────────────────────────────
     public function editCourse(Student $student, StudentCourse $course)
     {
         $courses = $this->courseList;
         return view('admin.registration.edit_course', compact('student', 'course', 'courses'));
     }
 
-    // ── UPDATE COURSE ─────────────────────────────────────
     public function updateCourse(Request $request, Student $student, StudentCourse $course)
     {
-        $data = $request->only([
-            'issue_date', 'cert_receiving_date', 'marks',
-            'tally_details', 'status', 'cert_status', 'start_date', 'end_date',
-        ]);
-        $data['regenerate_cert'] = $request->boolean('regenerate_cert');
-        $course->update($data);
+        $data = [
+            'start_date'                 => $request->start_date ?: null,
+            'end_date'                   => $request->end_date ?: null,
+            'certificate_issue_date'     => $request->issue_date ?: null,
+            'certificate_receiving_date' => $request->cert_receiving_date ?: null,
+            'marks'                      => $request->marks,
+            'tally_details'              => $request->tally_details,
+            'status'                     => $request->status,
+            'cert_status'                => $request->cert_status,
+            'regenerate_certificate'     => $request->boolean('regenerate_cert'),
+        ];
 
-        return redirect()->route('admin.registration.show', $student)
-                         ->with('success', 'Course updated successfully!');
+        $course->update($data);
+        return redirect()->route('admin.registration.show', $student)->with('success', 'Course updated!');
+    }
+
+    public function certificateBuilder(Student $student, StudentCourse $course)
+    {
+        return view('admin.registration.certificate_builder', compact('student', 'course'));
     }
 }

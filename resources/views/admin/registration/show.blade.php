@@ -159,57 +159,67 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($student->courses as $i => $c)
-                        <tr>
-                            <td class="px-3">{{ $i + 1 }}</td>
-                            <td class="fw-semibold">{{ $c->course_name }}</td>
-                            <td>{{ $c->course_duration ?? '—' }}</td>
-                            <td>{{ $c->course_fee ? number_format($c->course_fee) : '—' }}</td>
-                            <td>{{ $c->start_date ? \Carbon\Carbon::parse($c->start_date)->format('d-m-Y') : '—' }}</td>
-                            <td>{{ $c->end_date ? \Carbon\Carbon::parse($c->end_date)->format('d-m-Y') : '—' }}</td>
-                            <td>{{ $c->reg_date ? \Carbon\Carbon::parse($c->reg_date)->format('d-m-Y') : '—' }}</td>
-                            <td style="color:#1a2a6c;font-weight:600;font-size:.8rem;">{{ $c->certificate_id ?? '—' }}</td>
-                            <td>{{ $c->issue_date ? \Carbon\Carbon::parse($c->issue_date)->format('d-m-Y') : '—' }}</td>
-                            <td>
-                                <span class="badge rounded-pill px-2"
-                                      style="font-size:.73rem;background:{{ $c->status==='Active' ? 'rgba(25,135,84,.12)' : 'rgba(220,53,69,.12)' }};color:{{ $c->status==='Active' ? '#198754' : '#dc3545' }};">
-                                    {{ $c->status }}
-                                </span>
-                            </td>
-                            <td>
-                                <span class="badge rounded-pill px-2"
-                                      style="font-size:.73rem;background:{{ $c->cert_status==='Active' ? 'rgba(25,135,84,.12)' : ($c->cert_status==='Pending' ? 'rgba(255,193,7,.15)' : 'rgba(220,53,69,.12)') }};color:{{ $c->cert_status==='Active' ? '#198754' : ($c->cert_status==='Pending' ? '#856404' : '#dc3545') }};">
-                                    {{ $c->cert_status }}
-                                </span>
-                            </td>
-                            <td>
-                                <div class="d-flex flex-column gap-1">
-                                    @if($c->cert_status === 'Active')
-                                    <a href="{{ route('admin.registration.edit-course', [$student, $c]) }}"
-                                       class="btn btn-xs btn-outline-primary" style="font-size:.72rem;padding:3px 8px;">
-                                        <i class="fas fa-download me-1"></i>Download Image Certificate
-                                    </a>
-                                    <a href="{{ route('admin.registration.edit-course', [$student, $c]) }}"
-                                       class="btn btn-xs btn-outline-danger" style="font-size:.72rem;padding:3px 8px;">
-                                        <i class="fas fa-file-pdf me-1"></i>Download PDF
-                                    </a>
-                                    @else
-                                    <a href="{{ route('admin.registration.edit-course', [$student, $c]) }}"
-                                       class="btn btn-xs btn-outline-warning text-dark" style="font-size:.72rem;padding:3px 8px;">
-                                        <i class="fas fa-plus me-1"></i>Add Certificate
-                                    </a>
-                                    @endif
-                                </div>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="12" class="text-center py-4 text-muted">
-                                No courses added yet.
-                                <a href="{{ route('admin.registration.add-course', $student) }}">Add Course →</a>
-                            </td>
-                        </tr>
-                        @endforelse
+@forelse($student->courses as $i => $c)
+<tr>
+    <td class="px-3">{{ $i + 1 }}</td>
+    <td class="fw-semibold">{{ $c->course_name ?? '—' }}</td>
+    <td>{{ $c->course_duration ?? '—' }}</td>
+    <td>
+        {{ $c->amount ? '₹'.number_format($c->amount) : '—' }}
+        @if($c->discount > 0)
+        <br><small class="text-success">-₹{{ number_format($c->discount) }}</small>
+        @endif
+    </td>
+    <td>{{ $c->start_date ? \Carbon\Carbon::parse($c->start_date)->format('d-m-Y') : '—' }}</td>
+    <td>{{ $c->end_date ? \Carbon\Carbon::parse($c->end_date)->format('d-m-Y') : '—' }}</td>
+    <td>{{ $c->reg_date ? \Carbon\Carbon::parse($c->reg_date)->format('d-m-Y') : '—' }}</td>
+    <td style="color:#1a2a6c;font-weight:600;font-size:.8rem;">{{ $c->certificate_id ?? '—' }}</td>
+    <td>{{ $c->certificate_issue_date ? \Carbon\Carbon::parse($c->certificate_issue_date)->format('d-m-Y') : '—' }}</td>
+    <td>
+        <span class="badge rounded-pill px-2"
+              style="font-size:.73rem;background:{{ $c->status==='Active' ? 'rgba(25,135,84,.12)' : 'rgba(220,53,69,.12)' }};color:{{ $c->status==='Active' ? '#198754' : '#dc3545' }};">
+            {{ $c->status }}
+        </span>
+    </td>
+    <td>
+        <span class="badge rounded-pill px-2"
+              style="font-size:.73rem;background:{{ $c->cert_status==='Active' ? 'rgba(25,135,84,.12)' : ($c->cert_status==='Pending' ? 'rgba(255,193,7,.15)' : 'rgba(220,53,69,.12)') }};color:{{ $c->cert_status==='Active' ? '#198754' : ($c->cert_status==='Pending' ? '#856404' : '#dc3545') }};">
+            {{ $c->cert_status }}
+        </span>
+    </td>
+    <td>
+        <div class="d-flex flex-column gap-1">
+            @if($c->cert_status === 'Active')
+            <a href="{{ route('admin.registration.edit-course', [$student, $c]) }}"
+               class="btn btn-xs btn-outline-primary" style="font-size:.72rem;padding:3px 8px;">
+                <i class="fas fa-download me-1"></i>Download Image Certificate
+            </a>
+            <a href="{{ route('admin.registration.edit-course', [$student, $c]) }}"
+               class="btn btn-xs btn-outline-danger" style="font-size:.72rem;padding:3px 8px;">
+                <i class="fas fa-file-pdf me-1"></i>Download PDF
+            </a>
+            @else
+            <a href="{{ route('admin.registration.edit-course', [$student, $c]) }}"
+               class="btn btn-xs btn-outline-warning text-dark" style="font-size:.72rem;padding:3px 8px;">
+                <i class="fas fa-plus me-1"></i>Add Certificate
+            </a>
+            @endif
+            <a href="{{ route('admin.marks.index', [$student, $c]) }}"
+               class="btn btn-xs btn-outline-success" style="font-size:.72rem;padding:3px 8px;">
+                <i class="fas fa-star me-1"></i>Enter Marks
+            </a>
+        </div>
+    </td>
+</tr>
+@empty
+<tr>
+    <td colspan="12" class="text-center py-4 text-muted">
+        No courses added yet.
+        <a href="{{ route('admin.registration.add-course', $student) }}">Add Course →</a>
+    </td>
+</tr>
+@endforelse
+                       
                     </tbody>
                 </table>
             </div>

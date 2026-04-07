@@ -353,11 +353,34 @@
                 @guest
                     <a href="{{ route('login') }}" style="color:var(--gold2);font-weight:600;"><i class="fas fa-user me-1"></i>Login</a>
                 @else
-                    <a href="{{ auth()->user()->hasRole('super_admin') || auth()->user()->hasRole('admin') ? route('admin.dashboard') : '#' }}" style="color:var(--gold2);font-weight:600;"><i class="fas fa-tachometer-alt me-1"></i>Dashboard</a>
-                    <form method="POST" action="{{ route('logout') }}" class="d-inline">
-                        @csrf
-                        <button type="submit" class="btn btn-link p-0" style="color:rgba(255,255,255,.7);font-size:.78rem;"><i class="fas fa-sign-out-alt me-1"></i>Logout</button>
-                    </form>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle d-flex align-items-center gap-2 text-decoration-none" data-bs-toggle="dropdown" style="color:var(--gold2);font-weight:600;">
+                            <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#1a2a6c,#6b3a1f);display:flex;align-items:center;justify-content:center;color:#ffd700;font-weight:700;font-size:12px;">
+                                {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
+                            </div>
+                            <span style="font-size:.82rem;">{{ auth()->user()->name }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow border-0" style="min-width:200px;border-radius:12px;margin-top:8px;background:#0f2044;padding:8px;">
+                            <li>
+                                <a class="dropdown-item py-2" href="{{ auth()->user()->hasRole('super_admin') || auth()->user()->hasRole('admin') ? route('admin.dashboard') : '#' }}" style="color:#F0A500;font-weight:600;border-radius:8px;">
+                                    <i class="fas fa-th-large me-2" style="color:#F0A500;"></i> Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item py-2" href="{{ route('portal.personal') }}" style="color:#F0A500;font-weight:600;border-radius:8px;">
+                                    <i class="fas fa-user me-2" style="color:#F0A500;"></i> Profile
+                                </a>
+                            </li>                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item py-2 text-danger">
+                                        <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
                 @endguest
             </div>
         </div>
@@ -389,6 +412,9 @@
             </div>
             <a href="{{ route('contact') }}" class="header-enroll d-none d-md-inline-flex align-items-center gap-2">
                 <i class="fas fa-rocket"></i> Enroll Now
+            </a>
+            <a href="{{ route('student.login') }}" class="d-none d-md-inline-flex align-items-center gap-2 ms-2" style="background:#F0A500;color:#0B1F3A;padding:10px 20px;border-radius:50px;font-weight:700;font-size:.88rem;text-decoration:none;">
+                <i class="fas fa-user-graduate"></i> Student Login
             </a>
         </div>
     </div>
@@ -429,7 +455,7 @@
                     <a class="nav-link" href="https://lms.sumantech.in/" target="_blank"><i class="fas fa-book-open me-1"></i>LMS</a>
                 </li>
                 <li class="nav-item {{ request()->is('certificate*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ '#' ?? '#' }}"><i class="fas fa-certificate me-1"></i>Certificate</a>
+                    <a class="nav-link" href="{{ route('certificate') }}"><i class="fas fa-certificate me-1"></i>Certificate</a>
                 </li>
                 <li class="nav-item {{ request()->is('news*') || request()->is('blog*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('news-events') ?? '#' }}">Blog</a>
@@ -564,7 +590,7 @@ function copyPageLink(e) {
     </div>
     <div class="footer-bottom">
         <div class="container">
-            &copy; {{ date('Y') }} Suman Tech. All Rights Reserved. &nbsp;|&nbsp; Developed by <a href="https://www.shrubtechnology.com" target="_blank">Shrub Technology</a>
+            &copy; {{ date('Y') }} Suman Tech. All Rights Reserved. &nbsp;|&nbsp; <i class="fas fa-eye me-1"></i> Visitor Count: {{ \App\Models\VisitorLog::count() }} &nbsp;|&nbsp; Developed by <a href="https://www.shrubtechnology.com" target="_blank">Shrub Technology</a>
         </div>
     </div>
 </footer>

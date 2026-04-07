@@ -13,9 +13,10 @@ return Application::configure(basePath: dirname(__DIR__))
         apiPrefix: 'api',
     )
     ->withMiddleware(function (Middleware $middleware) {
-
-        // Existing roles/permissions middleware
+        $middleware->append(\App\Http\Middleware\LogVisitor::class);
+       // Existing roles/permissions middleware
         $middleware->alias([
+            'student.auth'      => \App\Http\Middleware\StudentAuth::class,
             'role'              => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission'        => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission'=> \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,

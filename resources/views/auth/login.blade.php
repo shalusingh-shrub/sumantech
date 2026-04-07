@@ -93,6 +93,13 @@
             <div class="text-center">
                 <a href="{{ route('home') }}" style="color:#1a2a6c;font-size:13px;"><i class="fas fa-arrow-left me-1"></i>Back to Website</a>
             </div>
+            <hr>
+            <div class="text-center">
+                <p style="font-size:13px;color:#666;margin-bottom:8px;">Don't have an account?</p>
+                <a href="{{ route('register') }}" class="btn btn-outline-primary w-100" style="border-radius:25px;font-weight:600;">
+                    <i class="fas fa-user-plus me-2"></i>Create Account
+                </a>
+            </div>
         </div>
     </div>
 </div>

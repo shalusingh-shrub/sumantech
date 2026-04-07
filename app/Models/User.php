@@ -33,6 +33,21 @@ class User extends Authenticatable
     //   'name','email','password','phone','avatar',
     //     'designation','department','about','is_active',
     //     'user_type','district','school','class','can_access_admin',
+    public function profile()
+    {
+        return $this->hasOne(\App\Models\UserProfile::class);
+    }
+
+    public function achievements()
+    {
+        return $this->hasMany(\App\Models\UserAchievement::class);
+    }
+
+    public function activities()
+    {
+        return $this->hasMany(\App\Models\UserActivity::class);
+    }
+
     protected function casts(): array {
         return [
             'email_verified_at' => 'datetime',

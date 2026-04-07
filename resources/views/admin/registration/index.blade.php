@@ -163,6 +163,10 @@
                                        class="btn btn-sm btn-outline-success" title="Edit" style="padding:4px 8px;">
                                         <i class="fas fa-edit" style="font-size:.75rem;"></i>
                                     </a>
+                                    <a href="{{ route('admin.invoices.index', $s->id) }}"
+                                       class="btn btn-sm btn-outline-warning" title="Invoice" style="padding:4px 8px;">
+                                        <i class="fas fa-file-invoice-dollar" style="font-size:.75rem;"></i>
+                                    </a>
                                     <form action="{{ route('admin.registration.destroy', $s) }}"
                                           method="POST" class="d-inline"
                                           onsubmit="return confirm('Delete {{ $s->name }}?')">
@@ -196,7 +200,33 @@
                     Showing {{ $students->firstItem() ?? 0 }} to {{ $students->lastItem() ?? 0 }}
                     of {{ $students->total() }} entries
                 </div>
-                {{ $students->links() }}
+                <nav>
+                    <ul class="pagination pagination-sm mb-0" style="gap:3px;">
+                        {{-- Previous --}}
+                        <li class="page-item {{ $students->onFirstPage() ? 'disabled' : '' }}">
+                            <a class="page-link rounded" href="{{ $students->previousPageUrl() }}&{{ http_build_query(request()->except('page')) }}"
+                               style="font-size:.78rem;padding:4px 10px;color:#1a2a6c;border-color:#dee2e6;">
+                                <i class="fas fa-chevron-left" style="font-size:.7rem;"></i>
+                            </a>
+                        </li>
+                        {{-- Page Numbers --}}
+                        @foreach($students->getUrlRange(1, $students->lastPage()) as $page => $url)
+                            <li class="page-item {{ $page == $students->currentPage() ? 'active' : '' }}">
+                                <a class="page-link rounded" href="{{ $url }}"
+                                   style="font-size:.78rem;padding:4px 10px;{{ $page == $students->currentPage() ? 'background:#1a2a6c;border-color:#1a2a6c;color:#fff;' : 'color:#1a2a6c;border-color:#dee2e6;' }}">
+                                    {{ $page }}
+                                </a>
+                            </li>
+                        @endforeach
+                        {{-- Next --}}
+                        <li class="page-item {{ !$students->hasMorePages() ? 'disabled' : '' }}">
+                            <a class="page-link rounded" href="{{ $students->nextPageUrl() }}&{{ http_build_query(request()->except('page')) }}"
+                               style="font-size:.78rem;padding:4px 10px;color:#1a2a6c;border-color:#dee2e6;">
+                                <i class="fas fa-chevron-right" style="font-size:.7rem;"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>

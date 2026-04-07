@@ -174,18 +174,19 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     // Users & Roles Management
     Route::resource('users', UserController::class);
      // ── Registration Module ──
-Route::prefix('registration')->name('registration.')->group(function () {
-    Route::get('/',                               [\App\Http\Controllers\Admin\RegistrationController::class, 'index'])        ->name('index');
-    Route::get('/create',                         [\App\Http\Controllers\Admin\RegistrationController::class, 'create'])       ->name('create');
-    Route::post('/',                              [\App\Http\Controllers\Admin\RegistrationController::class, 'store'])        ->name('store');
-    Route::get('/{student}',                      [\App\Http\Controllers\Admin\RegistrationController::class, 'show'])         ->name('show');
-    Route::get('/{student}/edit',                 [\App\Http\Controllers\Admin\RegistrationController::class, 'edit'])         ->name('edit');
-    Route::put('/{student}',                      [\App\Http\Controllers\Admin\RegistrationController::class, 'update'])       ->name('update');
-    Route::delete('/{student}',                   [\App\Http\Controllers\Admin\RegistrationController::class, 'destroy'])      ->name('destroy');
-    Route::get('/{student}/add-course',           [\App\Http\Controllers\Admin\RegistrationController::class, 'addCourseForm'])->name('add-course');
-    Route::post('/{student}/add-course',          [\App\Http\Controllers\Admin\RegistrationController::class, 'storeCourse'])  ->name('store-course');
-    Route::get('/{student}/course/{course}/edit', [\App\Http\Controllers\Admin\RegistrationController::class, 'editCourse'])   ->name('edit-course');
-    Route::put('/{student}/course/{course}',      [\App\Http\Controllers\Admin\RegistrationController::class, 'updateCourse']) ->name('update-course');
+    Route::prefix('registration')->name('registration.')->group(function () {
+            Route::get('/',                               [\App\Http\Controllers\Admin\RegistrationController::class, 'index'])        ->name('index');
+            Route::get('/create',                         [\App\Http\Controllers\Admin\RegistrationController::class, 'create'])       ->name('create');
+            Route::post('/',                              [\App\Http\Controllers\Admin\RegistrationController::class, 'store'])        ->name('store');
+            Route::get('/{student}',                      [\App\Http\Controllers\Admin\RegistrationController::class, 'show'])         ->name('show');
+            Route::get('/{student}/edit',                 [\App\Http\Controllers\Admin\RegistrationController::class, 'edit'])         ->name('edit');
+            Route::put('/{student}',                      [\App\Http\Controllers\Admin\RegistrationController::class, 'update'])       ->name('update');
+            Route::delete('/{student}',                   [\App\Http\Controllers\Admin\RegistrationController::class, 'destroy'])      ->name('destroy');
+            Route::get('/{student}/add-course',           [\App\Http\Controllers\Admin\RegistrationController::class, 'addCourseForm'])->name('add-course');
+            Route::post('/{student}/add-course',          [\App\Http\Controllers\Admin\RegistrationController::class, 'storeCourse'])  ->name('store-course');
+            Route::get('/{student}/course/{course}/edit', [\App\Http\Controllers\Admin\RegistrationController::class, 'editCourse'])   ->name('edit-course');
+            Route::put('/{student}/course/{course}',      [\App\Http\Controllers\Admin\RegistrationController::class, 'updateCourse']) ->name('update-course');
+            Route::get('/{student}/course/{course}/certificate-builder', [\App\Http\Controllers\Admin\RegistrationController::class, 'certificateBuilder'])->name('certificate-builder');
 });
 
 
@@ -239,3 +240,52 @@ Route::post('/admin/courses', [App\Http\Controllers\Admin\CourseController::clas
 Route::get('/admin/courses/{course}/edit', [App\Http\Controllers\Admin\CourseController::class, 'edit'])->name('admin.courses.edit')->middleware('auth');
 Route::put('/admin/courses/{course}', [App\Http\Controllers\Admin\CourseController::class, 'update'])->name('admin.courses.update')->middleware('auth');
 Route::delete('/admin/courses/{course}', [App\Http\Controllers\Admin\CourseController::class, 'destroy'])->name('admin.courses.destroy')->middleware('auth');
+Route::get('/admin/visitor-logs', [App\Http\Controllers\Admin\VisitorLogController::class, 'index'])->name('admin.visitor-logs.index')->middleware('auth');
+Route::delete('/admin/visitor-logs/clear-all', [App\Http\Controllers\Admin\VisitorLogController::class, 'clearAll'])->name('admin.visitor-logs.clearAll')->middleware('auth');
+Route::delete('/admin/visitor-logs/{visitorLog}', [App\Http\Controllers\Admin\VisitorLogController::class, 'destroy'])->name('admin.visitor-logs.destroy')->middleware('auth');
+
+// Invoice System
+Route::get('/admin/students/{student}/invoices', [App\Http\Controllers\Admin\InvoiceController::class, 'index'])->name('admin.invoices.index')->middleware('auth');
+Route::post('/admin/students/{student}/invoices', [App\Http\Controllers\Admin\InvoiceController::class, 'store'])->name('admin.invoices.store')->middleware('auth');
+Route::get('/admin/students/{student}/invoices/{invoice}', [App\Http\Controllers\Admin\InvoiceController::class, 'show'])->name('admin.invoices.show')->middleware('auth');
+Route::get('/admin/students/{student}/invoices/{invoice}/print', [App\Http\Controllers\Admin\InvoiceController::class, 'print'])->name('admin.invoices.print')->middleware('auth');
+Route::post('/admin/invoices/{invoice}/payment', [App\Http\Controllers\Admin\InvoiceController::class, 'addPayment'])->name('admin.invoices.addPayment')->middleware('auth');
+Route::delete('/admin/students/{student}/invoices/{invoice}', [App\Http\Controllers\Admin\InvoiceController::class, 'destroy'])->name('admin.invoices.destroy')->middleware('auth');
+// Invoice Payment
+Route::post('/admin/invoices/{invoice}/payment', [\App\Http\Controllers\Admin\InvoiceController::class, 'addPayment'])->name('admin.invoices.addPayment')->middleware('auth');
+// Invoice System
+Route::get('/admin/students/{student}/invoices', [App\Http\Controllers\Admin\InvoiceController::class, 'index'])->name('admin.invoices.index')->middleware('auth');
+Route::post('/admin/students/{student}/invoices', [App\Http\Controllers\Admin\InvoiceController::class, 'store'])->name('admin.invoices.store')->middleware('auth');
+Route::get('/admin/students/{student}/invoices/{invoice}', [App\Http\Controllers\Admin\InvoiceController::class, 'show'])->name('admin.invoices.show')->middleware('auth');
+Route::get('/admin/students/{student}/invoices/{invoice}/edit', [App\Http\Controllers\Admin\InvoiceController::class, 'edit'])->name('admin.invoices.edit')->middleware('auth');
+Route::put('/admin/students/{student}/invoices/{invoice}', [App\Http\Controllers\Admin\InvoiceController::class, 'update'])->name('admin.invoices.update')->middleware('auth');
+Route::get('/admin/students/{student}/invoices/{invoice}/print', [App\Http\Controllers\Admin\InvoiceController::class, 'print'])->name('admin.invoices.print')->middleware('auth');
+Route::post('/admin/invoices/{invoice}/payment', [App\Http\Controllers\Admin\InvoiceController::class, 'addPayment'])->name('admin.invoices.addPayment')->middleware('auth');
+Route::get('/admin/invoices/{invoice}/payment/{payment}/edit', [App\Http\Controllers\Admin\InvoiceController::class, 'editPayment'])->name('admin.invoices.editPayment')->middleware('auth');
+Route::put('/admin/invoices/{invoice}/payment/{payment}', [App\Http\Controllers\Admin\InvoiceController::class, 'updatePayment'])->name('admin.invoices.updatePayment')->middleware('auth');
+Route::delete('/admin/invoices/{invoice}/payment/{payment}', [App\Http\Controllers\Admin\InvoiceController::class, 'destroyPayment'])->name('admin.invoices.destroyPayment')->middleware('auth');
+Route::delete('/admin/students/{student}/invoices/{invoice}', [App\Http\Controllers\Admin\InvoiceController::class, 'destroy'])->name('admin.invoices.destroy')->middleware('auth');
+// Student Portal
+Route::get('/student/login', [App\Http\Controllers\Student\StudentAuthController::class, 'loginForm'])->name('student.login');
+Route::post('/student/login', [App\Http\Controllers\Student\StudentAuthController::class, 'login'])->name('student.login.post');
+Route::post('/student/logout', [App\Http\Controllers\Student\StudentAuthController::class, 'logout'])->name('student.logout');
+
+Route::prefix('student')->middleware('student.auth')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\Student\StudentPortalController::class, 'dashboard'])->name('student.dashboard');
+    Route::get('/profile', [App\Http\Controllers\Student\StudentPortalController::class, 'profile'])->name('student.profile');
+    Route::get('/courses', [App\Http\Controllers\Student\StudentPortalController::class, 'courses'])->name('student.courses');
+    Route::get('/invoices', [App\Http\Controllers\Student\StudentPortalController::class, 'invoices'])->name('student.invoices');
+    Route::get('/invoices/{invoice}', [App\Http\Controllers\Student\StudentPortalController::class, 'invoiceDetail'])->name('student.invoice.detail');
+    Route::get('/invoices/{invoice}/print', [App\Http\Controllers\Student\StudentPortalController::class, 'invoicePrint'])->name('student.invoice.print');
+    Route::get('/result', [App\Http\Controllers\Student\StudentPortalController::class, 'result'])->name('student.result');
+});
+// Certificate Verify
+Route::get('/certificate', function() {
+    return view('frontend.certificate');
+})->name('certificate');
+Route::post('/certificate/verify', [App\Http\Controllers\CertificateController::class, 'verify'])->name('certificate.verify');
+// Teachers
+Route::resource('admin/teachers', App\Http\Controllers\Admin\TeacherController::class)->names('admin.teachers')->middleware('auth');
+// Student Marks
+Route::get('/admin/students/{student}/courses/{studentCourse}/marks', [App\Http\Controllers\Admin\StudentMarksController::class, 'index'])->name('admin.marks.index')->middleware('auth');
+Route::post('/admin/students/{student}/courses/{studentCourse}/marks', [App\Http\Controllers\Admin\StudentMarksController::class, 'store'])->name('admin.marks.store')->middleware('auth');

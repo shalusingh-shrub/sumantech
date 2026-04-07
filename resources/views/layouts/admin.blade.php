@@ -220,6 +220,11 @@
     </a>
     @endcan
 
+    <div class="nav-section">Reports</div>
+    <a href="{{ route('admin.visitor-logs.index') }}" class="nav-link {{ request()->is('admin/visitor-logs*') ? 'active' : '' }}">
+        <i class="fas fa-chart-line"></i> Visitor Logs
+    </a>
+
     <div class="nav-section">Account</div>
     <form method="POST" action="{{ route('logout') }}">
         @csrf
@@ -237,9 +242,41 @@
             <h5 class="page-title">@yield("page-title", "Dashboard")</h5>
         </div>
         <div class="d-flex align-items-center gap-3">
-            <span class="text-muted" style="font-size:13px;"><i class="fas fa-user-circle me-1"></i>{{ auth()->user()->name }}</span>
-            <span class="badge bg-primary" style="font-size:11px;">{{ auth()->user()->getRoleNames()->first() }}</span>
-        </div>
+    {{-- Notification Bell --}}
+    <button class="btn btn-light btn-sm position-relative" style="border-radius:50%;width:36px;height:36px;">
+        <i class="fas fa-bell" style="color:#1a2a6c;"></i>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:9px;">3</span>
+    </button>
+
+    {{-- Profile Dropdown --}}
+    <div class="dropdown">
+        <a href="#" class="d-flex align-items-center gap-2 text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+            <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1a2a6c,#6b3a1f);display:flex;align-items:center;justify-content:center;color:#ffd700;font-weight:700;font-size:14px;">
+                {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
+            </div>
+            <div style="line-height:1.2;">
+                <div style="font-size:11px;color:#999;">{{ auth()->user()->getRoleNames()->first() ?? 'admin' }}</div>
+                <div style="font-size:13px;font-weight:700;color:#1a2a6c;">{{ auth()->user()->name }}</div>
+            </div>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end shadow border-0" style="min-width:180px;border-radius:12px;">
+            <li>
+                <a class="dropdown-item py-2" href="{{ route('portal.personal') }}">
+                    <i class="fas fa-user me-2" style="color:#1a2a6c;"></i> Profile
+                </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="dropdown-item py-2 text-danger">
+                        <i class="fas fa-sign-out-alt me-2"></i> Logout
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>
     </div>
 
     <div class="content-area">

@@ -65,17 +65,28 @@
             {{-- Right: Slider --}}
             <div class="col-lg-6 d-none d-lg-block">
                 <div style="border-radius:20px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.4);">
-                    @if(isset($sliders) && $sliders->count() > 0)
                     <div class="owl-carousel owl-theme" id="heroCarousel">
-                        @foreach($sliders as $slider)
-                        <div class="item">
-                            <img src="{{ $slider->image_url }}" alt="{{ $slider->title }}" style="width:100%;height:380px;object-fit:cover;" onerror="this.onerror=null;this.src='{{ asset('images/slider-placeholder.jpg') }}'">
-                        </div>
-                        @endforeach
+                        @if(isset($sliders) && $sliders->count() > 0)
+                            @foreach($sliders as $slider)
+                            <div class="item">
+                                <img src="{{ $slider->image_url }}" alt="{{ $slider->title }}" style="width:100%;height:380px;object-fit:cover;">
+                            </div>
+                            @endforeach
+                        @else
+                            <div class="item">
+                                <img src="{{ asset('images/slider1.jpg') }}" alt="Students Learning" style="width:100%;height:380px;object-fit:cover;">
+                            </div>
+                            <div class="item">
+                                <img src="{{ asset('images/slider2.jpg') }}" alt="Computer Lab" style="width:100%;height:380px;object-fit:cover;">
+                            </div>
+                            <div class="item">
+                                <img src="{{ asset('images/slider3.jpg') }}" alt="Students Group" style="width:100%;height:380px;object-fit:cover;">
+                            </div>
+                            <div class="item">
+                                <img src="{{ asset('images/slider1.jpg') }}" alt="Computer Training" style="width:100%;height:380px;object-fit:cover;">
+                            </div>
+                        @endif
                     </div>
-                    @else
-                    <img src="{{ asset('public/uploads/slider/banner-img.jpg') }}" alt="Suman Tech" style="width:100%;height:380px;object-fit:cover;" onerror="this.style.opacity='.4'">
-                    @endif
                 </div>
 
                 {{-- Floating badges --}}
@@ -386,14 +397,12 @@
 @push('scripts')
 <script>
 $(document).ready(function() {
-    @if(isset($sliders) && $sliders->count() > 0)
     $('#heroCarousel').owlCarousel({
         items: 1, loop: true, autoplay: true,
         autoplayTimeout: 5000, autoplayHoverPause: true,
         nav: true, dots: true,
         navText: ['<i class="fas fa-chevron-left"></i>', '<i class="fas fa-chevron-right"></i>'],
     });
-    @endif
 });
 </script>
 @endpush

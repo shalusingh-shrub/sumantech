@@ -42,12 +42,13 @@
 
                     {{-- Registration Number --}}
                     <div class="col-md-6">
-                        <label class="form-label fw-semibold" style="font-size:.88rem;">Registration Number:</label>
-                        <input type="text" class="form-control bg-light"
-                               placeholder="Leve emty for dynamic ID" readonly style="font-size:.88rem;">
-                        <small class="text-muted">Auto Generated: ST-XXXXXXXXXX</small>
-                    </div>
-
+    <label class="form-label fw-semibold" style="font-size:.88rem;">Registration Number:</label>
+    <input type="text" name="registration_number" class="form-control"
+           placeholder="Leave empty for Auto ID (ST-XXXXXXXXXX)"
+           value="{{ old('registration_number') }}"
+           style="font-size:.88rem;">
+    <small class="text-muted">Khali chhodo — Auto Generate hoga. Ya khud bharo.</small>
+</div>
                     {{-- Registration Date --}}
                     <div class="col-md-6">
                         <label class="form-label fw-semibold" style="font-size:.88rem;">Registration Date:</label>

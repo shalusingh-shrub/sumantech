@@ -138,6 +138,12 @@
                                             class="btn btn-primary">
                                         <i class="fas fa-download me-2"></i>Download Certificate
                                     </button>
+                                    <a href="{{ route('admin.registration.certificate-builder', [$student, $course]) }}"
+   class="btn btn-warning text-dark fw-bold">
+    <i class="fas fa-drafting-compass me-2"></i>Certificate Builder
+</a>
+
+
                                     <button type="button" onclick="downloadCertPDF()"
                                             class="btn btn-danger">
                                         <i class="fas fa-file-pdf me-2"></i>Download PDF

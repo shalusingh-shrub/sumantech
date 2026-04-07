@@ -27,7 +27,7 @@ class RegisteredUserController extends Controller
             'students' => User::where('user_type', 'student')->count(),
             'active'   => User::where('is_active', true)->count(),
         ];
-        return view('admin.registered_users.index', compact('users', 'stats'));
+        return view('admin.registered_users.admin_index', compact('users', 'stats'));
     }
 
     public function toggleStatus(User $user) {
