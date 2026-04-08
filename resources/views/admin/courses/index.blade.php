@@ -46,9 +46,36 @@
         </tbody>
       </table>
     </div>
-    @if($courses->hasPages())
-    <div class="card-footer">{{ $courses->links() }}</div>
-    @endif
+    <div class="d-flex justify-content-between align-items-center mt-3 px-3 pb-3 flex-wrap gap-2">
+        <div class="text-muted" style="font-size:.83rem;">
+          Showing {{ $courses->firstItem() ?? 0 }} to {{ $courses->lastItem() ?? 0 }}
+          of {{ $courses->total() }} entries
+        </div>
+        <nav>
+          <ul class="pagination pagination-sm mb-0" style="gap:3px;">
+            <li class="page-item {{ $courses->onFirstPage() ? 'disabled' : '' }}">
+              <a class="page-link rounded" href="{{ $courses->previousPageUrl() }}"
+                 style="font-size:.78rem;padding:4px 10px;color:#1a2a6c;border-color:#dee2e6;">
+                <i class="fas fa-chevron-left" style="font-size:.7rem;"></i>
+              </a>
+            </li>
+            @foreach($courses->getUrlRange(1, $courses->lastPage()) as $page => $url)
+            <li class="page-item {{ $page == $courses->currentPage() ? 'active' : '' }}">
+              <a class="page-link rounded" href="{{ $url }}"
+                 style="font-size:.78rem;padding:4px 10px;{{ $page == $courses->currentPage() ? 'background:#1a2a6c;border-color:#1a2a6c;color:#fff;' : 'color:#1a2a6c;border-color:#dee2e6;' }}">
+                {{ $page }}
+              </a>
+            </li>
+            @endforeach
+            <li class="page-item {{ !$courses->hasMorePages() ? 'disabled' : '' }}">
+              <a class="page-link rounded" href="{{ $courses->nextPageUrl() }}"
+                 style="font-size:.78rem;padding:4px 10px;color:#1a2a6c;border-color:#dee2e6;">
+                <i class="fas fa-chevron-right" style="font-size:.7rem;"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
   </div>
 </div>
 @endsection

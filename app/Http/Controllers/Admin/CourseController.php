@@ -1,16 +1,22 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
-
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $courses = Course::latest()->paginate(10);
+        $query = Course::latest();
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%'.$request->search.'%');
+        }
+        if ($request->filled('status')) {
+            $query->where('is_active', $request->status);
+        }
+        $courses = $query->paginate($request->get('per_page', 10))->withQueryString();
         return view('admin.courses.index', compact('courses'));
     }
 
@@ -22,11 +28,18 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'     => 'required|string|max:255',
-            'duration' => 'required|string|max:100',
-            'fee'      => 'required|numeric|min:0',
+            'name'        => 'required|string|max:255',
+            'duration'    => 'required|string|max:100',
+            'fee'         => 'required|numeric|min:0',
+            'image'       => 'nullable|image|max:2048',
+            'description' => 'nullable|string',
+            'highlights'  => 'nullable|string',
         ]);
-        Course::create($request->all());
+        $data = $request->except('image');
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('courses', 'public');
+        }
+        Course::create($data);
         return redirect()->route('admin.courses.index')->with('success', 'Course added!');
     }
 
@@ -37,12 +50,26 @@ class CourseController extends Controller
 
     public function update(Request $request, Course $course)
     {
-        $course->update($request->all());
+        $request->validate([
+            'name'        => 'required|string|max:255',
+            'duration'    => 'required|string|max:100',
+            'fee'         => 'required|numeric|min:0',
+            'image'       => 'nullable|image|max:2048',
+            'description' => 'nullable|string',
+            'highlights'  => 'nullable|string',
+        ]);
+        $data = $request->except('image');
+        if ($request->hasFile('image')) {
+            if ($course->image) Storage::disk('public')->delete($course->image);
+            $data['image'] = $request->file('image')->store('courses', 'public');
+        }
+        $course->update($data);
         return redirect()->route('admin.courses.index')->with('success', 'Course updated!');
     }
 
     public function destroy(Course $course)
     {
+        if ($course->image) Storage::disk('public')->delete($course->image);
         $course->delete();
         return redirect()->route('admin.courses.index')->with('success', 'Course deleted.');
     }

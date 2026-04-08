@@ -439,16 +439,21 @@
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="{{ '#' ?? '#' }}" data-bs-toggle="dropdown">Courses</a>
+                    <a class="nav-link dropdown-toggle" href="{{ route('courses') }}" data-bs-toggle="dropdown">Courses</a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ '#' ?? '#' }}"><i class="fas fa-th-large me-2"></i>All Courses</a></li>
+                        <li><a class="dropdown-item" href="{{ route('courses') }}"><i class="fas fa-th-large me-2"></i>All Courses</a></li>
                         <li><hr class="dropdown-divider" style="border-color:rgba(255,255,255,.1)"></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-desktop me-2"></i>DCA</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-laptop me-2"></i>ADCA</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-calculator me-2"></i>Tally Prime</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-file-invoice-dollar me-2"></i>DIGITA</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-code me-2"></i>Web Design</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="fas fa-bullhorn me-2"></i>Digital Marketing</a></li>
+                        @php $navCourses = \App\Models\Course::where('is_active', true)->get(); @endphp
+                        @foreach($navCourses as $nc)
+                        <li><a class="dropdown-item" href="{{ route('course.show', $nc->id) }}">
+                            @php
+                                $icons = ['DCA'=>'fa-desktop','ADCA'=>'fa-laptop','Tally'=>'fa-calculator','DIGITA'=>'fa-chart-line','Web'=>'fa-code','Digital'=>'fa-bullhorn','MS Office'=>'fa-file-word','DTP'=>'fa-paint-brush','Programming'=>'fa-terminal'];
+                                $ic = 'fa-book';
+                                foreach($icons as $k=>$v) { if(str_contains($nc->name,$k)){$ic=$v;break;} }
+                            @endphp
+                            <i class="fas {{ $ic }} me-2"></i>{{ $nc->name }}
+                        </a></li>
+                        @endforeach
                     </ul>
                 </li>
                 <li class="nav-item">

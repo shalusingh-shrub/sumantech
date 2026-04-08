@@ -20,7 +20,7 @@ class RegisteredUserController extends Controller
         if ($request->user_type) $query->where('user_type', $request->user_type);
         if ($request->status !== null && $request->status !== '') $query->where('is_active', $request->status);
 
-        $users = $query->latest()->paginate(20)->withQueryString();
+        $users = $query->latest()->paginate($request->get('per_page', 20))->withQueryString();
         $stats = [
             'total'    => User::count(),
             'teachers' => User::where('user_type', 'teacher')->count(),

@@ -128,6 +128,17 @@ class HomeController extends Controller
 
         return redirect()->back()->with('success', 'आपकी राय सफलतापूर्वक जमा की गई। धन्यवाद!');
     }
+    public function courses()
+{
+    $courses = \App\Models\Course::where('is_active', true)->get();
+    return view('frontend.courses', compact('courses'));
+}
+
+public function courseShow($id)
+{
+    $course = \App\Models\Course::where('is_active', true)->findOrFail($id);
+    return view('frontend.course_show', compact('course'));
+}
 
     public function podcast()
     {

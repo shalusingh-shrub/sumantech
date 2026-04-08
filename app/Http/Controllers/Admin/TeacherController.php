@@ -7,8 +7,17 @@ use Illuminate\Http\Request;
 
 class TeacherController extends Controller
 {
-    public function index() {
-        $teachers = Teacher::orderBy('sort_order')->paginate(20);
+    public function index(Request $request) {
+        $query = Teacher::orderBy('sort_order');
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%'.$request->search.'%')
+                  ->orWhere('designation', 'like', '%'.$request->search.'%')
+                  ->orWhere('phone', 'like', '%'.$request->search.'%');
+        }
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+        $teachers = $query->paginate($request->get('per_page', 10))->withQueryString();
         return view('admin.teachers.index', compact('teachers'));
     }
 

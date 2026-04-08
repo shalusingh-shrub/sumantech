@@ -38,7 +38,7 @@ class StudentMarksController extends Controller
         ]);
 
         // Delete old marks
-        $studentCourse->marks()->delete();
+        $studentCourse->studentMarks()->delete();
 
         // Save new marks
         foreach ($request->subjects as $i => $subject) {

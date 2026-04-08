@@ -22,8 +22,13 @@
                 <label class="form-label fw-semibold">Profile Image</label>
                 <input type="file" name="avatar" class="form-control" accept="image/*">
                 @if($user->profile && $user->profile->avatar)
-                <div class="mt-2"><img src="{{ $user->profile->avatar_url }}" style="width:60px;height:60px;border-radius:50%;object-fit:cover;"></div>
-                @endif
+<div class="mt-2">
+    <img src="{{ asset('storage/' . $user->profile->avatar) }}"
+         style="width:70px;height:70px;border-radius:50%;object-fit:cover;border:3px solid #1a2a6c;"
+         onerror="this.style.display='none'">
+    <small class="text-success d-block mt-1"><i class="fas fa-check-circle me-1"></i>Photo uploaded</small>
+</div>
+@endif
             </div>
             <div class="col-md-6">
                 <label class="form-label fw-semibold">Mobile Number</label>

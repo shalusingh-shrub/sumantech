@@ -26,7 +26,14 @@ class PortalController extends Controller
         $user = Auth::user();
         $user->update(['name'=>$request->name,'phone'=>$request->phone]);
         $profileData = $request->only(['gender','dob','father_name','mother_name','alternate_mobile','state','district','block','pincode','panchayat','village','address']);
-        if($request->hasFile('avatar')){$request->validate(['avatar'=>'image|max:2048']);if($user->profile&&$user->profile->avatar){Storage::disk('public')->delete($user->profile->avatar);}$profileData['avatar']=$request->file('avatar')->store('avatars','public');}
+        if ($request->hasFile('avatar')) {
+    $request->validate(['avatar' => 'image|max:2048']);
+    if ($user->profile && $user->profile->avatar) {
+        Storage::disk('public')->delete($user->profile->avatar);
+    }
+    $profileData['avatar'] = $request->file('avatar')->store('avatars', 'public');
+}
+UserProfile::updateOrCreate(['user_id' => $user->id], $profileData);
         UserProfile::updateOrCreate(['user_id'=>$user->id],$profileData);
         $this->logActivity('Updated personal details','profile_updated');
         return back()->with('success','Personal details saved successfully!');

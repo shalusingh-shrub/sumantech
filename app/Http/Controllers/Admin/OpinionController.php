@@ -18,7 +18,18 @@ class OpinionController extends Controller implements HasMiddleware
         ];
     }
 
-    public function index() { return view('admin.opinions.index', ['opinions' => Opinion::latest()->paginate(20)]); }
+    public function index(\Illuminate\Http\Request $request) {
+        $query = Opinion::latest();
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%'.$request->search.'%')
+                  ->orWhere('opinion', 'like', '%'.$request->search.'%');
+        }
+        if ($request->filled('status')) {
+            $query->where('is_approved', $request->status);
+        }
+        $opinions = $query->paginate($request->get('per_page', 10))->withQueryString();
+        return view('admin.opinions.index', compact('opinions'));
+    }
 
     public function approve(Opinion $opinion) {
         $opinion->update(['is_approved' => !$opinion->is_approved]);

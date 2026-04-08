@@ -19,8 +19,17 @@ class ContactController extends Controller implements HasMiddleware
         ];
     }
 
-    public function index() {
-        $contacts = Contact::latest()->paginate(20);
+    public function index(\Illuminate\Http\Request $request) {
+        $query = Contact::latest();
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%'.$request->search.'%')
+                  ->orWhere('email', 'like', '%'.$request->search.'%')
+                  ->orWhere('subject', 'like', '%'.$request->search.'%');
+        }
+        if ($request->filled('status')) {
+            $query->where('is_read', $request->status);
+        }
+        $contacts = $query->paginate($request->get('per_page', 10))->withQueryString();
         return view('admin.contacts.index', compact('contacts'));
     }
 
