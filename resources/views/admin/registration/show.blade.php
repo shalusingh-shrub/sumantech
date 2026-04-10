@@ -22,6 +22,9 @@
             <a href="{{ route('admin.registration.edit', $student) }}" class="btn btn-warning btn-sm fw-semibold">
                 <i class="fas fa-edit me-1"></i>Edit
             </a>
+            <a href="{{ route('admin.idcard.show', $student) }}" class="btn btn-info btn-sm fw-semibold text-white">
+                <i class="fas fa-id-card me-1"></i>ID Card
+            </a>
             <a href="{{ route('admin.registration.index') }}" class="btn btn-outline-secondary btn-sm">
                 <i class="fas fa-arrow-left me-1"></i>Back
             </a>

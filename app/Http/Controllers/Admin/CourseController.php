@@ -35,10 +35,26 @@ class CourseController extends Controller
             'description' => 'nullable|string',
             'highlights'  => 'nullable|string',
         ]);
-        $data = $request->except('image');
+
+        $data = $request->except(['image', 'syllabus']);
+
+        if ($request->has('syllabus')) {
+            $syllabus = [];
+            foreach ($request->syllabus as $section) {
+                if (!empty($section['section'])) {
+                    $syllabus[] = [
+                        'section' => $section['section'],
+                        'topics'  => array_values(array_filter($section['topics'] ?? [])),
+                    ];
+                }
+            }
+            $data['syllabus'] = json_encode($syllabus);
+        }
+
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('courses', 'public');
         }
+
         Course::create($data);
         return redirect()->route('admin.courses.index')->with('success', 'Course added!');
     }
@@ -58,11 +74,30 @@ class CourseController extends Controller
             'description' => 'nullable|string',
             'highlights'  => 'nullable|string',
         ]);
-        $data = $request->except('image');
+
+        $data = $request->except(['image', 'syllabus']);
+
+        // Syllabus process
+        if ($request->has('syllabus')) {
+            $syllabus = [];
+            foreach ($request->syllabus as $section) {
+                if (!empty($section['section'])) {
+                    $syllabus[] = [
+                        'section' => $section['section'],
+                        'topics'  => array_values(array_filter($section['topics'] ?? [])),
+                    ];
+                }
+            }
+            $data['syllabus'] = json_encode($syllabus);
+        } else {
+            $data['syllabus'] = null;
+        }
+
         if ($request->hasFile('image')) {
             if ($course->image) Storage::disk('public')->delete($course->image);
             $data['image'] = $request->file('image')->store('courses', 'public');
         }
+
         $course->update($data);
         return redirect()->route('admin.courses.index')->with('success', 'Course updated!');
     }

@@ -99,7 +99,7 @@
    style="padding-left:35px;font-size:13px;">
     <i class="fas fa-users"></i> Registered User
 </a>
-<a href="#" class="nav-link" style="padding-left:35px;font-size:13px;">
+<a href="{{ route('admin.courses.index') }}" class="nav-link {{ request()->is('admin/courses*') ? 'active' : '' }}" style="padding-left:35px;font-size:13px;">
     <i class="fas fa-book"></i> Course
 </a>
 

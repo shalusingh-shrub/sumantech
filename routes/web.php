@@ -291,3 +291,21 @@ Route::resource('admin/teachers', App\Http\Controllers\Admin\TeacherController::
 // Student Marks
 Route::get('/admin/students/{student}/courses/{studentCourse}/marks', [App\Http\Controllers\Admin\StudentMarksController::class, 'index'])->name('admin.marks.index')->middleware('auth');
 Route::post('/admin/students/{student}/courses/{studentCourse}/marks', [App\Http\Controllers\Admin\StudentMarksController::class, 'store'])->name('admin.marks.store')->middleware('auth');
+// Quiz Public Routes
+Route::get('/quizzes', [App\Http\Controllers\QuizController::class, 'index'])->name('quizzes.index');
+Route::get('/quizzes/{quiz}', [App\Http\Controllers\QuizController::class, 'show'])->name('quiz.show');
+Route::post('/quizzes/{quiz}/submit', [App\Http\Controllers\QuizController::class, 'submit'])->name('quiz.submit');
+Route::get('/quiz/result/{result}', [App\Http\Controllers\QuizController::class, 'result'])->name('quiz.result');
+
+// Quiz Admin Routes
+Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::resource('quizzes', App\Http\Controllers\Admin\QuizController::class)->names('admin.quizzes');
+    Route::post('quizzes/{quiz}/questions', [App\Http\Controllers\Admin\QuizController::class, 'storeQuestion'])->name('admin.quizzes.storeQuestion');
+    Route::delete('quizzes/{quiz}/questions/{question}', [App\Http\Controllers\Admin\QuizController::class, 'destroyQuestion'])->name('admin.quizzes.destroyQuestion');
+    Route::get('quizzes/{quiz}/results', [App\Http\Controllers\Admin\QuizController::class, 'results'])->name('admin.quizzes.results');
+});
+// Leaderboard
+Route::get('/leaderboard', [App\Http\Controllers\LeaderboardController::class, 'index'])->name('leaderboard');
+// Student ID Card
+Route::get('/admin/students/{student}/id-card', [App\Http\Controllers\Admin\IdCardController::class, 'show'])->name('admin.idcard.show')->middleware('auth');
+Route::get('/admin/students/{student}/id-card/pdf', [App\Http\Controllers\Admin\IdCardController::class, 'downloadPdf'])->name('admin.idcard.pdf')->middleware('auth');

@@ -459,8 +459,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="https://lms.sumantech.in/" target="_blank"><i class="fas fa-book-open me-1"></i>LMS</a>
                 </li>
+                <li class="nav-item {{ request()->is('quizzes*') ? 'active':'' }}">
+                    <a class="nav-link" href="{{ route('quizzes.index') }}"><i class="fas fa-question-circle me-1"></i>Quiz</a>
+                </li>
                 <li class="nav-item {{ request()->is('certificate*') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('certificate') }}"><i class="fas fa-certificate me-1"></i>Certificate</a>
+                    <a class="nav-link" href="{{ route('leaderboard') }}"><i class="fas fa-trophy me-1"></i>Leaderboard</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{{ route('certificate') }}"><i class="fas fa-certificate me-1"></i>Certificate</a>
                 </li>
                 <li class="nav-item {{ request()->is('news*') || request()->is('blog*') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('news-events') ?? '#' }}">Blog</a>
