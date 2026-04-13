@@ -5,6 +5,10 @@
 /vendor/
 /node_modules/
 
+# Bootstrap cache
+
+/bootstrap/cache/
+
 # Environment files
 
 .env
