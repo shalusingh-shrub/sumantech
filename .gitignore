@@ -27,7 +27,7 @@
 # Public storage symlink
 
 /public/storage
-
+ 
 # Build / frontend
 
 /public/build
