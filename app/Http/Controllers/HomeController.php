@@ -30,6 +30,18 @@ class HomeController extends Controller
         return view('frontend.about');
     }
 
+    public function courses()
+    {
+        $courses = \App\Models\Course::where('is_active', true)->get();
+        return view('frontend.courses', compact('courses'));
+    }
+
+    public function courseShow($id)
+    {
+        $course = \App\Models\Course::where('is_active', true)->findOrFail($id);
+        return view('frontend.course_show', compact('course'));
+    }
+
     public function team()
     {
         $founders = TeamMember::where('role_type', 'founder')->where('is_active', true)->orderBy('sort_order')->get();
@@ -125,22 +137,16 @@ class HomeController extends Controller
         ]);
 
         \App\Models\Opinion::create($request->only(['name', 'email', 'district', 'school', 'opinion']));
-
-        return redirect()->back()->with('success', 'आपकी राय सफलतापूर्वक जमा की गई। धन्यवाद!');
+\App\Models\Notification::send(
+    'new_opinion',
+    'Naya Opinion Aaya!',
+    $request->name . ' ne opinion diya',
+    route('admin.opinions.index')
+);
+        return redirect()->back()->with('success', 'Your message has been sent successfully. Thank you!');
     }
-    public function courses()
-{
-    $courses = \App\Models\Course::where('is_active', true)->get();
-    return view('frontend.courses', compact('courses'));
-}
 
-public function courseShow($id)
-{
-    $course = \App\Models\Course::where('is_active', true)->findOrFail($id);
-    return view('frontend.course_show', compact('course'));
-}
-
-    public function podcast()
+public function podcast()
     {
         return view('frontend.podcast');
     }

@@ -93,6 +93,12 @@ class RegistrationController extends Controller
         }
 
         Student::create($data);
+        \App\Models\Notification::send(
+    'new_student',
+    'Naya Student Register!',
+    $data['name'] . ' ne registration kiya — ' . $regNum,
+    route('admin.registration.show', Student::where('registration_number', $regNum)->first())
+);
         return redirect()->route('admin.registration.index')->with('success', 'Student registered successfully!');
     }
 
