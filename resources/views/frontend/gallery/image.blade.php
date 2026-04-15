@@ -1,7 +1,7 @@
-{{-- File: resources/views/frontend/gallery/image.blade.php --}}
 @extends('layouts.frontend')
 @section('title', 'Image Gallery - Suman Tech')
 @section('content')
+
 <div class="page-banner">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center">
@@ -15,46 +15,74 @@
         </div>
     </div>
 </div>
+
 <div class="container py-5">
-    <div class="row g-3">
-        @forelse($images as $img)
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="card border-0 shadow-sm overflow-hidden" style="cursor:pointer;" onclick="showImage('{{ $img->image_url }}', '{{ $img->title }}')">
-                <img src="{{ $img->image_url }}" alt="{{ $img->title }}" class="img-fluid" style="height:180px;object-fit:cover;" onerror="this.onerror=null;this.style.opacity='0.3'">
-                <div class="card-footer bg-light p-2 text-center"><small>{{ $img->title }}</small></div>
-            </div>
-        </div>
-        @empty
-        <div class="col-12 text-center py-5 text-muted"><i class="fas fa-images fa-3x mb-3"></i><p>No images available.</p></div>
-        @endforelse
-    </div>
-    <div class="mt-4">{{ $images->links() }}</div>
-</div>
 
-<!-- Image Modal -->
-<div class="modal fade" id="imageModal" tabindex="-1">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="imageTitle"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body text-center p-0">
-                <img id="modalImage" src="" class="img-fluid w-100">
-            </div>
-        </div>
-    </div>
-</div>
+    @if($galleries->count())
+    <div class="row g-4">
+        @foreach($galleries as $gallery)
+        <div class="col-md-4 col-lg-3">
+            <a href="{{ route('gallery.show', $gallery->slug) }}" class="text-decoration-none">
+                <div class="card border-0 shadow-sm overflow-hidden h-100"
+                     style="border-radius:12px;transition:transform .2s;"
+                     onmouseover="this.style.transform='translateY(-4px)'"
+                     onmouseout="this.style.transform='translateY(0)'">
 
-@push('scripts')
-<script>
-function showImage(url, title) {
-    document.getElementById('modalImage').src = url;
-    document.getElementById('imageTitle').textContent = title;
-    new bootstrap.Modal(document.getElementById('imageModal')).show();
-}
-</script>
-@endpush
+                    {{-- Cover Image --}}
+                    <div style="position:relative;height:180px;overflow:hidden;">
+                        @if($gallery->cover_image_url)
+                        <img src="{{ $gallery->cover_image_url }}"
+                             style="width:100%;height:100%;object-fit:cover;">
+                        @else
+                        <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a2a6c,#2a4a9c);display:flex;align-items:center;justify-content:center;">
+                            <i class="fas fa-images fa-3x" style="color:rgba(255,255,255,.4);"></i>
+                        </div>
+                        @endif
+
+                        {{-- Items count badge --}}
+                        <div style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,.6);color:#fff;border-radius:20px;padding:3px 10px;font-size:.75rem;">
+                            <i class="fas fa-image me-1"></i>{{ $gallery->items_count }}
+                        </div>
+
+                        {{-- Pin badge --}}
+                        @if($gallery->pin_to_home)
+                        <div style="position:absolute;top:8px;left:8px;background:#ffc107;color:#000;border-radius:20px;padding:3px 8px;font-size:.7rem;">
+                            <i class="fas fa-thumbtack me-1"></i>Featured
+                        </div>
+                        @endif
+                    </div>
+
+                    <div class="card-body p-3">
+                        <h6 class="fw-bold mb-1" style="color:#1a2a6c;">{{ $gallery->name }}</h6>
+                        @if($gallery->description)
+                        <p class="text-muted mb-0" style="font-size:.8rem;line-height:1.4;">
+                            {{ Str::limit($gallery->description, 60) }}
+                        </p>
+                        @endif
+                        @if($gallery->start_date)
+                        <div class="mt-2" style="font-size:.75rem;color:#888;">
+                            <i class="fas fa-calendar me-1"></i>
+                            {{ $gallery->start_date->format('d M Y') }}
+                            @if($gallery->end_date && $gallery->end_date != $gallery->start_date)
+                             — {{ $gallery->end_date->format('d M Y') }}
+                            @endif
+                        </div>
+                        @endif
+                    </div>
+                </div>
+            </a>
+        </div>
+        @endforeach
+    </div>
+
+    <div class="mt-4">{{ $galleries->links() }}</div>
+
+    @else
+    <div class="text-center py-5 text-muted">
+        <i class="fas fa-images fa-3x mb-3 d-block" style="opacity:.3;"></i>
+        <p>Koi gallery available nahi hai.</p>
+    </div>
+    @endif
+
+</div>
 @endsection
-
-

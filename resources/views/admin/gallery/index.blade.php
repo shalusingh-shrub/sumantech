@@ -1,103 +1,130 @@
-{{-- File: resources/views/admin/gallery/index.blade.php --}}
 @extends('layouts.admin')
-@section('page-title', 'Gallery')
+@section('title', 'Gallery')
 @section('content')
-
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h5 class="fw-bold mb-0"><i class="fas fa-photo-video me-2 text-primary"></i>Gallery</h5>
-    <a href="{{ route('admin.gallery.create') }}" class="btn btn-tob"><i class="fas fa-plus me-2"></i>Add Item</a>
-</div>
-
-<div class="card data-card mb-3">
-    <div class="card-body py-3">
-        <form method="GET" class="row g-2 align-items-end">
-            <div class="col-md-5">
-                <label class="form-label fw-semibold mb-1">Search</label>
-                <input type="text" name="search" class="form-control" placeholder="Title se search karein..." value="{{ request('search') }}">
-            </div>
-            <div class="col-md-3">
-                <label class="form-label fw-semibold mb-1">Type</label>
-                <select name="type" class="form-select">
-                    <option value="">All</option>
-                    <option value="image" {{ request('type') == 'image' ? 'selected' : '' }}>Image</option>
-                    <option value="video" {{ request('type') == 'video' ? 'selected' : '' }}>Video</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <label class="form-label fw-semibold mb-1">Status</label>
-                <select name="status" class="form-select">
-                    <option value="">All</option>
-                    <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Active</option>
-                    <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>Inactive</option>
-                </select>
-            </div>
-            <div class="col-md-2 d-flex gap-2">
-                <button type="submit" class="btn btn-tob w-100"><i class="fas fa-search me-1"></i>Filter</button>
-                <a href="{{ route('admin.gallery.index') }}" class="btn btn-outline-secondary w-100"><i class="fas fa-redo"></i></a>
-            </div>
-        </form>
+<div class="content-area">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="mb-0 fw-bold" style="color:#1a2a6c;">
+                <i class="fas fa-images me-2"></i>Gallery
+            </h4>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 mt-1" style="font-size:13px;">
+                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                    <li class="breadcrumb-item active">Gallery</li>
+                </ol>
+            </nav>
+        </div>
+        <a href="{{ route('admin.gallery.create') }}" class="btn btn-warning fw-bold px-4">
+            <i class="fas fa-plus me-2"></i>Add Gallery
+        </a>
     </div>
-</div>
 
-<div class="card data-card">
-    <div class="card-body p-0">
-        <table class="table table-hover mb-0 align-middle">
-            <thead style="background:#f8f9fa;">
-                <tr>
-                    <th>#</th>
-                    <th>Preview</th>
-                    <th>Title</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Created By</th>
-                    <th>Updated By</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($galleries as $i => $item)
-                <tr>
-                    <td>{{ $galleries->firstItem() + $i }}</td>
-                    <td>
-                        @if($item->image)
-                            <img src="{{ $item->image_url }}" height="50" class="rounded" onerror="this.onerror=null;this.style.opacity='0.3'">
-                        @elseif($item->video_url)
-                            <i class="fas fa-video fa-2x text-primary"></i>
-                        @endif
-                    </td>
-                    <td>{{ Str::limit($item->title, 50) }}</td>
-                    <td><span class="badge bg-info">{{ ucfirst($item->type) }}</span></td>
-                    <td><span class="badge {{ $item->is_active ? 'bg-success' : 'bg-secondary' }}">{{ $item->is_active ? 'Active' : 'Inactive' }}</span></td>
-                    <td>
-                        @if($item->createdBy ?? false)
-                            <small class="text-muted"><i class="fas fa-user me-1"></i>{{ $item->createdBy->name }}</small><br>
-                        @endif
-                        <small class="text-muted">{{ $item->created_at->format('d M Y') }}</small>
-                    </td>
-                    <td>
-                        @if($item->updatedBy ?? false)
-                            <small class="text-info"><i class="fas fa-edit me-1"></i>{{ $item->updatedBy->name }}</small><br>
-                            <small class="text-muted">{{ $item->updated_at->format('d M Y') }}</small>
-                        @else
-                            <span class="text-muted">-</span>
-                        @endif
-                    </td>
-                    <td>
-                        <a href="{{ route('admin.gallery.edit', $item) }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                        <form action="{{ route('admin.gallery.destroy', $item) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete karna chahte ho?')">
-                            @csrf @method('DELETE')
-                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
-                        </form>
-                    </td>
-                </tr>
-                @empty
-                <tr><td colspan="8" class="text-center py-4 text-muted">Koi gallery item nahi mila.</td></tr>
-                @endforelse
-            </tbody>
-        </table>
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show">
+        <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
-    <div class="card-footer">{{ $galleries->links() }}</div>
+    @endif
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-header py-3"
+             style="background:linear-gradient(135deg,#1a2a6c,#2a4a9c);color:#fff;border-radius:8px 8px 0 0;">
+            <span class="fw-bold"><i class="fas fa-list me-2"></i>Gallery List</span>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0" style="font-size:.88rem;">
+                    <thead style="background:#f8f9fa;">
+                        <tr>
+                            <th class="px-3 py-3">#</th>
+                            <th>Cover</th>
+                            <th>Gallery Name</th>
+                            <th>Slug</th>
+                            <th>Type</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Items</th>
+                            <th>Pin</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($galleries as $i => $g)
+                        <tr>
+                            <td class="px-3 text-muted">{{ $i+1 }}</td>
+                            <td>
+                                @if($g->cover_image_url)
+                                <img src="{{ $g->cover_image_url }}" width="50" height="40"
+                                     style="border-radius:6px;object-fit:cover;">
+                                @else
+                                <div style="width:50px;height:40px;border-radius:6px;background:#1a2a6c;display:flex;align-items:center;justify-content:center;">
+                                    <i class="fas {{ $g->type=='video' ? 'fa-video' : 'fa-images' }}" style="color:#fff;"></i>
+                                </div>
+                                @endif
+                            </td>
+                            <td class="fw-semibold" style="color:#1a2a6c;">{{ $g->name }}</td>
+                            <td><code style="font-size:.75rem;">{{ $g->slug }}</code></td>
+                            <td>
+                                <span class="badge" style="background:{{ $g->type=='video' ? '#dc3545' : '#0d6efd' }};">
+                                    <i class="fas {{ $g->type=='video' ? 'fa-video' : 'fa-image' }} me-1"></i>
+                                    {{ ucfirst($g->type) }}
+                                </span>
+                            </td>
+                            <td>{{ $g->start_date ? $g->start_date->format('d M Y') : '-' }}</td>
+                            <td>{{ $g->end_date ? $g->end_date->format('d M Y') : '-' }}</td>
+                            <td>
+                                <span class="badge bg-info text-dark">{{ $g->items_count }} items</span>
+                            </td>
+                            <td>
+                                @if($g->pin_to_home)
+                                <i class="fas fa-thumbtack text-warning"></i>
+                                @else
+                                <i class="fas fa-thumbtack text-muted" style="opacity:.3;"></i>
+                                @endif
+                            </td>
+                            <td>
+                                <span class="badge {{ $g->is_active ? 'bg-success' : 'bg-secondary' }}">
+                                    {{ $g->is_active ? 'Active' : 'Inactive' }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="d-flex gap-1">
+                                    <a href="{{ route('admin.gallery.items', $g) }}"
+                                       class="btn btn-sm btn-success" style="padding:4px 8px;" title="Add Items">
+                                        <i class="fas fa-plus" style="font-size:.75rem;"></i>
+                                    </a>
+                                    <a href="{{ route('admin.gallery.items', $g) }}"
+                                       class="btn btn-sm btn-outline-info" style="padding:4px 8px;" title="View Items">
+                                        <i class="fas fa-eye" style="font-size:.75rem;"></i>
+                                    </a>
+                                    <a href="{{ route('admin.gallery.edit', $g) }}"
+                                       class="btn btn-sm btn-outline-warning" style="padding:4px 8px;" title="Edit">
+                                        <i class="fas fa-edit" style="font-size:.75rem;"></i>
+                                    </a>
+                                    <form action="{{ route('admin.gallery.destroy', $g) }}"
+                                          method="POST" class="d-inline"
+                                          onsubmit="return confirm('Delete this gallery?')">
+                                        @csrf @method('DELETE')
+                                        <button class="btn btn-sm btn-outline-danger" style="padding:4px 8px;" title="Delete">
+                                            <i class="fas fa-trash" style="font-size:.75rem;"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="11" class="text-center py-5 text-muted">
+                                <i class="fas fa-images fa-3x mb-3 d-block" style="opacity:.2;"></i>
+                                Koi gallery nahi — pehle add karo!
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
-
-

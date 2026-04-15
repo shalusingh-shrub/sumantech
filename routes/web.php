@@ -66,6 +66,7 @@ Route::get('/news-events/{slug}', [NewsController::class, 'show'])->name('news.s
 Route::get('/image-gallery', [GalleryController::class, 'imageGallery'])->name('image-gallery');
 Route::get('/video-gallery', [GalleryController::class, 'videoGallery'])->name('video-gallery');
 Route::get('/image-gallery/media', [GalleryController::class, 'media'])->name('media');
+Route::get('/gallery/{slug}', [GalleryController::class, 'show'])->name('gallery.show');
 
 // Other pages
 Route::get('/project-shikshak-sathi', [HomeController::class, 'projectShikshakSathi'])->name('project-shikshak-sathi');
@@ -327,3 +328,10 @@ Route::delete('admin/marks/templates/{template}', [\App\Http\Controllers\Admin\C
 // Course Categories
 Route::resource('admin/course-categories', App\Http\Controllers\Admin\CourseCategoryController::class)->names('admin.course-categories')->middleware('auth');
 Route::resource('admin/course-categories', App\Http\Controllers\Admin\CourseCategoryController::class)->names('admin.course-categories')->middleware('auth');
+// Gallery
+Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('gallery', App\Http\Controllers\Admin\GalleryController::class);
+    Route::get('gallery/{gallery}/items', [App\Http\Controllers\Admin\GalleryController::class, 'manageItems'])->name('gallery.items');
+    Route::post('gallery/{gallery}/items', [App\Http\Controllers\Admin\GalleryController::class, 'storeItems'])->name('gallery.items.store');
+    Route::delete('gallery/items/{item}', [App\Http\Controllers\Admin\GalleryController::class, 'deleteItem'])->name('gallery.items.delete');
+});

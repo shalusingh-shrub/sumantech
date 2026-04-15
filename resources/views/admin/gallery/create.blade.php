@@ -1,58 +1,184 @@
-{{-- File: resources/views/admin/gallery/create.blade.php --}}
 @extends('layouts.admin')
-@section('page-title', 'Add Gallery Item')
+@section('title', 'Add Gallery')
 @section('content')
-<div class="d-flex justify-content-between mb-4">
-    <h5>Add Gallery Item</h5>
-    <a href="{{ route('admin.gallery.index') }}" class="btn btn-outline-secondary"><i class="fas fa-arrow-left me-2"></i>Back</a>
-</div>
-<div class="card data-card">
-    <div class="card-body p-4">
-        <form action="{{ route('admin.gallery.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label class="form-label fw-semibold">Title *</label>
-                    <input type="text" name="title" class="form-control" value="{{ old('title') }}" required>
+<div class="content-area">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="mb-0 fw-bold" style="color:#1a2a6c;">
+                <i class="fas fa-plus-circle me-2"></i>Add Gallery
+            </h4>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 mt-1" style="font-size:13px;">
+                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.gallery.index') }}">Gallery</a></li>
+                    <li class="breadcrumb-item active">Add</li>
+                </ol>
+            </nav>
+        </div>
+        <a href="{{ route('admin.gallery.index') }}" class="btn btn-outline-secondary btn-sm">
+            <i class="fas fa-arrow-left me-1"></i>Back
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-sm" style="border-radius:12px;">
+        <div class="card-body p-4">
+            @if($errors->any())
+            <div class="alert alert-danger">
+                @foreach($errors->all() as $e)<div><i class="fas fa-exclamation-circle me-1"></i>{{ $e }}</div>@endforeach
+            </div>
+            @endif
+
+            <form action="{{ route('admin.gallery.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="row g-3">
+
+                    {{-- Gallery Name --}}
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Gallery Name <span class="text-danger">*</span></label>
+                        <input type="text" name="name" class="form-control" required
+                               value="{{ old('name') }}"
+                               placeholder="e.g. Annual Function 2024"
+                               oninput="autoSlug(this)">
+                    </div>
+
+                    {{-- Slug --}}
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Slug <span class="text-danger">*</span></label>
+                        <input type="text" name="slug" id="slugField" class="form-control"
+                               value="{{ old('slug') }}"
+                               placeholder="e.g. annual-function-2024">
+                        <small class="text-muted">Auto-generate hoga name se</small>
+                    </div>
+
+                    {{-- Type --}}
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Type <span class="text-danger">*</span></label>
+                        <div class="d-flex gap-4 mt-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="type"
+                                       value="image" id="typeImage"
+                                       {{ old('type','image') == 'image' ? 'checked' : '' }}>
+                                <label class="form-check-label fw-semibold" for="typeImage">
+                                    <i class="fas fa-image me-1 text-primary"></i>Image
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="type"
+                                       value="video" id="typeVideo"
+                                       {{ old('type') == 'video' ? 'checked' : '' }}>
+                                <label class="form-check-label fw-semibold" for="typeVideo">
+                                    <i class="fas fa-video me-1 text-danger"></i>Video
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Start Date --}}
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">Start Date <span class="text-danger">*</span></label>
+                        <input type="date" name="start_date" class="form-control"
+                               value="{{ old('start_date') }}" required>
+                    </div>
+
+                    {{-- End Date --}}
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">End Date <span class="text-danger">*</span></label>
+                        <input type="date" name="end_date" class="form-control"
+                               value="{{ old('end_date') }}" required>
+                    </div>
+
+                    {{-- Description --}}
+                    <div class="col-md-12">
+                        <label class="form-label fw-semibold">Description <span class="text-danger">*</span></label>
+                        <textarea name="description" class="form-control" rows="3" required
+                                  placeholder="Gallery ke baare mein likhein...">{{ old('description') }}</textarea>
+                    </div>
+
+                    {{-- Meta Data --}}
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Meta Data <span class="text-danger">*</span></label>
+                        <input type="text" name="meta_data" class="form-control" required
+                               value="{{ old('meta_data') }}"
+                               placeholder="e.g. Annual function photos 2024">
+                    </div>
+
+                    {{-- Meta Keyword --}}
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Meta Keyword <span class="text-danger">*</span></label>
+                        <input type="text" name="meta_keyword" class="form-control" required
+                               value="{{ old('meta_keyword') }}"
+                               placeholder="e.g. annual, function, photos, 2024">
+                    </div>
+
+                    {{-- Cover Image --}}
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Cover Image</label>
+                        <input type="file" name="cover_image" class="form-control" accept="image/*">
+                        <small class="text-muted">Optional — nahi diya toh pehli image use hogi</small>
+                    </div>
+
+                    {{-- Pin to Home --}}
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold d-block">Pin to Home</label>
+                        <div class="d-flex gap-4 mt-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="pin_to_home"
+                                       value="1" id="pinYes"
+                                       {{ old('pin_to_home') == '1' ? 'checked' : '' }}>
+                                <label class="form-check-label" for="pinYes">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="pin_to_home"
+                                       value="0" id="pinNo" checked>
+                                <label class="form-check-label" for="pinNo">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Status --}}
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold d-block">Status</label>
+                        <div class="d-flex gap-4 mt-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="is_active"
+                                       value="1" id="statusActive" checked>
+                                <label class="form-check-label" for="statusActive">Active</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="is_active"
+                                       value="0" id="statusInactive"
+                                       {{ old('is_active') == '0' ? 'checked' : '' }}>
+                                <label class="form-check-label" for="statusInactive">Inactive</label>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="col-md-3 mb-3">
-                    <label class="form-label fw-semibold">Type *</label>
-                    <select name="type" class="form-select" id="typeSelect" onchange="toggleFields()">
-                        <option value="image">Image</option>
-                        <option value="video">Video</option>
-                        <option value="media">Media</option>
-                    </select>
+
+                <hr class="my-4">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary px-5 fw-bold">
+                        <i class="fas fa-save me-2"></i>Save & Continue
+                    </button>
+                    <a href="{{ route('admin.gallery.index') }}" class="btn btn-secondary px-4 ms-2">Cancel</a>
                 </div>
-                <div class="col-md-3 mb-3">
-                    <label class="form-label fw-semibold">Category</label>
-                    <input type="text" name="category" class="form-control" value="{{ old('category') }}" placeholder="e.g. events">
-                </div>
-            </div>
-            <div id="imageField" class="mb-3">
-                <label class="form-label fw-semibold">Image File</label>
-                <input type="file" name="image" class="form-control" accept="image/*">
-            </div>
-            <div id="videoField" class="mb-3" style="display:none;">
-                <label class="form-label fw-semibold">Video URL (YouTube etc.)</label>
-                <input type="url" name="video_url" class="form-control" value="{{ old('video_url') }}" placeholder="https://www.youtube.com/watch?v=...">
-            </div>
-            <div class="form-check mb-3">
-                <input type="checkbox" name="is_active" class="form-check-input" value="1" checked>
-                <label class="form-check-label">Active</label>
-            </div>
-            <button type="submit" class="btn btn-tob px-4"><i class="fas fa-save me-2"></i>Save</button>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
-@push('scripts')
+
 <script>
-function toggleFields() {
-    const type = document.getElementById('typeSelect').value;
-    document.getElementById('imageField').style.display = type !== 'video' ? 'block' : 'none';
-    document.getElementById('videoField').style.display = type === 'video' ? 'block' : 'none';
+function autoSlug(input) {
+    const slugField = document.getElementById('slugField');
+    if (!slugField.dataset.manual) {
+        slugField.value = input.value.toLowerCase()
+            .replace(/[^a-z0-9\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/-+/g, '-').trim();
+    }
 }
+document.getElementById('slugField').addEventListener('input', function() {
+    this.dataset.manual = this.value ? 'true' : '';
+});
 </script>
-@endpush
 @endsection
-
-
