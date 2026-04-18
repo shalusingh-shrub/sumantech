@@ -5,6 +5,10 @@
 /vendor/
 /node_modules/
 
+# Bootstrap cache
+
+/bootstrap/cache/
+
 # Environment files
 
 .env
@@ -18,16 +22,12 @@
 # Laravel storage (keep structure, ignore contents)
 
 /storage/*
-!/storage/app/
-/storage/app/*
-!/storage/app/public/
-/storage/framework/
-/storage/logs/
+!/storage/.gitignore
 
 # Public storage symlink
 
 /public/storage
-
+ 
 # Build / frontend
 
 /public/build
