@@ -11,19 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-<<<<<<<< HEAD:database/migrations/2026_04_14_123110_add_slug_to_courses_table.php
         Schema::table('courses', function (Blueprint $table) {
-            //
-========
-        if (Schema::hasTable('migrations')) {
-            return;
-        }
-
-        Schema::create('migrations', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('migration');
-            $table->integer('batch');
->>>>>>>> main:database/migrations/2026_04_13_161445_create_migrations_table.php
+            $table->string('slug')->unique()->nullable()->after('name');
         });
     }
 
@@ -32,12 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-<<<<<<<< HEAD:database/migrations/2026_04_14_123110_add_slug_to_courses_table.php
         Schema::table('courses', function (Blueprint $table) {
-            //
+            $table->dropColumn('slug');
         });
-========
-        Schema::dropIfExists('migrations');
->>>>>>>> main:database/migrations/2026_04_13_161445_create_migrations_table.php
     }
 };
