@@ -1,19 +1,31 @@
 <?php
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Course extends Model
 {
     protected $fillable = [
-        'name', 'duration', 'fee', 'is_active',
+        'name', 'slug', 'duration', 'fee', 'is_active',
         'description', 'image', 'highlights',
-        'syllabus', 'course_level', 'career_opportunities', 'eligibility',
+        'syllabus', 'course_level', 'career_opportunities', 'eligibility'
     ];
 
-    protected $casts = [
-    'syllabus'  => 'array',
-    'is_active' => 'boolean',
-];
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            if (!$model->slug) {
+                $model->slug = Str::slug($model->name);
+            }
+        });
+        static::updating(function ($model) {
+            if (!$model->slug) {
+                $model->slug = Str::slug($model->name);
+            }
+        });
+    }
 
     public function getImageUrlAttribute()
     {

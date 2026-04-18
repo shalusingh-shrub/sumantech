@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class CourseController extends Controller
 {
@@ -29,6 +30,7 @@ class CourseController extends Controller
     {
         $request->validate([
             'name'        => 'required|string|max:255',
+            'slug'        => 'nullable|string|unique:courses,slug',
             'duration'    => 'required|string|max:100',
             'fee'         => 'required|numeric|min:0',
             'image'       => 'nullable|image|max:2048',
@@ -37,6 +39,7 @@ class CourseController extends Controller
         ]);
 
         $data = $request->except(['image', 'syllabus']);
+        $data['slug'] = $request->slug ?: Str::slug($request->name);
 
         if ($request->has('syllabus')) {
             $syllabus = [];
@@ -68,6 +71,7 @@ class CourseController extends Controller
     {
         $request->validate([
             'name'        => 'required|string|max:255',
+            'slug'        => 'nullable|string|unique:courses,slug,' . $course->id,
             'duration'    => 'required|string|max:100',
             'fee'         => 'required|numeric|min:0',
             'image'       => 'nullable|image|max:2048',
@@ -75,23 +79,8 @@ class CourseController extends Controller
             'highlights'  => 'nullable|string',
         ]);
 
-        $data = $request->except(['image', 'syllabus']);
-
-        // Syllabus process
-        if ($request->has('syllabus')) {
-            $syllabus = [];
-            foreach ($request->syllabus as $section) {
-                if (!empty($section['section'])) {
-                    $syllabus[] = [
-                        'section' => $section['section'],
-                        'topics'  => array_values(array_filter($section['topics'] ?? [])),
-                    ];
-                }
-            }
-            $data['syllabus'] = json_encode($syllabus);
-        } else {
-            $data['syllabus'] = null;
-        }
+        $data = $request->except('image');
+        $data['slug'] = $request->slug ?: Str::slug($request->name);
 
         if ($request->hasFile('image')) {
             if ($course->image) Storage::disk('public')->delete($course->image);

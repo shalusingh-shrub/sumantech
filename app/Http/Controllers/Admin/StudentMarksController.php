@@ -5,28 +5,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Student;
 use App\Models\StudentCourse;
 use App\Models\StudentMark;
+use App\Models\CourseMarksTemplate;
 use Illuminate\Http\Request;
 
 class StudentMarksController extends Controller
 {
-    private $courseSubjects = [
-        'DCA' => ['Computer Fundamentals', 'MS Word', 'MS Excel', 'MS PowerPoint', 'Internet & Email', 'Typing'],
-        'ADCA' => ['Computer Fundamentals', 'MS Office', 'Tally Prime', 'Internet', 'HTML Basics', 'Typing', 'Project Work'],
-        'Advanced Diploma in Computer Application' => ['Computer Fundamentals', 'MS Office', 'Tally Prime', 'Internet', 'HTML & CSS', 'Typing', 'Project Work'],
-        'Tally Prime' => ['Tally Fundamentals', 'GST in Tally', 'Accounting', 'Inventory', 'Payroll'],
-        'DIGITA' => ['GST Fundamentals', 'Income Tax', 'Tally Prime', 'Accounting', 'E-Filing'],
-        'HTML - Web Development' => ['HTML', 'CSS', 'JavaScript', 'Responsive Design', 'Project'],
-        'Digital Marketing' => ['SEO', 'Social Media Marketing', 'Google Ads', 'Email Marketing', 'Analytics'],
-        'MS Office' => ['MS Word', 'MS Excel', 'MS PowerPoint', 'MS Access', 'Typing'],
-        'DTP (Desktop Publishing)' => ['CorelDraw', 'Photoshop', 'PageMaker', 'Printing Basics'],
-        'Programming (C/C++/Python)' => ['C Programming', 'C++ Programming', 'Python Basics', 'Data Structures', 'Project'],
-    ];
-
     public function index(Student $student, StudentCourse $studentCourse)
     {
-        $marks = \App\Models\StudentMark::where('student_course_id', $studentCourse->id)->get();
-        $subjects = $this->courseSubjects[$studentCourse->course_name] ?? ['Subject 1', 'Subject 2', 'Subject 3'];
-        return view('admin.marks.index', compact('student', 'studentCourse', 'subjects', 'marks'));
+        $marks    = $studentCourse->studentMarks()->get();
+        $template = CourseMarksTemplate::where('course_name', $studentCourse->course_name)->first();
+        return view('admin.marks.index', compact('student', 'studentCourse', 'marks', 'template'));
     }
 
     public function store(Request $request, Student $student, StudentCourse $studentCourse)
@@ -40,25 +28,45 @@ class StudentMarksController extends Controller
         // Delete old marks
         $studentCourse->studentMarks()->delete();
 
-        // Save new marks
+        $template      = CourseMarksTemplate::where('course_name', $studentCourse->course_name)->first();
+        $totalMax      = 0;
+        $totalObtained = 0;
+
         foreach ($request->subjects as $i => $subject) {
             if ($subject) {
+                $max      = (int)($request->max_marks[$i] ?? 0);
+                $obtained = (int)($request->obtained[$i] ?? 0);
+                $totalMax      += $max;
+                $totalObtained += $obtained;
+
+                $pct   = $max > 0 ? round(($obtained / $max) * 100, 1) : 0;
+                $grade = 'N/A';
+                $result= 'N/A';
+
+                if ($template) {
+                    $gradeInfo = $template->calculateGrade($pct);
+                    $grade     = $gradeInfo['grade'];
+                    $result    = $gradeInfo['result'];
+                }
+
                 StudentMark::create([
                     'student_course_id' => $studentCourse->id,
                     'subject_name'      => $subject,
-                    'max_marks'         => $request->max_marks[$i] ?? 100,
-                    'obtained_marks'    => $request->obtained[$i] ?? 0,
+                    'max_marks'         => $max,
+                    'obtained_marks'    => $obtained,
+                    'grade'             => $grade,
+                    'result'            => $result,
+                    'notes'             => $request->notes ?? null,
                 ]);
             }
         }
 
-        // Update total marks in student_courses
-        $freshMarks = \App\Models\StudentMark::where('student_course_id', $studentCourse->id)->get();
-        $total = $freshMarks->sum('max_marks');
-        $obtained = $freshMarks->sum('obtained_marks');
-        $percentage = $total > 0 ? round(($obtained / $total) * 100, 2) : 0;
-        $studentCourse->update(['marks' => $percentage . '%']);
+        // Update completion date if provided
+        if ($request->filled('completion_date')) {
+            $studentCourse->update(['end_date' => $request->completion_date]);
+        }
 
-        return redirect()->route('admin.registration.show', $student)->with('success', 'Marks save ho gaye!');
+        return redirect()->route('admin.marks.index', [$student, $studentCourse])
+                         ->with('success', 'Marks saved successfully!');
     }
 }
