@@ -179,14 +179,20 @@ function removeRow(btn) {
 function updateRowNumbers() {
     document.querySelectorAll('#subjectsBody tr').forEach((tr, i) => {
         tr.cells[0].textContent = i + 1;
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 function calcTotal() {
     let total = 0;
     document.querySelectorAll('#subjectsBody input[name*="[max_marks]"]').forEach(inp => {
         total += parseFloat(inp.value) || 0;
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
     document.getElementById('totalMax').textContent = total;
 }
 
@@ -259,7 +265,10 @@ function setDefaultGrades() {
           </button>
         </div>`;
         document.getElementById('gradesBody').insertAdjacentHTML('beforeend', html);
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 function setCourseNameFromSelect(sel) {
@@ -272,3 +281,6 @@ function setCourseNameFromSelect(sel) {
 calcTotal();
 </script>
 @endsection
+
+
+

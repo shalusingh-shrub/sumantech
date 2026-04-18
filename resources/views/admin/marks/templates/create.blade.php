@@ -207,7 +207,10 @@ function calcTotal() {
     let total = 0;
     document.querySelectorAll('#subjectRows input[name*="[max]"]').forEach(i => {
         total += parseInt(i.value) || 0;
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
     document.getElementById('totalMax').textContent = total;
 }
 
@@ -215,7 +218,10 @@ function updateRowNumbers() {
     document.querySelectorAll('#subjectRows tr').forEach((row, i) => {
         const num = row.querySelector('.row-num');
         if (num) num.textContent = i + 1;
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 function setCourseNameFromSelect(sel) {
@@ -227,6 +233,12 @@ function setCourseNameFromSelect(sel) {
 
 document.querySelectorAll('#subjectRows input[name*="[max]"]').forEach(i => {
     i.addEventListener('change', calcTotal);
-});
+})
+        .catch(error => {
+            console.error(error);
+        });
 </script>
 @endsection
+
+
+

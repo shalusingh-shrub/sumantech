@@ -217,7 +217,10 @@
 // Image upload area click
 document.getElementById('uploadArea')?.addEventListener('click', function() {
     document.getElementById('imageInput').click();
-});
+})
+        .catch(error => {
+            console.error(error);
+        });
 
 // Drag & Drop
 const uploadArea = document.getElementById('uploadArea');
@@ -225,17 +228,26 @@ if (uploadArea) {
     uploadArea.addEventListener('dragover', e => {
         e.preventDefault();
         uploadArea.style.background = '#e8edff';
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
     uploadArea.addEventListener('dragleave', () => {
         uploadArea.style.background = '#f8f9ff';
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
     uploadArea.addEventListener('drop', e => {
         e.preventDefault();
         uploadArea.style.background = '#f8f9ff';
         const input = document.getElementById('imageInput');
         input.files = e.dataTransfer.files;
         previewImages(input);
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 function previewImages(input) {
@@ -257,7 +269,10 @@ function previewImages(input) {
                 </div>`;
         };
         reader.readAsDataURL(file);
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
     if (input.files.length > 5) {
         container.innerHTML += `<div class="col-12"><small class="text-danger fw-semibold">⚠️ Sirf pehli 5 images upload hongi!</small></div>`;
     }
@@ -269,3 +284,6 @@ function toggleVideoSource(type) {
 }
 </script>
 @endsection
+
+
+

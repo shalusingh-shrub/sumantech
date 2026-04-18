@@ -130,23 +130,33 @@
 </form>
 @endsection
 @push('scripts')
-<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/super-build/ckeditor.js"></script>
 <script>
-CKEDITOR.replace('contentEditor', {
-    height: 350,
-    toolbar: [
-        { name: 'document', items: ['Source'] },
-        { name: 'clipboard', items: ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo'] },
-        { name: 'basicstyles', items: ['Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat'] },
-        { name: 'paragraph', items: ['NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'] },
-        { name: 'links', items: ['Link','Unlink'] },
-        { name: 'insert', items: ['Image','Table','HorizontalRule','SpecialChar'] },
-        { name: 'styles', items: ['Styles','Format','Font','FontSize'] },
-        { name: 'colors', items: ['TextColor','BGColor'] },
-        { name: 'tools', items: ['Maximize'] }
-    ],
-    filebrowserUploadUrl: '',
-    removePlugins: 'exportpdf'
+CKEDITOR.create(document.querySelector('#contentEditor'), {
+    toolbar: {
+        items: [
+            'heading', '|',
+            'bold', 'italic', 'strikethrough', 'underline', '|',
+            'fontSize', 'fontColor', 'fontBackgroundColor', '|',
+            'bulletedList', 'numberedList', '|',
+            'link', 'blockQuote', 'insertImage', '|',
+            'undo', 'redo'
+        ],
+        shouldNotGroupWhenFull: true
+    },
+    language: 'en',
+    image: {
+        toolbar: [
+            'imageStyle:inline',
+            'imageStyle:block',
+            'imageStyle:side',
+            'linkImage',
+            'toggleImageCaption',
+            'imageTextAlternative'
+        ]
+    }
+}).catch(error => {
+    console.error(error);
 });
 
 document.getElementById('titleInput').addEventListener('keyup', function() {
@@ -155,11 +165,22 @@ document.getElementById('titleInput').addEventListener('keyup', function() {
         document.getElementById('slugInput').value = slug;
     }
 });
+</script>
+@endpush
+        .catch(error => {
+            console.error(error);
+        });
 document.querySelectorAll('input[name="news_type"]').forEach(function(el) {
     el.addEventListener('change', function() {
         document.getElementById('eventDateWrap').style.display = this.value === 'event' ? 'block' : 'none';
-    });
-});
+    })
+        .catch(error => {
+            console.error(error);
+        });
+})
+        .catch(error => {
+            console.error(error);
+        });
 document.getElementById('imageInput').addEventListener('change', function() {
     var file = this.files[0];
     if (file) {
@@ -171,8 +192,14 @@ document.getElementById('imageInput').addEventListener('change', function() {
         };
         reader.readAsDataURL(file);
     }
-});
+})
+        .catch(error => {
+            console.error(error);
+        });
 </script>
 @endpush
+
+
+
 
 

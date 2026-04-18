@@ -188,3 +188,6 @@ function loadCourseDetails(select) {
 }
 </script>
 @endsection
+
+
+

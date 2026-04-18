@@ -321,16 +321,28 @@ function loadEdit(questionId, quizId) {
                     const chkEl = document.getElementById('edit_mc_' + i);
                     if (optEl) optEl.value = opt.option_text;
                     if (chkEl) chkEl.checked = opt.is_correct;
-                });
+                })
+        .catch(error => {
+            console.error(error);
+        });
             } else {
                 opts.forEach((opt, i) => {
                     const optEl = document.getElementById('edit_opt_' + i);
                     const radEl = document.getElementById('edit_correct_' + i);
                     if (optEl) optEl.value = opt.option_text;
                     if (radEl && opt.is_correct) radEl.checked = true;
-                });
+                })
+        .catch(error => {
+            console.error(error);
+        });
             }
-            document.querySelector('.card-body').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            document.querySelector('#.card-body').scrollIntoView({ behavior: 'smooth', block: 'start' })
+        .catch(error => {
+            console.error(error);
+        });
+        })
+        .catch(error => {
+            console.error(error);
         });
 }
 
@@ -342,3 +354,6 @@ function cancelEdit() {
 }
 </script>
 @endsection
+
+
+

@@ -179,6 +179,12 @@ function autoSlug(input) {
 }
 document.getElementById('slugField').addEventListener('input', function() {
     this.dataset.manual = this.value ? 'true' : '';
-});
+})
+        .catch(error => {
+            console.error(error);
+        });
 </script>
 @endsection
+
+
+

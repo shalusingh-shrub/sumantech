@@ -83,22 +83,59 @@
 </form>
 @endsection
 @push('scripts')
-<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/super-build/ckeditor.js"></script>
 <script>
-CKEDITOR.replace('descriptionEditor', {
-    toolbar: [
-        ['Source', '-', 'Bold', 'Italic', 'Underline', 'Strike'],
-        ['NumberedList', 'BulletedList', '-', 'Blockquote'],
-        ['Link', 'Unlink', 'Image', 'Table'],
-        ['Styles', 'Format', 'Font', 'FontSize'],
-        ['TextColor', 'BGColor'],
-        ['Maximize']
-    ],
-    height: 300,
-    removePlugins: 'elementspath',
-    resize_enabled: true
-});
+    CKEDITOR.create(document.querySelector('#descriptionEditor'), {
+        toolbar: {
+            items: [
+                'exportPDF','exportWord', '|',
+                'findAndReplace', 'selectAll', '|',
+                'heading', '|',
+                'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
+                'bulletedList', 'numberedList', 'todoList', '|',
+                'outdent', 'indent', '|',
+                'undo', 'redo',
+                '-',
+                'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
+                'alignment', '|',
+                'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed', '|',
+                'specialCharacters', 'horizontalLine', 'pageBreak', '|',
+                'textPartLanguage', '|',
+                'sourceEditing'
+            ],
+            shouldNotGroupWhenFull: true
+        },
+        language: 'en',
+        image: {
+            toolbar: [
+                'imageStyle:inline',
+                'imageStyle:block',
+                'imageStyle:side',
+                'linkImage',
+                'toggleImageCaption',
+                'imageTextAlternative'
+            ]
+        },
+        table: {
+            contentToolbar: [
+                'tableColumn',
+                'tableRow',
+                'mergeTableCells',
+                'tableCellProperties',
+                'tableProperties'
+            ]
+        }
+    }).catch(error => {
+        console.error(error);
+    });
 </script>
 @endpush
+</script>
+@endpush
+</script>
+@endpush
+
+
+
 
 

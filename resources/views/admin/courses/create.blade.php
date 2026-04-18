@@ -98,6 +98,12 @@ document.getElementById('slugField').addEventListener('input', function() {
     } else {
         delete this.dataset.manual;
     }
-});
+})
+        .catch(error => {
+            console.error(error);
+        });
 </script>
 @endsection
+
+
+

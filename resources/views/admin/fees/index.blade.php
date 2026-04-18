@@ -236,7 +236,13 @@ document.getElementById('markPaidModal').addEventListener('show.bs.modal', funct
   const receipt = btn.getAttribute('data-receipt');
   document.getElementById('receiptLabel').textContent = receipt;
   document.getElementById('markPaidForm').action = '/admin/fees/' + id + '/mark-paid';
-});
+})
+        .catch(error => {
+            console.error(error);
+        });
 </script>
 @endpush
 @endsection
+
+
+

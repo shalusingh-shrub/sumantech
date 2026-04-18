@@ -170,11 +170,17 @@ var t = document.getElementById('user_type').value;
 if (t) {
     document.querySelectorAll('.type-card').forEach(function(c) {
         if (c.querySelector('p').innerText.toLowerCase() === t) c.classList.add('active');
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
     if (t === 'student') document.getElementById('student-fields').style.display = 'block';
 }
 </script>
 </body>
 </html>
+
+
+
 
 

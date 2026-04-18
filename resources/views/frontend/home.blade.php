@@ -402,10 +402,19 @@ $(document).ready(function() {
         autoplayTimeout: 5000, autoplayHoverPause: true,
         nav: true, dots: true,
         navText: ['<i class="fas fa-chevron-left"></i>', '<i class="fas fa-chevron-right"></i>'],
-    });
-});
+    })
+        .catch(error => {
+            console.error(error);
+        });
+})
+        .catch(error => {
+            console.error(error);
+        });
 </script>
 @endpush
+
+
+
 
 
 

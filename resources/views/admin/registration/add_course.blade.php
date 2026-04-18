@@ -196,7 +196,10 @@
         document.getElementById('courseFeeHidden').value  = fee;
         document.getElementById('discountInput').value    = '0';
         calcFinal();
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
 
     document.getElementById('discountInput').addEventListener('input', calcFinal);
 
@@ -208,3 +211,6 @@
     }
 </script>
 @endsection
+
+
+

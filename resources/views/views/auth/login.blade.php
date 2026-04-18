@@ -143,18 +143,24 @@
     }
 
     // Validate captcha before submit
-    document.querySelector('form').addEventListener('submit', function(e) {
+    document.querySelector('#form').addEventListener('submit', function(e) {
         const input = document.getElementById('captchaInput').value.trim();
         if (input !== captchaText) {
             e.preventDefault();
             alert('CAPTCHA galat hai! Please dobara try karein.');
             generateCaptcha();
         }
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
 
     // Init on load
     generateCaptcha();
 </script>
 </html>
+
+
+
 
 

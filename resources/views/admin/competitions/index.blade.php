@@ -136,9 +136,18 @@ $(document).ready(function() {
             { extend: 'print', text: 'Print', className: 'btn btn-sm btn-outline-secondary' },
         ],
         columnDefs: [{ orderable: false, targets: '_all' }]
-    });
-});
+    })
+        .catch(error => {
+            console.error(error);
+        });
+})
+        .catch(error => {
+            console.error(error);
+        });
 </script>
 @endpush
+
+
+
 
 

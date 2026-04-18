@@ -50,8 +50,38 @@
 </form>
 @endsection
 @push('scripts')
-<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
-<script>CKEDITOR.replace('descriptionEditor', { height: 300, removePlugins: 'elementspath' });</script>
+<script src="https://cdn.ckeditor.com/ckeditor5/40.1.0/super-build/ckeditor.js"></script>
+<script>
+CKEDITOR.create(document.querySelector('#descriptionEditor'), {
+    toolbar: {
+        items: [
+            'heading', '|',
+            'bold', 'italic', 'strikethrough', 'underline', '|',
+            'fontSize', 'fontColor', 'fontBackgroundColor', '|',
+            'bulletedList', 'numberedList', '|',
+            'link', 'blockQuote', 'insertImage', '|',
+            'undo', 'redo'
+        ],
+        shouldNotGroupWhenFull: true
+    },
+    language: 'en',
+    image: {
+        toolbar: [
+            'imageStyle:inline',
+            'imageStyle:block',
+            'imageStyle:side',
+            'linkImage',
+            'toggleImageCaption',
+            'imageTextAlternative'
+        ]
+    }
+}).catch(error => {
+    console.error(error);
+});
+</script>
 @endpush
+
+
+
 
 

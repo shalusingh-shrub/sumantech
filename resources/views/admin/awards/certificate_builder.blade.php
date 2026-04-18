@@ -159,7 +159,10 @@ var elems   = [];
 var selIdx  = -1;
 
 function getTodayDate() {
-    return new Date().toLocaleDateString('en-IN', {day:'2-digit', month:'long', year:'numeric'});
+    return new Date().toLocaleDateString('en-IN', {day:'2-digit', month:'long', year:'numeric'})
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 // ── Load saved layout ──────────────────────────────
@@ -171,10 +174,16 @@ window.addEventListener('load', function() {
             saved.forEach(function(d) {
                 if (d.kind === 'image') restoreImage(d);
                 else restoreText(d);
-            });
+            })
+        .catch(error => {
+            console.error(error);
+        });
         }, 400);
     }
-});
+})
+        .catch(error => {
+            console.error(error);
+        });
 @endif
 
 // ── Add text element ──────────────────────────────
@@ -198,10 +207,16 @@ function restoreText(d) {
 
     var idx = elems.length;
     div.dataset.idx = idx;
-    div.addEventListener('click', function(e) { e.stopPropagation(); selectElem(parseInt(this.dataset.idx)); });
+    div.addEventListener('click', function(e) { e.stopPropagation(); selectElem(parseInt(this.dataset.idx)); })
+        .catch(error => {
+            console.error(error);
+        });
     makeDrag(div);
     canvas.appendChild(div);
-    elems.push({ el:div, kind:'text', type:d.type, label:d.label, x:d.x, y:d.y, fs:d.fs, color:d.color, fw:d.fw, fi:d.fi||'normal', align:d.align });
+    elems.push({ el:div, kind:'text', type:d.type, label:d.label, x:d.x, y:d.y, fs:d.fs, color:d.color, fw:d.fw, fi:d.fi||'normal', align:d.align })
+        .catch(error => {
+            console.error(error);
+        });
     selectElem(idx);
     refreshLayers();
 }
@@ -240,10 +255,16 @@ function restoreImage(d) {
 
     var idx = elems.length;
     div.dataset.idx = idx;
-    div.addEventListener('click', function(e) { e.stopPropagation(); selectElem(parseInt(this.dataset.idx)); });
+    div.addEventListener('click', function(e) { e.stopPropagation(); selectElem(parseInt(this.dataset.idx)); })
+        .catch(error => {
+            console.error(error);
+        });
     makeDrag(div);
     canvas.appendChild(div);
-    elems.push({ el:div, kind:'image', src:d.src, x:d.x, y:d.y, w:d.w||80 });
+    elems.push({ el:div, kind:'image', src:d.src, x:d.x, y:d.y, w:d.w||80 })
+        .catch(error => {
+            console.error(error);
+        });
     selectElem(idx);
     refreshLayers();
 }
@@ -316,7 +337,10 @@ function deleteElem() {
     if (selIdx < 0) return;
     elems[selIdx].el.remove();
     elems.splice(selIdx, 1);
-    elems.forEach(function(e, i) { e.el.dataset.idx = i; });
+    elems.forEach(function(e, i) { e.el.dataset.idx = i; })
+        .catch(error => {
+            console.error(error);
+        });
     selIdx = -1;
     document.getElementById('propCard').style.display = 'none';
     refreshLayers();
@@ -347,7 +371,10 @@ function makeDrag(div) {
         }
         document.addEventListener('mousemove', mv);
         document.addEventListener('mouseup', up);
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 // ── Layers panel ──────────────────────────────────
@@ -362,13 +389,19 @@ function refreshLayers() {
         item.innerHTML = '<span onclick="selectElem(' + i + ')"><i class="fas ' + icon + ' me-1"></i>' + name.substring(0, 20) + '</span>'
                        + '<button class="del-layer" onclick="deleteByIdx(' + i + ')"><i class="fas fa-times"></i></button>';
         list.appendChild(item);
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 function deleteByIdx(idx) {
     elems[idx].el.remove();
     elems.splice(idx, 1);
-    elems.forEach(function(e, i) { e.el.dataset.idx = i; });
+    elems.forEach(function(e, i) { e.el.dataset.idx = i; })
+        .catch(error => {
+            console.error(error);
+        });
     if (selIdx === idx) {
         selIdx = -1;
         document.getElementById('propCard').style.display = 'none';
@@ -379,17 +412,26 @@ function deleteByIdx(idx) {
 // ── Click outside deselects ───────────────────────
 document.addEventListener('click', function(e) {
     if (!e.target.closest('.cert-el') && !e.target.closest('#propCard')) selectElem(-1);
-});
+})
+        .catch(error => {
+            console.error(error);
+        });
 
 // ── Prepare save ──────────────────────────────────
 function prepSave() {
     var layout = elems.map(function(e) {
         if (e.kind === 'image') return { kind:'image', src:e.src, x:e.x, y:e.y, w:e.w };
         return { kind:'text', type:e.type, label:e.label, x:e.x, y:e.y, fs:e.fs, color:e.color, fw:e.fw, fi:e.fi, align:e.align };
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
     document.getElementById('layoutData').value = JSON.stringify(layout);
 }
 </script>
 @endpush
+
+
+
 
 

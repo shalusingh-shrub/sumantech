@@ -83,9 +83,9 @@
 </form>
 @endsection
 @push('scripts')
-<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@ckeditor/ckeditor5-build-classic@40.1.0/build/ckeditor.js"></script>
 <script>
-CKEDITOR.replace('descriptionEditor', {
+ClassicEditor.create(document.querySelector('#descriptionEditor', {
     toolbar: [
         ['Source', '-', 'Bold', 'Italic', 'Underline', 'Strike'],
         ['NumberedList', 'BulletedList', '-', 'Blockquote'],
@@ -97,8 +97,14 @@ CKEDITOR.replace('descriptionEditor', {
     height: 300,
     removePlugins: 'elementspath',
     resize_enabled: true
-});
+})
+        .catch(error => {
+            console.error(error);
+        });
 </script>
 @endpush
+
+
+
 
 

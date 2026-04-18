@@ -254,14 +254,23 @@ document.getElementById("sidebarToggle").addEventListener("click", function() {
     sidebar.classList.toggle("collapsed");
     mainContent.classList.toggle("expanded");
     overlay.classList.toggle("active");
-});
+})
+        .catch(error => {
+            console.error(error);
+        });
 document.getElementById("sidebarOverlay").addEventListener("click", function() {
     document.querySelector(".sidebar").classList.remove("collapsed");
     document.querySelector(".main-content").classList.remove("expanded");
     this.classList.remove("active");
-});
+})
+        .catch(error => {
+            console.error(error);
+        });
 </script>
 </body>
 </html>
+
+
+
 
 

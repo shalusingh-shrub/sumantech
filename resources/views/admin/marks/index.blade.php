@@ -223,7 +223,10 @@ function calcTotals() {
     document.querySelectorAll('#marksRows tr').forEach(row => {
         totalMax += parseFloat(row.querySelector('.max-input')?.value) || 0;
         totalObt += parseFloat(row.querySelector('.obtained-input')?.value) || 0;
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
     document.getElementById('totalMax').textContent      = totalMax;
     document.getElementById('totalObtained').textContent = totalObt;
     const pct = totalMax > 0 ? ((totalObt / totalMax) * 100).toFixed(1) : 0;
@@ -260,10 +263,16 @@ function updateRowNumbers() {
     document.querySelectorAll('#marksRows tr').forEach((row, i) => {
         const first = row.querySelector('td:first-child');
         if (first) first.textContent = i + 1;
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 // Init
 calcTotals();
 </script>
 @endsection
+
+
+

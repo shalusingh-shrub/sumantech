@@ -82,12 +82,21 @@
 <script>
 document.getElementById('hasCert').addEventListener('change', function() {
     document.getElementById('certUploadSection').style.display = this.checked ? 'block' : 'none';
-});
+})
+        .catch(error => {
+            console.error(error);
+        });
 </script>
 @endpush
 @push('scripts')
-<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
-<script>CKEDITOR.replace('descriptionEditor', { height: 250, removePlugins: 'elementspath' });</script>
+<script src="https://cdn.jsdelivr.net/npm/@ckeditor/ckeditor5-build-classic@40.1.0/build/ckeditor.js"></script>
+<script>ClassicEditor.create(document.querySelector('#descriptionEditor', { height: 250, removePlugins: 'elementspath' })
+        .catch(error => {
+            console.error(error);
+        });</script>
 @endpush
+
+
+
 
 

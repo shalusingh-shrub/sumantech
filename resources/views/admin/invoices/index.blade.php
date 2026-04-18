@@ -209,7 +209,13 @@ function loadCourseFee(select) {
 document.addEventListener('DOMContentLoaded', function() {
   const sel = document.getElementById('courseSelect');
   if (sel && sel.value) loadCourseFee(sel);
-});
+})
+        .catch(error => {
+            console.error(error);
+        });
 </script>
 
 @endsection
+
+
+

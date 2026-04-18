@@ -158,6 +158,12 @@ document.addEventListener('keydown', e => {
         if (e.key === 'ArrowLeft') prevImg();
         if (e.key === 'Escape') closeLightbox();
     }
-});
+})
+        .catch(error => {
+            console.error(error);
+        });
 </script>
 @endsection
+
+
+

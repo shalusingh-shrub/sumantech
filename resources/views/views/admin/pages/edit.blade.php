@@ -43,8 +43,14 @@
 </form>
 @endsection
 @push('scripts')
-<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
-<script>CKEDITOR.replace('contentEditor', { height: 400, removePlugins: 'elementspath' });</script>
+<script src="https://cdn.jsdelivr.net/npm/@ckeditor/ckeditor5-build-classic@40.1.0/build/ckeditor.js"></script>
+<script>ClassicEditor.create(document.querySelector('#contentEditor', { height: 400, removePlugins: 'elementspath' })
+        .catch(error => {
+            console.error(error);
+        });</script>
 @endpush
+
+
+
 
 

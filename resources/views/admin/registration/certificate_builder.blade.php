@@ -392,8 +392,14 @@ function makeDraggable(el) {
         const mu = () => { moving = false; document.removeEventListener('mousemove', mm); document.removeEventListener('mouseup', mu); };
         document.addEventListener('mousemove', mm);
         document.addEventListener('mouseup',   mu);
-    });
-    el.addEventListener('click', e => { e.stopPropagation(); selectEl(el); });
+    })
+        .catch(error => {
+            console.error(error);
+        });
+    el.addEventListener('click', e => { e.stopPropagation(); selectEl(el); })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 function selectEl(el) {
@@ -458,12 +464,18 @@ cv.addEventListener('click', e => {
         sel = null;
         document.getElementById('propsPanel').style.display = 'none';
     }
-});
+})
+        .catch(error => {
+            console.error(error);
+        });
 
 async function downloadPNG() {
     if (sel) sel.classList.remove('selected');
     document.querySelectorAll('.resize-h').forEach(r => r.style.display = 'none');
-    const c2 = await html2canvas(cv, { scale: 2, useCORS: true, backgroundColor: null });
+    const c2 = await html2canvas(cv, { scale: 2, useCORS: true, backgroundColor: null })
+        .catch(error => {
+            console.error(error);
+        });
     const a = document.createElement('a');
     a.download = 'Certificate_' + SD.certId + '.png';
     a.href = c2.toDataURL('image/png');
@@ -475,10 +487,16 @@ async function downloadPNG() {
 async function downloadPDF() {
     if (sel) sel.classList.remove('selected');
     document.querySelectorAll('.resize-h').forEach(r => r.style.display = 'none');
-    const c2 = await html2canvas(cv, { scale: 2, useCORS: true, backgroundColor: null });
+    const c2 = await html2canvas(cv, { scale: 2, useCORS: true, backgroundColor: null })
+        .catch(error => {
+            console.error(error);
+        });
     const img = c2.toDataURL('image/png');
     const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF({ orientation: 'landscape', unit: 'px', format: [cv.offsetWidth, cv.offsetHeight] });
+    const pdf = new jsPDF({ orientation: 'landscape', unit: 'px', format: [cv.offsetWidth, cv.offsetHeight] })
+        .catch(error => {
+            console.error(error);
+        });
     pdf.addImage(img, 'PNG', 0, 0, cv.offsetWidth, cv.offsetHeight);
     pdf.save('Certificate_' + SD.certId + '.pdf');
     document.querySelectorAll('.resize-h').forEach(r => r.style.display = '');
@@ -512,7 +530,16 @@ window.addEventListener('load', () => {
         const rh = document.createElement('div'); rh.className = 'resize-h'; el.appendChild(rh);
         makeDraggable(el);
         cv.appendChild(el);
-    });
-});
+    })
+        .catch(error => {
+            console.error(error);
+        });
+})
+        .catch(error => {
+            console.error(error);
+        });
 </script>
 @endsection
+
+
+

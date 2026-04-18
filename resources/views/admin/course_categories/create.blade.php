@@ -96,8 +96,14 @@ function autoSlug(input) {
     document.getElementById('slugField').value = slug;
 }
 
-document.querySelector('input[type="color"]').addEventListener('input', function() {
+document.querySelector('#input[type="color"]').addEventListener('input', function() {
     document.getElementById('colorText').value = this.value;
-});
+})
+        .catch(error => {
+            console.error(error);
+        });
 </script>
 @endsection
+
+
+

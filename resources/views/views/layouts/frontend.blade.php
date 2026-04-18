@@ -512,7 +512,10 @@ function copyPageLink(e) {
         btn.style.background = '#2d8c4e';
         btn.title = 'Link Copied!';
         setTimeout(function() { btn.style.background = '#f26522'; btn.title = 'Copy Link'; }, 2000);
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
 }
 </script>
 
@@ -634,6 +637,9 @@ function showMemberDetail(id) {
             photo.onerror = function() { this.src = '/images/default-avatar.png'; };
 
             new bootstrap.Modal(document.getElementById('teamMemberModal')).show();
+        })
+        .catch(error => {
+            console.error(error);
         });
 }
 </script>
@@ -641,5 +647,8 @@ function showMemberDetail(id) {
 @stack('scripts')
 </body>
 </html>
+
+
+
 
 

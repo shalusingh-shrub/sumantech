@@ -303,10 +303,16 @@ function downloadCertPDF() {
     const { jsPDF } = window.jspdf;
     const canvas = document.getElementById('certCanvas');
     const imgData = canvas.toDataURL('image/png');
-    const pdf = new jsPDF({ orientation: 'landscape', unit: 'px', format: [canvas.width, canvas.height] });
+    const pdf = new jsPDF({ orientation: 'landscape', unit: 'px', format: [canvas.width, canvas.height] })
+        .catch(error => {
+            console.error(error);
+        });
     pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
     pdf.save('Certificate_' + certData.certId + '.pdf');
 }
 </script>
 @endpush
 @endsection
+
+
+

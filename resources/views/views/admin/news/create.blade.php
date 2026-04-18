@@ -130,9 +130,9 @@
 </form>
 @endsection
 @push('scripts')
-<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@ckeditor/ckeditor5-build-classic@40.1.0/build/ckeditor.js"></script>
 <script>
-CKEDITOR.replace('contentEditor', {
+ClassicEditor.create(document.querySelector('#contentEditor', {
     height: 350,
     toolbar: [
         { name: 'document', items: ['Source'] },
@@ -147,19 +147,31 @@ CKEDITOR.replace('contentEditor', {
     ],
     filebrowserUploadUrl: '',
     removePlugins: 'exportpdf'
-});
+})
+        .catch(error => {
+            console.error(error);
+        });
 
 document.getElementById('titleInput').addEventListener('keyup', function() {
     if (document.getElementById('autoSlug').checked) {
         var slug = this.value.toLowerCase().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-');
         document.getElementById('slugInput').value = slug;
     }
-});
+})
+        .catch(error => {
+            console.error(error);
+        });
 document.querySelectorAll('input[name="news_type"]').forEach(function(el) {
     el.addEventListener('change', function() {
         document.getElementById('eventDateWrap').style.display = this.value === 'event' ? 'block' : 'none';
-    });
-});
+    })
+        .catch(error => {
+            console.error(error);
+        });
+})
+        .catch(error => {
+            console.error(error);
+        });
 document.getElementById('imageInput').addEventListener('change', function() {
     var file = this.files[0];
     if (file) {
@@ -171,8 +183,14 @@ document.getElementById('imageInput').addEventListener('change', function() {
         };
         reader.readAsDataURL(file);
     }
-});
+})
+        .catch(error => {
+            console.error(error);
+        });
 </script>
 @endpush
+
+
+
 
 

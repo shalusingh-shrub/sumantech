@@ -539,7 +539,10 @@ function copyPageLink(e) {
         var btn = document.getElementById('shareCopyLink');
         btn.style.background = '#2d8c4e';
         setTimeout(function() { btn.style.background = ''; }, 2000);
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
 }
 </script>
 
@@ -646,8 +649,14 @@ const revealObserver = new IntersectionObserver((entries) => {
         if (e.isIntersecting) {
             setTimeout(() => e.target.classList.add('visible'), i * 70);
         }
-    });
-}, { threshold: 0.1 });
+    })
+        .catch(error => {
+            console.error(error);
+        });
+}, { threshold: 0.1 })
+        .catch(error => {
+            console.error(error);
+        });
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
 // Team Modal
@@ -665,6 +674,9 @@ function showMemberDetail(id) {
             photo.src = data.photo ? '/storage/team/' + data.photo : '{{ asset("images/default-avatar.png") }}';
             photo.onerror = function() { this.src = '{{ asset("images/default-avatar.png") }}'; };
             new bootstrap.Modal(document.getElementById('teamMemberModal')).show();
+        })
+        .catch(error => {
+            console.error(error);
         });
 }
 </script>
@@ -672,6 +684,9 @@ function showMemberDetail(id) {
 @stack('scripts')
 </body>
 </html>
+
+
+
 
 
 

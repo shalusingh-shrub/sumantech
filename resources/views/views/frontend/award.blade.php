@@ -134,9 +134,15 @@ function downloadCertificate() {
         link.download = 'certificate-' + name.replace(/\s+/g, '-') + '.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
 }
 </script>
 @endpush
+
+
+
 
 

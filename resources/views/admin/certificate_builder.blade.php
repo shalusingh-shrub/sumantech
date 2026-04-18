@@ -186,7 +186,10 @@ window.addEventListener('load', () => setTimeout(() => saved.forEach(d => render
 @endif
 
 function addElem(type, defaultText) {
-    renderElem({ type, text: defaultText, x: 30, y: 40, fs: 24, fc: '#1a2a6c', fw: '700', fi: 'normal', align: 'center' });
+    renderElem({ type, text: defaultText, x: 30, y: 40, fs: 24, fc: '#1a2a6c', fw: '700', fi: 'normal', align: 'center' })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 function renderElem(d) {
@@ -198,9 +201,15 @@ function renderElem(d) {
     div.style.cssText = `left:${d.x}%;top:${d.y}%;font-size:${d.fs}px;color:${d.fc};font-weight:${d.fw};font-style:${d.fi||'normal'};text-align:${d.align||'left'};transform:translateX(-50%);`;
 
     var idx = elems.length;
-    elems.push({ el: div, d });
+    elems.push({ el: div, d })
+        .catch(error => {
+            console.error(error);
+        });
 
-    div.addEventListener('click', e => { e.stopPropagation(); selectEl(div, idx); });
+    div.addEventListener('click', e => { e.stopPropagation(); selectEl(div, idx); })
+        .catch(error => {
+            console.error(error);
+        });
     makeDrag(div, idx);
     stage.appendChild(div);
     selectEl(div, idx);
@@ -266,13 +275,19 @@ function makeDrag(el, idx) {
         function up() { document.removeEventListener('mousemove', mv); document.removeEventListener('mouseup', up); }
         document.addEventListener('mousemove', mv);
         document.addEventListener('mouseup', up);
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 document.addEventListener('click', () => {
     if(activeEl) activeEl.classList.remove('active');
     activeEl = null; activeIdx = -1;
-});
+})
+        .catch(error => {
+            console.error(error);
+        });
 
 function prepSave() {
     var layout = elems.map(e => e.d);
@@ -280,5 +295,8 @@ function prepSave() {
 }
 </script>
 @endpush
+
+
+
 
 

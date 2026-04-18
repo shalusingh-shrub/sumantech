@@ -130,7 +130,10 @@ function previewCert(name, certNo, month, certUrl, layout) {
     img.style.cssText = 'width:100%;border-radius:8px;display:block;';
     wrap.appendChild(img);
 
-    var today = new Date().toLocaleDateString('en-IN', {day:'2-digit',month:'long',year:'numeric'});
+    var today = new Date().toLocaleDateString('en-IN', {day:'2-digit',month:'long',year:'numeric'})
+        .catch(error => {
+            console.error(error);
+        });
 
     layout.forEach(function(el) {
         var div = document.createElement('div');
@@ -138,7 +141,10 @@ function previewCert(name, certNo, month, certUrl, layout) {
         var texts = { name: name, cert_number: certNo || 'AWD-2025-0001', date: today, title: '{{ addslashes($award->title) }}', category: 'Award', school: '' };
         div.innerText = texts[el.type] || el.text;
         wrap.appendChild(div);
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
 
     new bootstrap.Modal(document.getElementById('certModal')).show();
 }
@@ -150,9 +156,15 @@ function downloadCert() {
         a.download = 'certificate-' + currentName.replace(/\s+/g,'-') + '.png';
         a.href = canvas.toDataURL('image/png');
         a.click();
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
 }
 </script>
 @endpush
+
+
+
 
 

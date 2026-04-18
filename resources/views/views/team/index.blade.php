@@ -289,24 +289,39 @@ function openModal(id){
 }
 function doSearch(q){
     q=q.toLowerCase().trim();var n=0;
-    document.querySelectorAll('.team-item').forEach(function(el){var s=!q||el.dataset.name.includes(q)||el.dataset.district.includes(q);el.style.display=s?'':'none';if(s)n++;});
+    document.querySelectorAll('.team-item').forEach(function(el){var s=!q||el.dataset.name.includes(q)||el.dataset.district.includes(q);el.style.display=s?'':'none';if(s)n++;})
+        .catch(error => {
+            console.error(error);
+        });
     document.getElementById('countDisplay').textContent=n;
-    document.querySelectorAll('.category-section').forEach(function(s){s.style.display=[...s.querySelectorAll('.team-item')].some(e=>e.style.display!='none')?'':'none';});
+    document.querySelectorAll('.category-section').forEach(function(s){s.style.display=[...s.querySelectorAll('.team-item')].some(e=>e.style.display!='none')?'':'none';})
+        .catch(error => {
+            console.error(error);
+        });
 }
 function scrollToCat(id,btn){
     document.querySelectorAll('.cat-tab').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
     var el=document.getElementById(id);
-    if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+    if(el)el.scrollIntoView({behavior:'smooth',block:'start'})
+        .catch(error => {
+            console.error(error);
+        });
 }
 function filterAll(btn){
     document.querySelectorAll('.cat-tab').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
-    window.scrollTo({top:0,behavior:'smooth'});
+    window.scrollTo({top:0,behavior:'smooth'})
+        .catch(error => {
+            console.error(error);
+        });
 }
 </script>
 </body>
 </html>
+
+
+
 
 
 

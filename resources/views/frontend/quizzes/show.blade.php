@@ -221,10 +221,10 @@ function startTimer() {
 @endif
 
 function startQuiz() {
-    const name   = document.querySelector('[name="participant_name"]').value.trim();
-    const email  = document.querySelector('[name="participant_email"]').value.trim();
-    const school = document.querySelector('[name="participant_school"]').value.trim();
-    const phone  = document.querySelector('[name="participant_phone"]').value.trim();
+    const name   = document.querySelector('#[name="participant_name"]').value.trim();
+    const email  = document.querySelector('#[name="participant_email"]').value.trim();
+    const school = document.querySelector('#[name="participant_school"]').value.trim();
+    const phone  = document.querySelector('#[name="participant_phone"]').value.trim();
     if (!name || !email || !school || !phone) { alert('Sab fields bharna zaroori hai!'); return; }
     if (!/^[A-Za-z\s]+$/.test(name)) { alert('Name sirf English mein likhein!'); return; }
     if (!/^\S+@\S+\.\S+$/.test(email)) { alert('Valid email daalo!'); return; }
@@ -262,7 +262,10 @@ function selectRadio(input) {
         l.style.background  = '#f8f9fa';
         l.querySelector('.option-circle').style.background = '#dee2e6';
         l.querySelector('.option-circle').style.color = '#333';
-    });
+    })
+        .catch(error => {
+            console.error(error);
+        });
     const label = input.closest('.option-item');
     label.classList.add('selected');
     label.style.borderColor = '#1a2a6c';
@@ -328,3 +331,6 @@ function forceSubmit() {
 }
 </script>
 @endsection
+
+
+
