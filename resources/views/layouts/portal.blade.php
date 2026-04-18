@@ -35,7 +35,17 @@
 <div class="top-navbar">
     <div class="brand"><i class="fas fa-chalkboard-teacher me-2"></i>Suman Tech</div>
     <div class="user-info">
-        <img src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}">
+        @php
+    $authUser = auth()->user()->load('profile');
+    $avatarUrl = $authUser->avatar_url;
+@endphp
+@if($avatarUrl && !str_contains($avatarUrl, 'ui-avatars'))
+<img src="{{ $avatarUrl }}" alt="{{ auth()->user()->name }}" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid #1a2a6c;">
+@else
+<div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#1a2a6c,#2a4a9c);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.85rem;">
+  {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
+</div>
+@endif
         <div>
             <div style="font-weight:600;font-size:14px;color:#1a2a6c;">{{ auth()->user()->name }}</div>
             <div style="font-size:11px;color:#888;">{{ ucfirst(auth()->user()->user_type ?? 'User') }}</div>
@@ -72,7 +82,14 @@
         {{-- Sidebar --}}
         <div class="col-md-3">
             <div class="profile-sidebar">
-                <img src="{{ auth()->user()->avatar_url }}" alt="Avatar" class="avatar">
+                @if(auth()->user()->profile && auth()->user()->profile->avatar)
+<img src="{{ asset('storage/'.auth()->user()->profile->avatar) }}" alt="Avatar" class="avatar">
+@else
+<div class="avatar d-flex align-items-center justify-content-center fw-bold fs-4"
+     style="background:linear-gradient(135deg,#1a2a6c,#2a4a9c);color:#fff;">
+  {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
+</div>
+@endif
                 <h5>{{ auth()->user()->name }}</h5>
                 <p class="text-muted mb-2" style="font-size:13px;">{{ auth()->user()->email }}</p>
                 <span class="role-badge">{{ ucfirst(auth()->user()->user_type ?? 'user') }}</span>
