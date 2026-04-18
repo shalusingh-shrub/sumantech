@@ -38,8 +38,21 @@ class CourseController extends Controller
             'highlights'  => 'nullable|string',
         ]);
 
-        $data = $request->except('image');
+        $data = $request->except(['image', 'syllabus']);
         $data['slug'] = $request->slug ?: Str::slug($request->name);
+
+        if ($request->has('syllabus')) {
+            $syllabus = [];
+            foreach ($request->syllabus as $section) {
+                if (!empty($section['section'])) {
+                    $syllabus[] = [
+                        'section' => $section['section'],
+                        'topics'  => array_values(array_filter($section['topics'] ?? [])),
+                    ];
+                }
+            }
+            $data['syllabus'] = json_encode($syllabus);
+        }
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('courses', 'public');

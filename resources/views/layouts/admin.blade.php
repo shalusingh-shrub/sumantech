@@ -99,24 +99,9 @@
    style="padding-left:35px;font-size:13px;">
     <i class="fas fa-users"></i> Registered User
 </a>
-<div class="nav-link {{ request()->is('admin/courses*') ? 'active' : '' }}" 
-     style="cursor:pointer;" 
-     onclick="toggleMenu('courseMenu')">
+<a href="{{ route('admin.courses.index') }}" class="nav-link {{ request()->is('admin/courses*') ? 'active' : '' }}" style="padding-left:35px;font-size:13px;">
     <i class="fas fa-book"></i> Course
-    <i class="fas fa-chevron-down ms-auto" id="courseMenuIcon" style="font-size:.7rem;"></i>
-</div>
-<div id="courseMenu" style="display:{{ request()->is('admin/courses*') ? 'block' : 'none' }};">
-    <a href="{{ route('admin.courses.index') }}" 
-       class="nav-link {{ request()->is('admin/courses') || request()->is('admin/courses/create') || request()->is('admin/courses/*/edit') ? 'active' : '' }}" 
-       style="padding-left:45px;font-size:12px;">
-        <i class="fas fa-list"></i> Courses
-    </a>
-    <a href="{{ route('admin.course-categories.index') }}" 
-       class="nav-link {{ request()->is('admin/course-categories*') ? 'active' : '' }}" 
-       style="padding-left:45px;font-size:12px;">
-        <i class="fas fa-tags"></i> Course Categories
-    </a>
-</div>
+</a>
 
     <div class="nav-section">Main</div>
     <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->is('admin') ? 'active' : '' }}">
@@ -205,10 +190,6 @@
     <a href="{{ route('admin.eip-resources.index') }}" class="nav-link {{ request()->is('admin/eip-resources*') ? 'active' : '' }}">
         <i class="fas fa-graduation-cap"></i> E-Resources
     </a>
-
-    <a href="{{ route('admin.marks.templates.index') }}" class="nav-link {{ request()->is('admin/marks*') ? 'active' : '' }}">
-        <i class="fas fa-star"></i> Marks Templates
-    </a>
     <a href="{{ route('admin.quizzes.index') }}" class="nav-link {{ request()->is('admin/quizzes*') ? 'active' : '' }}">
         <i class="fas fa-question-circle"></i> Som Quiz
     </a>
@@ -262,51 +243,17 @@
         </div>
         <div class="d-flex align-items-center gap-3">
     {{-- Notification Bell --}}
-    <div class="dropdown">
-    <button class="btn btn-light btn-sm position-relative dropdown-toggle" id="notifBtn"
-            style="border-radius:50%;width:36px;height:36px;border:none;"
-            data-bs-toggle="dropdown" data-bs-auto-close="outside">
+    <button class="btn btn-light btn-sm position-relative" style="border-radius:50%;width:36px;height:36px;">
         <i class="fas fa-bell" style="color:#1a2a6c;"></i>
-        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-              id="notifCount" style="font-size:9px;display:none;">0</span>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:9px;">3</span>
     </button>
-    <div class="dropdown-menu dropdown-menu-end shadow border-0 p-0"
-         style="min-width:320px;border-radius:12px;overflow:hidden;" id="notifDropdown">
-        <div class="p-3 d-flex justify-content-between align-items-center"
-             style="background:#1a2a6c;color:#fff;">
-            <span class="fw-bold" style="font-size:.9rem;"><i class="fas fa-bell me-2"></i>Notifications</span>
-            <div class="d-flex gap-2">
-                <form method="POST" action="{{ route('admin.notifications.readAll') }}">
-                    @csrf
-                    <button class="btn btn-sm" style="color:#ffd700;font-size:.75rem;padding:2px 6px;">
-                        Mark all read
-                    </button>
-                </form>
-                <a href="{{ route('admin.notifications.index') }}"
-                   style="color:#ffd700;font-size:.75rem;text-decoration:none;padding:2px 6px;">
-                    View all
-                </a>
-            </div>
-        </div>
-        <div id="notifList" style="max-height:350px;overflow-y:auto;">
-            <div class="text-center py-4 text-muted" style="font-size:.85rem;">
-                <i class="fas fa-spinner fa-spin me-2"></i>Loading...
-            </div>
-        </div>
-    </div>
-</div>
 
     {{-- Profile Dropdown --}}
     <div class="dropdown">
         <a href="#" class="d-flex align-items-center gap-2 text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
-            @php $adminUser = auth()->user()->load('profile'); @endphp
-@if($adminUser->profile && $adminUser->profile->avatar)
-<img src="{{ asset('storage/'.$adminUser->profile->avatar) }}" style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid #ffd700;">
-@else
-<div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1a2a6c,#6b3a1f);display:flex;align-items:center;justify-content:center;color:#ffd700;font-weight:700;font-size:14px;">
-{{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
-</div>
-@endif
+            <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1a2a6c,#6b3a1f);display:flex;align-items:center;justify-content:center;color:#ffd700;font-weight:700;font-size:14px;">
+                {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
+            </div>
             <div style="line-height:1.2;">
                 <div style="font-size:11px;color:#999;">{{ auth()->user()->getRoleNames()->first() ?? 'admin' }}</div>
                 <div style="font-size:13px;font-weight:700;color:#1a2a6c;">{{ auth()->user()->name }}</div>
@@ -353,53 +300,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 @stack("scripts")
-<script>
-function loadNotifications() {
-    fetch('{{ route("admin.notifications.unread") }}')
-        .then(r => r.json())
-        .then(data => {
-            const count = data.count;
-            const badge = document.getElementById('notifCount');
-            if (count > 0) {
-                badge.textContent = count > 99 ? '99+' : count;
-                badge.style.display = 'block';
-            } else {
-                badge.style.display = 'none';
-            }
-
-            const list = document.getElementById('notifList');
-            if (data.notifications.length === 0) {
-                list.innerHTML = '<div class="text-center py-4 text-muted" style="font-size:.85rem;"><i class="fas fa-bell-slash me-2"></i>Koi notification nahi!</div>';
-                return;
-            }
-
-            let html = '';
-            data.notifications.forEach(n => {
-                html += `
-                <div class="d-flex align-items-center gap-2 p-3 border-bottom" style="background:${n.is_read ? '#fff' : '#f0f4ff'};">
-                    <div style="width:36px;height:36px;border-radius:50%;background:${n.color}22;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <i class="${n.icon}" style="color:${n.color};font-size:.9rem;"></i>
-                    </div>
-                    <div class="flex-grow-1">
-                        <div style="font-size:.82rem;font-weight:600;">${n.title}</div>
-                        <div style="font-size:.75rem;color:#888;">${n.message}</div>
-                    </div>
-                    ${n.url ? `<a href="${n.url}" class="btn btn-sm btn-outline-primary" style="padding:2px 7px;font-size:.72rem;">View</a>` : ''}
-                </div>`;
-            });
-            list.innerHTML = html;
-        });
-}
-
-// Load on page load
-loadNotifications();
-
-// Auto refresh every 30 seconds
-setInterval(loadNotifications, 30000);
-
-// Load when dropdown opens
-document.getElementById('notifBtn').addEventListener('click', loadNotifications);
-</script>
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <script>
 document.getElementById("sidebarToggle").addEventListener("click", function() {
@@ -415,19 +315,6 @@ document.getElementById("sidebarOverlay").addEventListener("click", function() {
     document.querySelector(".main-content").classList.remove("expanded");
     this.classList.remove("active");
 });
-</script>
-<script>
-function toggleMenu(id) {
-    const menu = document.getElementById(id);
-    const icon = document.getElementById(id + 'Icon');
-    if (menu.style.display === 'none' || menu.style.display === '') {
-        menu.style.display = 'block';
-        if(icon) icon.style.transform = 'rotate(180deg)';
-    } else {
-        menu.style.display = 'none';
-        if(icon) icon.style.transform = 'rotate(0deg)';
-    }
-}
 </script>
 </body>
 </html>

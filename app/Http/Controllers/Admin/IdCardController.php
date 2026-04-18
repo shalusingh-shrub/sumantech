@@ -17,7 +17,7 @@ class IdCardController extends Controller
     {
         $student->load('courses');
         $pdf = Pdf::loadView('admin.idcard.pdf', compact('student'))
-            ->setPaper([0, 0, 283.46, 425.2], 'portrait');
+            ->setPaper([0, 0, 283.46, 425.2], 'portrait'); // 10x15 cm
         return $pdf->download('ID-Card-' . $student->registration_number . '.pdf');
     }
 }

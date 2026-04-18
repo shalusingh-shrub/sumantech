@@ -29,10 +29,7 @@ class Course extends Model
 
     public function getImageUrlAttribute()
     {
-        if ($this->image) {
-            return asset('storage/' . $this->image);
-        }
-        return null;
+        return $this->image ? asset('storage/'.$this->image) : null;
     }
 
     public function studentCourses()
