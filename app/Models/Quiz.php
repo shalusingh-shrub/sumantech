@@ -1,14 +1,16 @@
 <?php
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Quiz extends Model
 {
     protected $fillable = [
-        'title', 'description', 'category', 'thumbnail',
+        'title', 'slug', 'description', 'category', 'thumbnail',
         'time_limit', 'pass_percentage', 'randomize_questions',
         'randomize_options', 'show_result', 'allow_retake',
         'start_date', 'end_date', 'status', 'created_by',
+        'certificate_title', 'certificate_message',
     ];
 
     protected $casts = [
@@ -19,6 +21,22 @@ class Quiz extends Model
         'start_date'          => 'date',
         'end_date'            => 'date',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+    if (!$model->slug) {
+        $base = Str::slug($model->title);
+        $slug = $base;
+        $i = 1;
+        while (\App\Models\Quiz::where('slug', $slug)->exists()) {
+            $slug = $base . '-' . $i++;
+        }
+        $model->slug = $slug;
+    }
+});
+    }
 
     public function questions()
     {
@@ -37,8 +55,12 @@ class Quiz extends Model
 
     public function getThumbnailUrlAttribute()
     {
-        return $this->thumbnail
-            ? asset('storage/'.$this->thumbnail)
-            : null;
+        return $this->thumbnail ? asset('storage/'.$this->thumbnail) : null;
+    }
+
+    // Ek email ne kitni baar diya
+    public function attemptsByEmail($email)
+    {
+        return $this->results()->where('participant_email', $email)->count();
     }
 }

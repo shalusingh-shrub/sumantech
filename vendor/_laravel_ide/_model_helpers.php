@@ -2106,6 +2106,7 @@ namespace App\Models {
      * @property string|null $description
      * @property float $fee
      * @property string $duration
+     * @property string|null $slug
      * @property string $name
      * @property int $id
      * @property-read mixed $image_url
@@ -2113,6 +2114,7 @@ namespace App\Models {
      * @property-read int|null $student_courses_count
      * @method static \Illuminate\Database\Eloquent\Builder<Course>|Course whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Course>|Course whereName($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Course>|Course whereSlug($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Course>|Course whereDuration($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Course>|Course whereFee($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Course>|Course whereDescription($value)
@@ -6856,6 +6858,8 @@ namespace App\Models {
      * @property string|null $last_activity
      * @property int $quiz_taken
      * @property int $quiz_views
+     * @property string|null $certificate_message
+     * @property string|null $certificate_title
      * @property string|null $description
      * @property string|null $quiz_name
      * @property int $total_attempts
@@ -6871,6 +6875,7 @@ namespace App\Models {
      * @property int $time_limit
      * @property string|null $thumbnail
      * @property string|null $category
+     * @property string|null $slug
      * @property string|null $title
      * @property int $id
      * @property-read mixed $total_questions
@@ -6881,6 +6886,7 @@ namespace App\Models {
      * @property-read int|null $results_count
      * @method static \Illuminate\Database\Eloquent\Builder<Quiz>|Quiz whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Quiz>|Quiz whereTitle($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Quiz>|Quiz whereSlug($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Quiz>|Quiz whereCategory($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Quiz>|Quiz whereThumbnail($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Quiz>|Quiz whereTimeLimit($value)
@@ -6896,6 +6902,8 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<Quiz>|Quiz whereTotalAttempts($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Quiz>|Quiz whereQuizName($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Quiz>|Quiz whereDescription($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Quiz>|Quiz whereCertificateTitle($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Quiz>|Quiz whereCertificateMessage($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Quiz>|Quiz whereQuizViews($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Quiz>|Quiz whereQuizTaken($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Quiz>|Quiz whereLastActivity($value)
@@ -7896,6 +7904,8 @@ namespace App\Models {
      * @property array|null $answers
      * @property int $time_taken
      * @property mixed $result
+     * @property \Illuminate\Support\Carbon|null $certificate_downloaded_at
+     * @property string|null $certificate_number
      * @property float $percentage
      * @property int $total_marks
      * @property int $score
@@ -7904,18 +7914,21 @@ namespace App\Models {
      * @property int $attempted
      * @property int $total_questions
      * @property int|null $user_id
+     * @property string|null $participant_school
      * @property string|null $participant_phone
      * @property string|null $participant_email
      * @property string|null $participant_name
      * @property int $quiz_id
      * @property int $id
      * @property-read mixed $grade
+     * @property-read mixed $time_taken_formatted
      * @property-read \App\Models\Quiz $quiz
      * @method static \Illuminate\Database\Eloquent\Builder<QuizResult>|QuizResult whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<QuizResult>|QuizResult whereQuizId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<QuizResult>|QuizResult whereParticipantName($value)
      * @method static \Illuminate\Database\Eloquent\Builder<QuizResult>|QuizResult whereParticipantEmail($value)
      * @method static \Illuminate\Database\Eloquent\Builder<QuizResult>|QuizResult whereParticipantPhone($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<QuizResult>|QuizResult whereParticipantSchool($value)
      * @method static \Illuminate\Database\Eloquent\Builder<QuizResult>|QuizResult whereUserId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<QuizResult>|QuizResult whereTotalQuestions($value)
      * @method static \Illuminate\Database\Eloquent\Builder<QuizResult>|QuizResult whereAttempted($value)
@@ -7924,6 +7937,8 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<QuizResult>|QuizResult whereScore($value)
      * @method static \Illuminate\Database\Eloquent\Builder<QuizResult>|QuizResult whereTotalMarks($value)
      * @method static \Illuminate\Database\Eloquent\Builder<QuizResult>|QuizResult wherePercentage($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<QuizResult>|QuizResult whereCertificateNumber($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<QuizResult>|QuizResult whereCertificateDownloadedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<QuizResult>|QuizResult whereResult($value)
      * @method static \Illuminate\Database\Eloquent\Builder<QuizResult>|QuizResult whereTimeTaken($value)
      * @method static \Illuminate\Database\Eloquent\Builder<QuizResult>|QuizResult whereAnswers($value)
@@ -9652,6 +9667,9 @@ namespace App\Models {
      *
      * @property \Illuminate\Support\Carbon|null $updated_at
      * @property \Illuminate\Support\Carbon|null $created_at
+     * @property string|null $notes
+     * @property string|null $result
+     * @property string|null $grade
      * @property int $obtained_marks
      * @property int $max_marks
      * @property string $subject_name
@@ -9664,6 +9682,9 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<StudentMark>|StudentMark whereSubjectName($value)
      * @method static \Illuminate\Database\Eloquent\Builder<StudentMark>|StudentMark whereMaxMarks($value)
      * @method static \Illuminate\Database\Eloquent\Builder<StudentMark>|StudentMark whereObtainedMarks($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<StudentMark>|StudentMark whereGrade($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<StudentMark>|StudentMark whereResult($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<StudentMark>|StudentMark whereNotes($value)
      * @method static \Illuminate\Database\Eloquent\Builder<StudentMark>|StudentMark whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<StudentMark>|StudentMark whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<StudentMark>|StudentMark newModelQuery()

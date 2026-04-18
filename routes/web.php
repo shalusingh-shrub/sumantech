@@ -293,10 +293,27 @@ Route::get('/admin/students/{student}/courses/{studentCourse}/marks', [App\Http\
 Route::post('/admin/students/{student}/courses/{studentCourse}/marks', [App\Http\Controllers\Admin\StudentMarksController::class, 'store'])->name('admin.marks.store')->middleware('auth');
 // Quiz Public Routes
 Route::get('/quizzes', [App\Http\Controllers\QuizController::class, 'index'])->name('quizzes.index');
-Route::get('/quizzes/{quiz}', [App\Http\Controllers\QuizController::class, 'show'])->name('quiz.show');
-Route::post('/quizzes/{quiz}/submit', [App\Http\Controllers\QuizController::class, 'submit'])->name('quiz.submit');
+Route::get('/certificates', [App\Http\Controllers\QuizController::class, 'certificateSearch'])->name('certificates.search');
+Route::get('/certificates/find', [App\Http\Controllers\QuizController::class, 'certificateFind'])->name('certificates.find');
 Route::get('/quiz/result/{result}', [App\Http\Controllers\QuizController::class, 'result'])->name('quiz.result');
-
+Route::get('/quiz/certificate/{result}', [App\Http\Controllers\QuizController::class, 'downloadCertificate'])->name('quiz.certificate');
+Route::get('/quiz/{quiz}', [App\Http\Controllers\QuizController::class, 'show'])->name('quiz.show');
+Route::post('/quiz/{quiz}/submit', [App\Http\Controllers\QuizController::class, 'submit'])->name('quiz.submit');
+Route::post('quizzes/{quiz}/questions', [App\Http\Controllers\Admin\QuizController::class, 'storeQuestion'])->name('admin.quizzes.storeQuestion');
+Route::get('quizzes/{quiz}/questions/{question}/edit', [App\Http\Controllers\Admin\QuizController::class, 'editQuestion'])->name('admin.quizzes.editQuestion');
+Route::put('quizzes/{quiz}/questions/{question}', [App\Http\Controllers\Admin\QuizController::class, 'updateQuestion'])->name('admin.quizzes.updateQuestion');
+Route::delete('quizzes/{quiz}/questions/{question}', [App\Http\Controllers\Admin\QuizController::class, 'destroyQuestion'])->name('admin.quizzes.destroyQuestion');
+Route::get('quizzes/{quiz}/results', [App\Http\Controllers\Admin\QuizController::class, 'results'])->name('admin.quizzes.results');
+Route::get('quiz-results/{result}/certificate', [App\Http\Controllers\QuizController::class, 'downloadCertificate'])->name('admin.quiz.certificate');
+Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::resource('quizzes', App\Http\Controllers\Admin\QuizController::class)->names('admin.quizzes');
+    Route::post('quizzes/{quiz}/questions', [App\Http\Controllers\Admin\QuizController::class, 'storeQuestion'])->name('admin.quizzes.storeQuestion');
+    Route::get('quizzes/{quiz}/questions/{question}/edit', [App\Http\Controllers\Admin\QuizController::class, 'editQuestion'])->name('admin.quizzes.editQuestion');
+    Route::put('quizzes/{quiz}/questions/{question}', [App\Http\Controllers\Admin\QuizController::class, 'updateQuestion'])->name('admin.quizzes.updateQuestion');
+    Route::delete('quizzes/{quiz}/questions/{question}', [App\Http\Controllers\Admin\QuizController::class, 'destroyQuestion'])->name('admin.quizzes.destroyQuestion');
+    Route::get('quizzes/{quiz}/results', [App\Http\Controllers\Admin\QuizController::class, 'results'])->name('admin.quizzes.results');
+    Route::get('quiz-results/{result}/certificate', [App\Http\Controllers\Admin\QuizController::class, 'viewCertificate'])->name('admin.quiz.certificate');
+});
 // Quiz Admin Routes
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('quizzes', App\Http\Controllers\Admin\QuizController::class)->names('admin.quizzes');
@@ -309,3 +326,16 @@ Route::get('/leaderboard', [App\Http\Controllers\LeaderboardController::class, '
 // Student ID Card
 Route::get('/admin/students/{student}/id-card', [App\Http\Controllers\Admin\IdCardController::class, 'show'])->name('admin.idcard.show')->middleware('auth');
 Route::get('/admin/students/{student}/id-card/pdf', [App\Http\Controllers\Admin\IdCardController::class, 'downloadPdf'])->name('admin.idcard.pdf')->middleware('auth');
+// Notifications
+Route::get('admin/notifications', [\App\Http\Controllers\Admin\NotificationController::class, 'index'])->name('admin.notifications.index')->middleware('auth');
+Route::post('admin/notifications/read-all', [\App\Http\Controllers\Admin\NotificationController::class, 'markAllRead'])->name('admin.notifications.readAll')->middleware('auth');
+Route::get('admin/notifications/unread', [\App\Http\Controllers\Admin\NotificationController::class, 'getUnread'])->name('admin.notifications.unread')->middleware('auth');
+Route::post('admin/notifications/{notification}/read', [\App\Http\Controllers\Admin\NotificationController::class, 'markRead'])->name('admin.notifications.read')->middleware('auth');
+Route::delete('admin/notifications/{notification}', [\App\Http\Controllers\Admin\NotificationController::class, 'destroy'])->name('admin.notifications.destroy')->middleware('auth');
+// Course Marks Templates
+Route::get('admin/marks/templates', [\App\Http\Controllers\Admin\CourseMarksTemplateController::class, 'index'])->name('admin.marks.templates.index')->middleware('auth');
+Route::get('admin/marks/templates/create', [\App\Http\Controllers\Admin\CourseMarksTemplateController::class, 'create'])->name('admin.marks.templates.create')->middleware('auth');
+Route::post('admin/marks/templates', [\App\Http\Controllers\Admin\CourseMarksTemplateController::class, 'store'])->name('admin.marks.templates.store')->middleware('auth');
+Route::get('admin/marks/templates/{template}/edit', [\App\Http\Controllers\Admin\CourseMarksTemplateController::class, 'edit'])->name('admin.marks.templates.edit')->middleware('auth');
+Route::put('admin/marks/templates/{template}', [\App\Http\Controllers\Admin\CourseMarksTemplateController::class, 'update'])->name('admin.marks.templates.update')->middleware('auth');
+Route::delete('admin/marks/templates/{template}', [\App\Http\Controllers\Admin\CourseMarksTemplateController::class, 'destroy'])->name('admin.marks.templates.destroy')->middleware('auth');

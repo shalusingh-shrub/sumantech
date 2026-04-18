@@ -51,7 +51,7 @@ class QuizController extends Controller
         }
 
         $quiz = Quiz::create($data);
-        return redirect()->route('admin.quizzes.show', $quiz)->with('success', 'Quiz created! Ab questions add karo.');
+        return redirect()->route('admin.quizzes.show', $quiz)->with('success', 'Quiz created!');
     }
 
     public function show(Quiz $quiz)
@@ -92,14 +92,12 @@ class QuizController extends Controller
         return redirect()->route('admin.quizzes.index')->with('success', 'Quiz deleted!');
     }
 
-    // Question store
+    // ✅ Question Store
     public function storeQuestion(Request $request, Quiz $quiz)
     {
         $request->validate([
             'question'      => 'required|string',
-            'question_type' => 'required|in:mcq,true_false',
-            'options'       => 'required_if:question_type,mcq|array',
-            'correct'       => 'required|integer',
+            'question_type' => 'required|in:mcq,true_false,multiple_correct',
             'points'        => 'nullable|integer|min:1',
         ]);
 
@@ -113,9 +111,25 @@ class QuizController extends Controller
         ]);
 
         if ($request->question_type === 'true_false') {
-            QuizOption::create(['question_id'=>$question->id, 'option_text'=>'True',  'is_correct'=>$request->correct==0, 'sort_order'=>1]);
-            QuizOption::create(['question_id'=>$question->id, 'option_text'=>'False', 'is_correct'=>$request->correct==1, 'sort_order'=>2]);
+            QuizOption::create(['question_id' => $question->id, 'option_text' => 'True',  'is_correct' => $request->correct == '0', 'sort_order' => 1]);
+            QuizOption::create(['question_id' => $question->id, 'option_text' => 'False', 'is_correct' => $request->correct == '1', 'sort_order' => 2]);
+
+        } elseif ($request->question_type === 'multiple_correct') {
+            $correctOnes = $request->correct_multiple ?? [];
+            $optionsList = $request->mc_options ?? [];
+            foreach ($optionsList as $i => $opt) {
+                if (trim($opt)) {
+                    QuizOption::create([
+                        'question_id' => $question->id,
+                        'option_text' => $opt,
+                        'is_correct'  => in_array((string)$i, array_map('strval', $correctOnes)),
+                        'sort_order'  => $i + 1,
+                    ]);
+                }
+            }
+
         } else {
+            // MCQ
             foreach ($request->options as $i => $opt) {
                 if (trim($opt)) {
                     QuizOption::create([
@@ -131,17 +145,94 @@ class QuizController extends Controller
         return redirect()->route('admin.quizzes.show', $quiz)->with('success', 'Question added!');
     }
 
-    // Question delete
+    // ✅ Question Edit (JSON for JS)
+    public function editQuestion(Quiz $quiz, QuizQuestion $question)
+    {
+        $question->load('options');
+        return response()->json([
+            'id'            => $question->id,
+            'question'      => $question->question,
+            'question_type' => $question->question_type,
+            'points'        => $question->points,
+            'explanation'   => $question->explanation,
+            'options'       => $question->options->map(fn($o) => [
+                'option_text' => $o->option_text,
+                'is_correct'  => (bool) $o->is_correct,
+            ])->values(),
+        ]);
+    }
+
+    // ✅ Question Update
+    public function updateQuestion(Request $request, Quiz $quiz, QuizQuestion $question)
+    {
+        $request->validate([
+            'question'      => 'required|string',
+            'question_type' => 'required|in:mcq,true_false,multiple_correct',
+            'points'        => 'nullable|integer|min:1',
+        ]);
+
+        $question->update([
+            'question'      => $request->question,
+            'question_type' => $request->question_type,
+            'explanation'   => $request->explanation,
+            'points'        => $request->points ?? 1,
+        ]);
+
+        $question->options()->delete();
+
+        if ($request->question_type === 'true_false') {
+            QuizOption::create(['question_id' => $question->id, 'option_text' => 'True',  'is_correct' => $request->correct == '0', 'sort_order' => 1]);
+            QuizOption::create(['question_id' => $question->id, 'option_text' => 'False', 'is_correct' => $request->correct == '1', 'sort_order' => 2]);
+
+        } elseif ($request->question_type === 'multiple_correct') {
+            $correctOnes = $request->correct_multiple ?? [];
+            $optionsList = $request->mc_options ?? [];
+            foreach ($optionsList as $i => $opt) {
+                if (trim($opt)) {
+                    QuizOption::create([
+                        'question_id' => $question->id,
+                        'option_text' => $opt,
+                        'is_correct'  => in_array((string)$i, array_map('strval', $correctOnes)),
+                        'sort_order'  => $i + 1,
+                    ]);
+                }
+            }
+
+        } else {
+            foreach ($request->options as $i => $opt) {
+                if (trim($opt)) {
+                    QuizOption::create([
+                        'question_id' => $question->id,
+                        'option_text' => $opt,
+                        'is_correct'  => ($i == $request->correct),
+                        'sort_order'  => $i + 1,
+                    ]);
+                }
+            }
+        }
+
+        return redirect()->route('admin.quizzes.show', $quiz)->with('success', 'Question updated!');
+    }
+
+    // ✅ Question Delete
     public function destroyQuestion(Quiz $quiz, QuizQuestion $question)
     {
         $question->delete();
         return redirect()->route('admin.quizzes.show', $quiz)->with('success', 'Question deleted!');
     }
 
-    // Results
+    // ✅ Results list
     public function results(Quiz $quiz)
     {
-        $results = QuizResult::where('quiz_id', $quiz->id)->latest()->paginate(20);
+        $results = QuizResult::where('quiz_id', $quiz->id)
+                    ->latest()->paginate(20);
         return view('admin.quizzes.results', compact('quiz', 'results'));
+    }
+
+    // ✅ Certificate view by admin
+    public function viewCertificate(QuizResult $result)
+    {
+        $result->load('quiz');
+        return view('frontend.quizzes.certificate', compact('result'));
     }
 }
