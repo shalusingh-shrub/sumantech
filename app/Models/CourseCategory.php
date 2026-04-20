@@ -7,8 +7,9 @@ use Illuminate\Support\Str;
 class CourseCategory extends Model
 {
     protected $fillable = [
-        'name', 'slug', 'description', 'image',
-        'color', 'icon', 'sort_order', 'is_active'
+        'course_id', 'name', 'slug', 'program_name',
+        'duration', 'fee', 'description', 'image',
+        'is_active', 'sort_order',
     ];
 
     protected $casts = ['is_active' => 'boolean'];
@@ -23,14 +24,13 @@ class CourseCategory extends Model
         });
     }
 
-    public function courses()
+    public function course()
     {
-        return $this->hasMany(Course::class, 'category_id');
+        return $this->belongsTo(Course::class);
     }
 
     public function getImageUrlAttribute()
     {
-        if ($this->image) return asset('storage/' . $this->image);
-        return null;
+        return $this->image ? asset('storage/'.$this->image) : null;
     }
 }

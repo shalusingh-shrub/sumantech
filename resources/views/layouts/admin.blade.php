@@ -193,6 +193,9 @@
     <a href="{{ route('admin.quizzes.index') }}" class="nav-link {{ request()->is('admin/quizzes*') ? 'active' : '' }}">
         <i class="fas fa-question-circle"></i> Som Quiz
     </a>
+    <a href="{{ route('admin.marks.templates.index') }}" class="nav-link {{ request()->is('admin/marks/templates*') ? 'active' : '' }}">
+    <i class="fas fa-file-alt"></i> Marks Templates
+</a>
     <a href="{{ route('admin.pages.index') }}" class="nav-link {{ request()->is('admin/pages*') ? 'active' : '' }}">
         <i class="fas fa-file-alt"></i> CMS Pages
     </a>

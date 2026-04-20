@@ -141,7 +141,7 @@ class GalleryController extends Controller
             }
         }
 
-        return redirect()->route('admin.gallery.items', $gallery)
+        return redirect()->route('admin.quizzes.gallery.items', $gallery)
                          ->with('success', 'Items added successfully!');
     }
 
@@ -151,7 +151,7 @@ class GalleryController extends Controller
         if ($item->file_path)  Storage::disk('public')->delete($item->file_path);
         if ($item->video_file) Storage::disk('public')->delete($item->video_file);
         $item->delete();
-        return redirect()->route('admin.gallery.items', $gallery)
+        return redirect()->route('admin.quizzes.gallery.items', $gallery)
                          ->with('success', 'Item deleted!');
     }
 }

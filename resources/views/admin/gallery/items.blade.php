@@ -44,7 +44,7 @@
                     </span>
                 </div>
                 <div class="card-body p-4">
-                    <form action="{{ route('admin.gallery.items.store', $gallery) }}"
+                    <form action="{{ route('admin.quizzes.gallery.items.store', $gallery) }}"
                           method="POST" enctype="multipart/form-data">
                         @csrf
 
@@ -159,7 +159,7 @@
                                     {{ $item->title }}
                                 </div>
                                 @endif
-                                <form action="{{ route('admin.gallery.items.delete', $item) }}"
+                                <form action="{{ route('admin.quizzes.gallery.items.delete', $item) }}"
                                       method="POST"
                                       onsubmit="return confirm('Delete?')"
                                       style="position:absolute;top:4px;right:4px;">
@@ -189,7 +189,7 @@
                                     {{ $item->video_url ?? basename($item->video_file ?? '') }}
                                 </div>
                             </div>
-                            <form action="{{ route('admin.gallery.items.delete', $item) }}"
+                            <form action="{{ route('admin.quizzes.gallery.items.delete', $item) }}"
                                   method="POST" onsubmit="return confirm('Delete?')">
                                 @csrf @method('DELETE')
                                 <button class="btn btn-outline-danger btn-sm">

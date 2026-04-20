@@ -33,6 +33,7 @@
             <td class="text-success fw-bold">₹{{ number_format($course->fee, 2) }}</td>
             <td><span class="badge bg-{{ $course->is_active ? 'success' : 'danger' }}">{{ $course->is_active ? 'Active' : 'Inactive' }}</span></td>
             <td>
+              <a href="{{ route('admin.courses.categories.index', $course) }}" class="btn btn-sm btn-outline-info me-1" title="Sub Courses"><i class="fas fa-layer-group"></i></a>
               <a href="{{ route('admin.courses.edit', $course) }}" class="btn btn-sm btn-outline-primary me-1"><i class="fas fa-edit"></i></a>
               <form method="POST" action="{{ route('admin.courses.destroy', $course) }}" class="d-inline" onsubmit="return confirm('Delete?')">
                 @csrf @method('DELETE')

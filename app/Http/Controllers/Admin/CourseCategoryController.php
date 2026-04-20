@@ -2,78 +2,72 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use App\Models\CourseCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class CourseCategoryController extends Controller
 {
-    public function index()
+    public function index(Course $course)
     {
-        $categories = CourseCategory::orderBy('sort_order')->get();
-        return view('admin.course_categories.index', compact('categories'));
+        $categories = $course->categories()->get();
+        return view('admin.courses.categories.index', compact('course', 'categories'));
     }
 
-    public function create()
-    {
-        return view('admin.course_categories.create');
-    }
-
-    public function store(Request $request)
+    public function store(Request $request, Course $course)
     {
         $request->validate([
-            'name'        => 'required|string|max:255',
-            'slug'        => 'nullable|string|unique:course_categories,slug',
-            'description' => 'nullable|string',
-            'color'       => 'nullable|string',
-            'icon'        => 'nullable|string',
-            'sort_order'  => 'nullable|integer',
-            'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'name'         => 'required|string|max:255',
+            'program_name' => 'nullable|string|max:255',
+            'duration'     => 'nullable|string|max:100',
+            'fee'          => 'nullable|numeric|min:0',
+            'description'  => 'nullable|string',
+            'image'        => 'nullable|image|max:2048',
         ]);
 
         $data = $request->except('image');
-        $data['slug'] = $request->slug ?: Str::slug($request->name);
+        $data['course_id'] = $course->id;
+        $data['slug']      = Str::slug($request->name);
         $data['is_active'] = $request->boolean('is_active', true);
+        $data['sort_order']= $course->categories()->count() + 1;
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('course-categories', 'public');
         }
 
         CourseCategory::create($data);
-        return redirect()->route('admin.course-categories.index')
-                         ->with('success', 'Category created!');
+        return redirect()->route('admin.courses.categories.index', $course)
+                         ->with('success', 'Sub Course added!');
     }
 
-    public function edit(CourseCategory $courseCategory)
+    public function edit(Course $course, CourseCategory $category)
     {
-        return view('admin.course_categories.edit', compact('courseCategory'));
+        return view('admin.courses.categories.edit', compact('course', 'category'));
     }
 
-    public function update(Request $request, CourseCategory $courseCategory)
+    public function update(Request $request, Course $course, CourseCategory $category)
     {
-        $request->validate([
-            'name'  => 'required|string|max:255',
-            'slug'  => 'nullable|string|unique:course_categories,slug,' . $courseCategory->id,
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        ]);
-
         $data = $request->except('image');
-        $data['slug'] = $request->slug ?: Str::slug($request->name);
+        $data['slug']      = Str::slug($request->name);
         $data['is_active'] = $request->boolean('is_active');
 
         if ($request->hasFile('image')) {
+            if ($category->image) Storage::disk('public')->delete($category->image);
             $data['image'] = $request->file('image')->store('course-categories', 'public');
         }
 
-        $courseCategory->update($data);
-        return redirect()->route('admin.course-categories.index')
-                         ->with('success', 'Category updated!');
+        $category->update($data);
+        return redirect()->route('admin.courses.categories.index', $course)
+                         ->with('success', 'Sub Course updated!');
     }
 
-    public function destroy(CourseCategory $courseCategory)
+    public function destroy(Course $course, CourseCategory $category)
     {
-        $courseCategory->delete();
-        return redirect()->route('admin.course-categories.index')
-                         ->with('success', 'Category deleted!');
+        if ($category->image) Storage::disk('public')->delete($category->image);
+        $category->delete();
+        return redirect()->route('admin.courses.categories.index', $course)
+                         ->with('success', 'Sub Course deleted!');
     }
 }

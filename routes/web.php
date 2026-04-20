@@ -66,6 +66,7 @@ Route::get('/news-events/{slug}', [NewsController::class, 'show'])->name('news.s
 Route::get('/image-gallery', [GalleryController::class, 'imageGallery'])->name('image-gallery');
 Route::get('/video-gallery', [GalleryController::class, 'videoGallery'])->name('video-gallery');
 Route::get('/image-gallery/media', [GalleryController::class, 'media'])->name('media');
+Route::get('/gallery/{slug}', [GalleryController::class, 'show'])->name('gallery.show');
 
 // Other pages
 Route::get('/project-shikshak-sathi', [HomeController::class, 'projectShikshakSathi'])->name('project-shikshak-sathi');
@@ -124,6 +125,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
 
     // Gallery Management
     Route::resource('gallery', AdminGalleryController::class);
+    Route::get('gallery/{gallery}/items', [AdminGalleryController::class, 'manageItems'])->name('quizzes.gallery.items');
+    Route::post('gallery/{gallery}/items', [AdminGalleryController::class, 'storeItems'])->name('quizzes.gallery.items.store');
+    Route::delete('gallery/items/{item}', [AdminGalleryController::class, 'deleteItem'])->name('quizzes.gallery.items.delete');
 
     // Top Flash Management
     Route::resource('topflash', TopFlashController::class);
@@ -235,7 +239,11 @@ Route::post('/admin/students/{student}/add-course', [App\Http\Controllers\Admin\
 Route::get('/admin/student-courses/{studentCourse}/certificate', [App\Http\Controllers\Admin\StudentController::class, 'certificate'])->name('admin.students.certificate')->middleware('auth');
 Route::put('/admin/student-courses/{studentCourse}/certificate', [App\Http\Controllers\Admin\StudentController::class, 'updateCertificate'])->name('admin.students.updateCertificate')->middleware('auth');
 
-// Course Management
+Route::get('/admin/courses/{course}/categories', [App\Http\Controllers\Admin\CourseCategoryController::class, 'index'])->name('admin.courses.categories.index')->middleware('auth');
+Route::post('/admin/courses/{course}/categories', [App\Http\Controllers\Admin\CourseCategoryController::class, 'store'])->name('admin.courses.categories.store')->middleware('auth');
+Route::get('/admin/courses/{course}/categories/{category}/edit', [App\Http\Controllers\Admin\CourseCategoryController::class, 'edit'])->name('admin.courses.categories.edit')->middleware('auth');
+Route::put('/admin/courses/{course}/categories/{category}', [App\Http\Controllers\Admin\CourseCategoryController::class, 'update'])->name('admin.courses.categories.update')->middleware('auth');
+Route::delete('/admin/courses/{course}/categories/{category}', [App\Http\Controllers\Admin\CourseCategoryController::class, 'destroy'])->name('admin.courses.categories.destroy')->middleware('auth');
 Route::get('/admin/courses', [App\Http\Controllers\Admin\CourseController::class, 'index'])->name('admin.courses.index')->middleware('auth');
 Route::get('/admin/courses/create', [App\Http\Controllers\Admin\CourseController::class, 'create'])->name('admin.courses.create')->middleware('auth');
 Route::post('/admin/courses', [App\Http\Controllers\Admin\CourseController::class, 'store'])->name('admin.courses.store')->middleware('auth');

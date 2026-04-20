@@ -36,4 +36,9 @@ class Course extends Model
     {
         return $this->hasMany(StudentCourse::class);
     }
+
+    public function categories()
+    {
+        return $this->hasMany(CourseCategory::class)->orderBy('sort_order');
+    }
 }

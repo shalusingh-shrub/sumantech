@@ -90,11 +90,11 @@
                             </td>
                             <td>
                                 <div class="d-flex gap-1">
-                                    <a href="{{ route('admin.gallery.items', $g) }}"
+                                    <a href="{{ route('admin.quizzes.gallery.items', $g) }}"
                                        class="btn btn-sm btn-success" style="padding:4px 8px;" title="Add Items">
                                         <i class="fas fa-plus" style="font-size:.75rem;"></i>
                                     </a>
-                                    <a href="{{ route('admin.gallery.items', $g) }}"
+                                    <a href="{{ route('admin.quizzes.gallery.items', $g) }}"
                                        class="btn btn-sm btn-outline-info" style="padding:4px 8px;" title="View Items">
                                         <i class="fas fa-eye" style="font-size:.75rem;"></i>
                                     </a>

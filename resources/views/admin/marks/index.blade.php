@@ -24,10 +24,14 @@
   <form method="POST" action="{{ route('admin.marks.store', [$student, $studentCourse]) }}">
     @csrf
 
+    {{-- Marks Table --}}
     <div class="card border-0 shadow-sm mb-4" style="border-radius:12px;">
-      <div class="card-header py-3"
+      <div class="card-header py-3 d-flex justify-content-between align-items-center"
            style="background:linear-gradient(135deg,#1a2a6c,#2a4a9c);color:#fff;border-radius:12px 12px 0 0;">
         <span class="fw-bold"><i class="fas fa-book me-2"></i>Marks Entry</span>
+        <button type="button" class="btn btn-sm btn-light fw-bold" onclick="addRow()">
+          <i class="fas fa-plus me-1"></i>Add Row
+        </button>
       </div>
       <div class="card-body p-0">
         <div class="table-responsive">
@@ -36,56 +40,30 @@
               <tr>
                 <th class="px-3 py-3" style="width:50px;">#</th>
                 <th>Subject Name</th>
-                <th style="width:160px;">Max Marks</th>
+                <th style="width:150px;">Max Marks</th>
                 <th style="width:160px;">Obtained Marks</th>
                 <th style="width:120px;">Percentage</th>
-                <th style="width:80px;">Action</th>
+                <th style="width:60px;">Del</th>
               </tr>
             </thead>
             <tbody id="marksRows">
 
               @if($template && $template->subjects)
                 @foreach($template->subjects as $i => $subject)
-                @php
-                  $existingMark = $marks->where('subject_name', $subject['name'])->first();
-                @endphp
+                @php $existingMark = $marks->where('subject_name', $subject['name'])->first(); @endphp
                 <tr>
-                  <td class="px-3 text-muted">{{ $i+1 }}</td>
-                  <td>
-                    <input type="text" name="subjects[]" class="form-control"
-                           value="{{ $subject['name'] }}" readonly style="background:#f8f9fa;">
-                  </td>
-                  <td>
-                    <input type="number" name="max_marks[]" class="form-control max-input"
-                           value="{{ $subject['max_marks'] }}" min="0" readonly style="background:#f8f9fa;"
-                           onchange="calcRow(this)">
-                  </td>
-                  <td>
-                    <input type="number" name="obtained[]" class="form-control obtained-input"
-                           value="{{ $existingMark->obtained_marks ?? '' }}"
-                           min="0" max="{{ $subject['max_marks'] }}"
-                           placeholder="Enter marks" onchange="calcRow(this)" oninput="calcRow(this)">
-                  </td>
-                  <td>
-                    <span class="fw-bold pct-display" style="color:#28a745;">
-                      @if($existingMark)
-                        {{ $existingMark->percentage }}%
-                      @else
-                        —
-                      @endif
-                    </span>
-                  </td>
-                  <td>
-                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(this)">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </td>
+                  <td class="px-3 text-muted row-num">{{ $i+1 }}</td>
+                  <td><input type="text" name="subjects[]" class="form-control" value="{{ $subject['name'] }}" readonly style="background:#f8f9fa;"></td>
+                  <td><input type="number" name="max_marks[]" class="form-control max-input" value="{{ $subject['max_marks'] }}" min="0" readonly style="background:#f8f9fa;" onchange="calcRow(this)"></td>
+                  <td><input type="number" name="obtained[]" class="form-control obtained-input" value="{{ $existingMark->obtained_marks ?? '' }}" min="0" max="{{ $subject['max_marks'] }}" placeholder="Enter marks" onchange="calcRow(this)" oninput="calcRow(this)"></td>
+                  <td><span class="fw-bold pct-display" style="color:#28a745;">{{ $existingMark ? $existingMark->obtained_marks.'/'.$subject['max_marks'] : '—' }}</span></td>
+                  <td><button type="button" class="btn btn-sm btn-outline-danger" onclick="removeRow(this)"><i class="fas fa-trash"></i></button></td>
                 </tr>
                 @endforeach
               @elseif($marks->count() > 0)
                 @foreach($marks as $i => $mark)
                 <tr>
-                  <td class="px-3 text-muted">{{ $i+1 }}</td>
+                  <td class="px-3 text-muted row-num">{{ $i+1 }}</td>
                   <td><input type="text" name="subjects[]" class="form-control" value="{{ $mark->subject_name }}" required></td>
                   <td><input type="number" name="max_marks[]" class="form-control max-input" value="{{ $mark->max_marks }}" min="0" onchange="calcRow(this)"></td>
                   <td><input type="number" name="obtained[]" class="form-control obtained-input" value="{{ $mark->obtained_marks }}" min="0" onchange="calcRow(this)" oninput="calcRow(this)"></td>
@@ -95,7 +73,7 @@
                 @endforeach
               @else
                 <tr>
-                  <td class="px-3 text-muted">1</td>
+                  <td class="px-3 text-muted row-num">1</td>
                   <td><input type="text" name="subjects[]" class="form-control" placeholder="Subject name" required></td>
                   <td><input type="number" name="max_marks[]" class="form-control max-input" value="100" min="0" onchange="calcRow(this)"></td>
                   <td><input type="number" name="obtained[]" class="form-control obtained-input" placeholder="0" min="0" onchange="calcRow(this)" oninput="calcRow(this)"></td>
@@ -110,12 +88,7 @@
                 <td colspan="2" class="px-3">Total</td>
                 <td><span id="totalMax">0</span></td>
                 <td><span id="totalObtained">0</span></td>
-                <td><span id="totalPct" style="color:#28a745;">0%</span></td>
-                <td>
-                  <button type="button" class="btn btn-sm btn-outline-success" onclick="addRow()">
-                    <i class="fas fa-plus"></i>
-                  </button>
-                </td>
+                <td colspan="2"><span id="totalPct" style="color:#28a745;font-size:1.1rem;">0%</span></td>
               </tr>
             </tfoot>
           </table>
@@ -123,21 +96,22 @@
       </div>
     </div>
 
-    {{-- Grade Result --}}
+    {{-- Auto Grade Result --}}
     @if($template && $template->grade_standards)
     <div class="card border-0 shadow-sm mb-4 p-4" style="border-radius:12px;">
       <h6 class="fw-bold mb-3" style="color:#1a2a6c;"><i class="fas fa-trophy me-2"></i>Grade Standards</h6>
-      <div class="d-flex gap-2 flex-wrap">
+      <div class="d-flex gap-2 flex-wrap mb-3">
         @foreach($template->grade_standards as $g)
         <span class="badge px-3 py-2" style="background:#1a2a6c;font-size:.8rem;">
-          {{ $g['grade'] }}: {{ $g['min'] }}-{{ $g['max'] }}% ({{ $g['result'] }})
+          {{ $g['grade'] }}: {{ $g['min'] }}–{{ $g['max'] }}% → {{ $g['result'] }}
         </span>
         @endforeach
       </div>
-      <div class="mt-3 p-3 rounded" style="background:#f0f4ff;">
-        <strong>Auto Result: </strong>
-        <span id="autoGrade" class="badge px-3 py-2 ms-2" style="background:#1a2a6c;font-size:.9rem;">—</span>
-        <span id="autoResult" class="badge px-3 py-2 ms-2 bg-secondary" style="font-size:.9rem;">—</span>
+      <div class="p-3 rounded d-flex align-items-center gap-3" style="background:#f0f4ff;">
+        <strong>Auto Result:</strong>
+        <span id="autoGrade" class="badge px-3 py-2" style="background:#1a2a6c;font-size:.95rem;">—</span>
+        <span id="autoResult" class="badge px-3 py-2 bg-secondary" style="font-size:.95rem;">—</span>
+        <span id="autoPct" class="text-muted" style="font-size:.9rem;"></span>
       </div>
     </div>
     @endif
@@ -149,16 +123,21 @@
           <label class="form-label fw-semibold">
             <i class="fas fa-calendar me-1" style="color:#F0A500;"></i>Completion Date
           </label>
+          @if($studentCourse->end_date)
           <input type="date" name="completion_date" class="form-control"
-                 value="{{ $studentCourse->end_date ? $studentCourse->end_date->format('Y-m-d') : '' }}">
-          <small class="text-muted">Course end date se auto-fill hua</small>
+                 value="{{ $studentCourse->end_date->format('Y-m-d') }}">
+          <small class="text-success"><i class="fas fa-check me-1"></i>Course end date se auto-fill</small>
+          @else
+          <input type="date" name="completion_date" class="form-control">
+          <small class="text-muted">Course end date set nahi hai — manually daalo</small>
+          @endif
         </div>
         <div class="col-md-8">
           <label class="form-label fw-semibold">
             <i class="fas fa-sticky-note me-1" style="color:#F0A500;"></i>Notes
           </label>
           <textarea name="notes" class="form-control" rows="2"
-                    placeholder="e.g. Student performed well...">{{ $marks->first()->notes ?? '' }}</textarea>
+                    placeholder="e.g. Student performed well...">{{ $marks->first()->notes ?? ($template->notes ?? '') }}</textarea>
         </div>
       </div>
     </div>
@@ -172,9 +151,7 @@
   </form>
 </div>
 
-@php
-$gradeStandards = $template ? $template->grade_standards : [];
-@endphp
+@php $gradeStandards = $template ? $template->grade_standards : []; @endphp
 
 <script>
 const gradeStandards = @json($gradeStandards);
@@ -182,9 +159,10 @@ let rowCount = {{ $template ? count($template->subjects ?? []) : max($marks->cou
 
 function addRow() {
     rowCount++;
+    const n = document.querySelectorAll('#marksRows tr').length + 1;
     const row = `
     <tr>
-      <td class="px-3 text-muted">${document.querySelectorAll('#marksRows tr').length + 1}</td>
+      <td class="px-3 text-muted row-num">${n}</td>
       <td><input type="text" name="subjects[]" class="form-control" placeholder="Subject name" required></td>
       <td><input type="number" name="max_marks[]" class="form-control max-input" value="100" min="0" onchange="calcRow(this)"></td>
       <td><input type="number" name="obtained[]" class="form-control obtained-input" placeholder="0" min="0" onchange="calcRow(this)" oninput="calcRow(this)"></td>
@@ -202,16 +180,14 @@ function removeRow(btn) {
 }
 
 function calcRow(input) {
-    const row      = input.closest('tr');
-    const maxInput = row.querySelector('.max-input');
-    const obtInput = row.querySelector('.obtained-input');
-    const pctSpan  = row.querySelector('.pct-display');
-    const max      = parseFloat(maxInput.value) || 0;
-    const obt      = parseFloat(obtInput.value) || 0;
+    const row     = input.closest('tr');
+    const max     = parseFloat(row.querySelector('.max-input').value) || 0;
+    const obt     = parseFloat(row.querySelector('.obtained-input').value) || 0;
+    const pctSpan = row.querySelector('.pct-display');
     if (max > 0 && obt >= 0) {
         const pct = ((obt / max) * 100).toFixed(1);
         pctSpan.textContent = pct + '%';
-        pctSpan.style.color = pct >= 50 ? '#28a745' : '#dc3545';
+        pctSpan.style.color = pct >= 33 ? '#28a745' : '#dc3545';
     } else {
         pctSpan.textContent = '—';
     }
@@ -229,22 +205,24 @@ function calcTotals() {
     const pct = totalMax > 0 ? ((totalObt / totalMax) * 100).toFixed(1) : 0;
     const pctSpan = document.getElementById('totalPct');
     pctSpan.textContent = pct + '%';
-    pctSpan.style.color = pct >= 50 ? '#28a745' : '#dc3545';
+    pctSpan.style.color = pct >= 33 ? '#28a745' : '#dc3545';
     calcGrade(parseFloat(pct));
 }
 
 function calcGrade(pct) {
-    if (!gradeStandards || gradeStandards.length === 0) return;
     const gradeEl  = document.getElementById('autoGrade');
     const resultEl = document.getElementById('autoResult');
+    const pctEl    = document.getElementById('autoPct');
     if (!gradeEl || !resultEl) return;
+    if (!gradeStandards || gradeStandards.length === 0) return;
 
     let found = false;
     for (const g of gradeStandards) {
-        if (pct >= g.min && pct <= g.max) {
+        if (pct >= parseFloat(g.min) && pct <= parseFloat(g.max)) {
             gradeEl.textContent  = 'Grade: ' + g.grade;
             resultEl.textContent = g.result;
             resultEl.style.background = g.result.toLowerCase().includes('fail') ? '#dc3545' : '#28a745';
+            if (pctEl) pctEl.textContent = '(' + pct + '%)';
             found = true;
             break;
         }
@@ -258,12 +236,11 @@ function calcGrade(pct) {
 
 function updateRowNumbers() {
     document.querySelectorAll('#marksRows tr').forEach((row, i) => {
-        const first = row.querySelector('td:first-child');
+        const first = row.querySelector('.row-num');
         if (first) first.textContent = i + 1;
     });
 }
 
-// Init
 calcTotals();
 </script>
 @endsection
