@@ -41,13 +41,47 @@
                 <div class="row g-3">
 
                     {{-- Registration Number --}}
-                    <div class="col-md-6">
-    <label class="form-label fw-semibold" style="font-size:.88rem;">Registration Number:</label>
-    <input type="text" name="registration_number" class="form-control"
-           placeholder="Leave empty for Auto ID (ST-XXXXXXXXXX)"
-           value="{{ old('registration_number') }}"
-           style="font-size:.88rem;">
-    <small class="text-muted">Khali chhodo — Auto Generate hoga. Ya khud bharo.</small>
+<div class="col-md-6">
+    <label class="form-label fw-semibold" style="font-size:.88rem;">
+        Registration Number:
+    </label>
+    <div class="d-flex gap-2 mb-2">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="reg_mode"
+                   id="regAuto" value="auto" checked
+                   onchange="toggleRegMode('auto')">
+            <label class="form-check-label" for="regAuto" style="font-size:.85rem;">
+                <i class="fas fa-magic me-1"></i>Auto Generate
+            </label>
+        </div>
+        <div class="form-check ms-3">
+            <input class="form-check-input" type="radio" name="reg_mode"
+                   id="regManual" value="manual"
+                   onchange="toggleRegMode('manual')">
+            <label class="form-check-label" for="regManual" style="font-size:.85rem;">
+                <i class="fas fa-keyboard me-1"></i>Manual Enter
+            </label>
+        </div>
+    </div>
+
+    {{-- Auto preview --}}
+    <div id="autoRegBox">
+        <div class="form-control bg-light text-muted" style="font-size:.85rem;">
+            <i class="fas fa-sync-alt me-1"></i>
+            ST-<span id="dobPreview">DDMMYYYY</span>-XXXX
+            <small class="text-info ms-2">(DOB fill karne pe update hoga)</small>
+        </div>
+        <input type="hidden" name="registration_number" id="regHidden" value="">
+    </div>
+
+    {{-- Manual input --}}
+    <div id="manualRegBox" style="display:none;">
+        <input type="text" name="registration_number" id="regManualInput"
+               class="form-control" style="font-size:.88rem;"
+               placeholder="e.g. ST-01012000-1234"
+               value="{{ old('registration_number') }}">
+        <small class="text-muted">Format: ST-DDMMYYYY-XXXX</small>
+    </div>
 </div>
                     {{-- Registration Date --}}
                     <div class="col-md-6">
@@ -78,8 +112,9 @@
                     <div class="col-md-6">
                         <label class="form-label fw-semibold" style="font-size:.88rem;">Date of Birth*:</label>
                         <input type="date" name="date_of_birth"
-                               class="form-control @error('date_of_birth') is-invalid @enderror"
-                               value="{{ old('date_of_birth') }}" required style="font-size:.88rem;">
+       class="form-control @error('date_of_birth') is-invalid @enderror"
+       value="{{ old('date_of_birth') }}" required style="font-size:.88rem;"
+       onchange="updateDobPreview(this.value)">
                         @error('date_of_birth')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
 
@@ -217,6 +252,28 @@
 
 @push('scripts')
 <script>
+    function toggleRegMode(mode) {
+    if (mode === 'auto') {
+        document.getElementById('autoRegBox').style.display = 'block';
+        document.getElementById('manualRegBox').style.display = 'none';
+        document.getElementById('regManualInput').removeAttribute('name');
+        document.getElementById('regHidden').setAttribute('name', 'registration_number');
+    } else {
+        document.getElementById('autoRegBox').style.display = 'none';
+        document.getElementById('manualRegBox').style.display = 'block';
+        document.getElementById('regHidden').removeAttribute('name');
+        document.getElementById('regManualInput').setAttribute('name', 'registration_number');
+    }
+}
+
+function updateDobPreview(dob) {
+    if (!dob) return;
+    const d = new Date(dob);
+    const dd   = String(d.getDate()).padStart(2, '0');
+    const mm   = String(d.getMonth() + 1).padStart(2, '0');
+    const yyyy = d.getFullYear();
+    document.getElementById('dobPreview').textContent = dd + mm + yyyy;
+}
 function previewImg(input, previewId) {
     const preview = document.getElementById(previewId);
     if (input.files && input.files[0]) {

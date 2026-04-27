@@ -89,16 +89,24 @@
     </div>
 
 
-    <div class="nav-section">Registration</div>
-<a href="{{ route('admin.registration.index') }}"
-   class="nav-link {{ request()->is('admin/registration*') ? 'active' : '' }}">
-    <i class="fas fa-user-plus"></i> Registration
-</a>
-<a href="{{ route('admin.registration.index') }}"
-   class="nav-link {{ request()->is('admin/registration') ? 'active' : '' }}"
-   style="padding-left:35px;font-size:13px;">
-    <i class="fas fa-users"></i> Registered User
-</a>
+    <div class="nav-section">Student</div>
+<div class="nav-link {{ request()->is('admin/registration*') ? 'active' : '' }}"
+     style="cursor:pointer;" onclick="toggleMenu('studentMenu')">
+    <i class="fas fa-user-graduate"></i> Students
+    <i class="fas fa-chevron-down ms-auto" id="studentMenuIcon" style="font-size:.7rem;"></i>
+</div>
+<div id="studentMenu" style="display:{{ request()->is('admin/registration*') ? 'block' : 'none' }};">
+    <a href="{{ route('admin.registration.index') }}"
+       class="nav-link {{ request()->routeIs('admin.registration.index') ? 'active' : '' }}"
+       style="padding-left:45px;font-size:12px;">
+        <i class="fas fa-list"></i> All Students
+    </a>
+    <a href="{{ route('admin.registration.create') }}"
+       class="nav-link {{ request()->routeIs('admin.registration.create') ? 'active' : '' }}"
+       style="padding-left:45px;font-size:12px;">
+        <i class="fas fa-user-plus"></i> Add Student
+    </a>
+</div>
 <a href="{{ route('admin.courses.index') }}" class="nav-link {{ request()->is('admin/courses*') ? 'active' : '' }}" style="padding-left:35px;font-size:13px;">
     <i class="fas fa-book"></i> Course
 </a>
@@ -318,6 +326,19 @@ document.getElementById("sidebarOverlay").addEventListener("click", function() {
     document.querySelector(".main-content").classList.remove("expanded");
     this.classList.remove("active");
 });
+</script>
+<script>
+function toggleMenu(id) {
+    const menu = document.getElementById(id);
+    const icon = document.getElementById(id + 'Icon');
+    if (menu.style.display === 'none' || menu.style.display === '') {
+        menu.style.display = 'block';
+        if(icon) icon.style.transform = 'rotate(180deg)';
+    } else {
+        menu.style.display = 'none';
+        if(icon) icon.style.transform = 'rotate(0deg)';
+    }
+}
 </script>
 </body>
 </html>
