@@ -8,13 +8,16 @@ use Illuminate\Http\Request;
 class RegisteredUserController extends Controller
 {
     public function index(Request $request) {
-        $query = User::query();
+        $query = User::with('profile');
         if ($request->search) {
             $query->where(function($q) use ($request) {
                 $q->where('name', 'like', '%'.$request->search.'%')
                   ->orWhere('email', 'like', '%'.$request->search.'%')
                   ->orWhere('phone', 'like', '%'.$request->search.'%')
-                  ->orWhere('district', 'like', '%'.$request->search.'%');
+                  ->orWhereHas('profile', function ($profile) use ($request) {
+                      $profile->where('district', 'like', '%'.$request->search.'%')
+                          ->orWhere('school', 'like', '%'.$request->search.'%');
+                  });
             });
         }
         if ($request->user_type) $query->where('user_type', $request->user_type);

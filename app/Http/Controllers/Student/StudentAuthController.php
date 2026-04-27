@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
-use App\Models\Student;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class StudentAuthController extends Controller
 {
@@ -23,16 +24,22 @@ class StudentAuthController extends Controller
             'password' => 'required',
         ]);
 
-        $student = Student::where('registration_number', $request->login)
-                          ->orWhere('mobile', $request->login)
-                          ->orWhere('email', $request->login)
-                          ->first();
+        $student = User::where('role', 'student')
+            ->where(function ($query) use ($request) {
+                $query->where('email', $request->login)
+                    ->orWhereHas('profile', function ($profile) use ($request) {
+                        $profile->where('registration_number', $request->login)
+                            ->orWhere('mobile', $request->login);
+                    });
+            })
+            ->with('profile')
+            ->first();
 
         if (!$student) {
             return back()->withErrors(['login' => 'ID, Mobile ya Email galat hai!']);
         }
 
-        if ($student->password !== $request->password) {
+        if (!Hash::check($request->password, $student->password)) {
             return back()->withErrors(['password' => 'Password galat hai!']);
         }
 

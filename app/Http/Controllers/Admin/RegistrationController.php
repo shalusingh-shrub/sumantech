@@ -25,21 +25,23 @@ class RegistrationController extends Controller
 
     public function index(Request $request)
     {
-        $query = User::where('role', 'student');
+        $query = User::where('role', 'student')->with('profile');
 
         if ($request->filled('search')) {
             $s = $request->search;
             $query->where(function ($q) use ($s) {
-                $q->where('name',                'like', "%$s%")
-                  ->orWhere('registration_number','like', "%$s%")
-                  ->orWhere('mobile',             'like', "%$s%")
-                  ->orWhere('email',              'like', "%$s%")
-                  ->orWhere('father_name',        'like', "%$s%");
+                $q->where('name', 'like', "%$s%")
+                  ->orWhere('email', 'like', "%$s%")
+                  ->orWhereHas('profile', function ($profile) use ($s) {
+                      $profile->where('registration_number', 'like', "%$s%")
+                          ->orWhere('mobile', 'like', "%$s%")
+                          ->orWhere('father_name', 'like', "%$s%");
+                  });
             });
         }
 
         if ($request->filled('status')) {
-            $query->where('status', $request->status);
+            $query->whereHas('profile', fn ($profile) => $profile->where('status', $request->status));
         }
 
         $students = $query->latest()->paginate($request->get('per_page', 10))->withQueryString();
@@ -59,11 +61,11 @@ class RegistrationController extends Controller
             'name'          => 'required|string|max:100',
             'father_name'   => 'required|string|max:100',
             'date_of_birth' => 'required|date',
-            'mobile'        => 'required|digits:10',
+            'mobile'        => 'required|digits:10|unique:user_profiles,mobile',
             'address'       => 'required|string',
             'gender'        => 'required|in:male,female,other',
             'password'      => 'required|string|min:4',
-            'registration_number' => 'nullable|unique:users,registration_number',
+            'registration_number' => 'nullable|unique:user_profiles,registration_number',
         ]);
 
         if ($request->filled('registration_number')) {
@@ -74,38 +76,43 @@ class RegistrationController extends Controller
 
         $email = $request->email ?: ('student_' . time() . '@sumantech.local');
 
-        $data = [
+        $userData = [
             'name'                => $request->name,
             'email'               => $email,
             'password'            => Hash::make($request->password),
             'role'                => 'student',
+            'user_type'           => 'student',
+            'is_active'           => strtolower($request->status ?? 'active') === 'active',
+            'phone'               => $request->mobile,
+        ];
+
+        $profileData = [
             'registration_number' => $regNum,
             'registration_date'   => $request->registration_date ?? now()->toDateString(),
             'father_name'         => $request->father_name,
-            'date_of_birth'       => $request->date_of_birth,
+            'dob'                 => $request->date_of_birth,
             'mobile'              => $request->mobile,
             'whatsapp'            => $request->whatsapp,
             'address'             => $request->address,
             'aadhaar_number'      => $request->aadhaar_number,
             'gender'              => strtolower($request->gender),
             'status'              => strtolower($request->status ?? 'active'),
-            'is_active'           => true,
-            'phone'               => $request->mobile,
         ];
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('students', 'public');
+            $profileData['image'] = $request->file('image')->store('students', 'public');
         }
         if ($request->hasFile('aadhaar_card')) {
-            $data['aadhaar_card'] = $request->file('aadhaar_card')->store('students/aadhaar', 'public');
+            $profileData['aadhaar_card'] = $request->file('aadhaar_card')->store('students/aadhaar', 'public');
         }
 
-        $student = User::create($data);
+        $student = User::create($userData);
+        $student->profile()->create($profileData);
 
         \App\Models\Notification::send(
             'new_student',
             'Naya Student Register!',
-            $data['name'] . ' ne registration kiya — ' . $regNum,
+            $userData['name'] . ' ne registration kiya - ' . $regNum,
             route('admin.registration.show', $student)
         );
 
@@ -114,7 +121,7 @@ class RegistrationController extends Controller
 
     public function show(User $student)
     {
-        $student->load('courses');
+        $student->load('profile', 'courses');
         return view('admin.registration.show', compact('student'));
     }
 
@@ -134,14 +141,18 @@ class RegistrationController extends Controller
             'gender'        => 'required|in:male,female,other',
         ]);
 
-        $data = [
-            'registration_date' => $request->registration_date,
+        $userData = [
             'name'              => $request->name,
-            'father_name'       => $request->father_name,
-            'date_of_birth'     => $request->date_of_birth,
             'email'             => $request->email ?: $student->email,
-            'mobile'            => $request->mobile,
             'phone'             => $request->mobile,
+            'is_active'         => strtolower($request->status ?? 'active') === 'active',
+        ];
+
+        $profileData = [
+            'registration_date' => $request->registration_date,
+            'father_name'       => $request->father_name,
+            'dob'               => $request->date_of_birth,
+            'mobile'            => $request->mobile,
             'whatsapp'          => $request->whatsapp,
             'address'           => $request->address,
             'aadhaar_number'    => $request->aadhaar_number,
@@ -150,19 +161,20 @@ class RegistrationController extends Controller
         ];
 
         if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->password);
+            $userData['password'] = Hash::make($request->password);
         }
 
         if ($request->hasFile('image')) {
             if ($student->image) Storage::disk('public')->delete($student->image);
-            $data['image'] = $request->file('image')->store('students', 'public');
+            $profileData['image'] = $request->file('image')->store('students', 'public');
         }
         if ($request->hasFile('aadhaar_card')) {
             if ($student->aadhaar_card) Storage::disk('public')->delete($student->aadhaar_card);
-            $data['aadhaar_card'] = $request->file('aadhaar_card')->store('students/aadhaar', 'public');
+            $profileData['aadhaar_card'] = $request->file('aadhaar_card')->store('students/aadhaar', 'public');
         }
 
-        $student->update($data);
+        $student->update($userData);
+        $student->profile()->updateOrCreate(['user_id' => $student->id], $profileData);
         return redirect()->route('admin.registration.show', $student)->with('success', 'Student updated!');
     }
 

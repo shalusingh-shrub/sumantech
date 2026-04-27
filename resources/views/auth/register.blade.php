@@ -91,6 +91,15 @@
                         </div>
                         @error('phone')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
                     </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Date of Birth <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                            <input type="date" name="date_of_birth" class="form-control @error('date_of_birth') is-invalid @enderror"
+                                value="{{ old('date_of_birth') }}" max="{{ now()->subDay()->format('Y-m-d') }}" required>
+                        </div>
+                        @error('date_of_birth')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
+                    </div>
                 </div>
 
                 {{-- District & School --}}

@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers\Student;
 use App\Http\Controllers\Controller;
-use App\Models\Student;
+use App\Models\User;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 
@@ -9,7 +9,7 @@ class StudentPortalController extends Controller
 {
     private function getStudent()
     {
-        return Student::with(['courses', 'invoices.payments'])
+        return User::with(['profile', 'courses', 'invoices.payments'])
                       ->findOrFail(session('student_id'));
     }
 
@@ -66,7 +66,7 @@ class StudentPortalController extends Controller
 {
     $student = $this->getStudent();
     $courses = \App\Models\StudentCourse::with('studentMarks')
-        ->where('student_id', $student->id)
+        ->where('user_id', $student->id)
         ->get();
     return view('student.result', compact('student', 'courses'));
 }

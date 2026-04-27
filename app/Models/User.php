@@ -11,14 +11,8 @@ class User extends Authenticatable
     use HasFactory, Notifiable, HasRoles;
 
     protected $fillable = [
-        'name', 'email', 'password', 'phone', 'avatar',
-        'designation', 'department', 'about', 'is_active',
-        'api_token', 'user_type', 'district', 'school',
-        'class', 'can_access_admin', 'role',
-        'registration_number', 'registration_date',
-        'father_name', 'date_of_birth', 'mobile', 'whatsapp',
-        'address', 'gender', 'image', 'aadhaar_number',
-        'aadhaar_card', 'status',
+        'name', 'email', 'password', 'phone', 'is_active',
+        'api_token', 'user_type', 'can_access_admin', 'role',
     ];
 
     protected $hidden = [
@@ -53,13 +47,13 @@ class User extends Authenticatable
     // Student marks
     public function marks()
     {
-        return $this->hasMany(StudentMark::class, 'student_id');
+        return $this->hasManyThrough(StudentMark::class, StudentCourse::class, 'user_id', 'student_course_id');
     }
 
     public function getPhotoUrlAttribute()
     {
-        if ($this->image) return asset('storage/' . $this->image);
-        if ($this->avatar) return asset('storage/' . $this->avatar);
+        if ($this->profile && $this->profile->image) return asset('storage/' . $this->profile->image);
+        if ($this->profile && $this->profile->avatar) return asset('storage/' . $this->profile->avatar);
         return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&size=90&background=1a2a6c&color=fff';
     }
 
@@ -78,7 +72,7 @@ class User extends Authenticatable
     do {
         $rand = str_pad(random_int(0, 9999), 4, '0', STR_PAD_LEFT);
         $reg  = 'ST-' . $dobFormatted . '-' . $rand;
-    } while (self::where('registration_number', $reg)->exists());
+    } while (UserProfile::where('registration_number', $reg)->exists());
     return $reg;
 }
     public function profile()
@@ -94,5 +88,32 @@ class User extends Authenticatable
     public function activities()
     {
         return $this->hasMany(\App\Models\UserActivity::class);
+    }
+
+    public function getRegistrationNumberAttribute() { return $this->profileValue('registration_number'); }
+    public function getRegistrationDateAttribute() { return $this->profileValue('registration_date'); }
+    public function getFatherNameAttribute() { return $this->profileValue('father_name'); }
+    public function getDateOfBirthAttribute() { return $this->profileValue('dob'); }
+    public function getMobileAttribute() { return $this->profileValue('mobile') ?: $this->phone; }
+    public function getWhatsappAttribute() { return $this->profileValue('whatsapp'); }
+    public function getAddressAttribute() { return $this->profileValue('address'); }
+    public function getGenderAttribute() { return $this->profileValue('gender'); }
+    public function getDistrictAttribute() { return $this->profileValue('district'); }
+    public function getSchoolAttribute() { return $this->profileValue('school'); }
+    public function getClassAttribute() { return $this->profileValue('class'); }
+    public function getImageAttribute() { return $this->profileValue('image'); }
+    public function getAvatarAttribute() { return $this->profileValue('avatar'); }
+    public function getAadhaarNumberAttribute() { return $this->profileValue('aadhaar_number'); }
+    public function getAadhaarCardAttribute() { return $this->profileValue('aadhaar_card'); }
+    public function getStatusAttribute() { return $this->profileValue('status') ?: ($this->is_active ? 'active' : 'inactive'); }
+    public function getAadhaarUrlAttribute()
+    {
+        return $this->aadhaar_card ? asset('storage/' . $this->aadhaar_card) : null;
+    }
+
+    private function profileValue(string $key)
+    {
+        $profile = $this->relationLoaded('profile') ? $this->relations['profile'] : $this->profile;
+        return $profile?->{$key};
     }
 }

@@ -14,10 +14,13 @@ class StudentController extends Controller
     public function index(Request $request)
     {
         $students = User::where('role', 'student')
+            ->with('profile')
             ->when($request->search, function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('registration_number', 'like', '%' . $request->search . '%')
-                  ->orWhere('mobile', 'like', '%' . $request->search . '%');
+                  ->orWhereHas('profile', function ($profile) use ($request) {
+                      $profile->where('registration_number', 'like', '%' . $request->search . '%')
+                          ->orWhere('mobile', 'like', '%' . $request->search . '%');
+                  });
             })->latest()->paginate(10);
 
         return view('admin.registered_users.index', compact('students'));
@@ -35,7 +38,7 @@ class StudentController extends Controller
             'name'          => 'required|string|max:255',
             'father_name'   => 'required|string|max:255',
             'date_of_birth' => 'required|date',
-            'mobile'        => 'required|digits:10|unique:users,mobile',
+            'mobile'        => 'required|digits:10|unique:user_profiles,mobile',
             'address'       => 'required|string',
             'gender'        => 'required|in:male,female,other',
             'password'      => 'required|min:6',
@@ -44,54 +47,79 @@ class StudentController extends Controller
 
         $email = $request->email ?: ('student_' . time() . '@sumantech.local');
 
-        $data = $request->except(['image', 'aadhaar_card']);
-        $data['email']               = $email;
-        $data['role']                = 'student';
-        $data['registration_number'] = User::generateRegNumber();
-        $data['registration_date']   = $request->registration_date ?? now()->toDateString();
-        $data['password']            = Hash::make($request->password);
-        $data['is_active']           = true;
-        $data['phone']               = $request->mobile;
+        $userData = [
+            'name' => $request->name,
+            'email' => $email,
+            'role' => 'student',
+            'user_type' => 'student',
+            'password' => Hash::make($request->password),
+            'is_active' => $request->status === 'active',
+            'phone' => $request->mobile,
+        ];
+
+        $profileData = $request->only([
+            'father_name', 'date_of_birth', 'mobile', 'whatsapp', 'address',
+            'aadhaar_number', 'gender', 'status',
+        ]);
+        $profileData['dob'] = $request->date_of_birth;
+        unset($profileData['date_of_birth']);
+        $profileData['registration_number'] = User::generateRegNumber($request->date_of_birth);
+        $profileData['registration_date'] = $request->registration_date ?? now()->toDateString();
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('students/photos', 'public');
+            $profileData['image'] = $request->file('image')->store('students/photos', 'public');
         }
         if ($request->hasFile('aadhaar_card')) {
-            $data['aadhaar_card'] = $request->file('aadhaar_card')->store('students/aadhaar', 'public');
+            $profileData['aadhaar_card'] = $request->file('aadhaar_card')->store('students/aadhaar', 'public');
         }
 
-        User::create($data);
+        $student = User::create($userData);
+        $student->profile()->create($profileData);
         return redirect()->route('admin.students.index')->with('success', 'Student registered successfully!');
     }
 
     public function show(User $student)
     {
-        $student->load('courses.course');
+        $student->load('profile', 'courses.course');
         return view('admin.registered_users.show', compact('student'));
     }
 
     public function edit(User $student)
     {
+        $student->load('profile');
         return view('admin.registered_users.edit', compact('student'));
     }
 
     public function update(Request $request, User $student)
     {
-        $data = $request->except(['password', 'image', 'aadhaar_card', '_token', '_method']);
+        $userData = [
+            'name' => $request->name,
+            'email' => $request->email ?: $student->email,
+            'phone' => $request->mobile,
+            'is_active' => ($request->status ?? $student->status) === 'active',
+        ];
+
+        $profileData = $request->only([
+            'father_name', 'mobile', 'whatsapp', 'address',
+            'aadhaar_number', 'gender', 'status',
+        ]);
+        $profileData['dob'] = $request->date_of_birth;
+        $profileData['registration_date'] = $request->registration_date;
 
         if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->password);
+            $userData['password'] = Hash::make($request->password);
         }
         if ($request->hasFile('image')) {
             if ($student->image) Storage::disk('public')->delete($student->image);
-            $data['image'] = $request->file('image')->store('students/photos', 'public');
+            $profileData['image'] = $request->file('image')->store('students/photos', 'public');
         }
         if ($request->hasFile('aadhaar_card')) {
             if ($student->aadhaar_card) Storage::disk('public')->delete($student->aadhaar_card);
-            $data['aadhaar_card'] = $request->file('aadhaar_card')->store('students/aadhaar', 'public');
+            $profileData['aadhaar_card'] = $request->file('aadhaar_card')->store('students/aadhaar', 'public');
         }
 
-        $student->update($data);
+        $student->update($userData);
+        $student->profile()->updateOrCreate(['user_id' => $student->id], $profileData);
         return redirect()->route('admin.students.show', $student)->with('success', 'Student updated successfully!');
     }
 
@@ -105,9 +133,12 @@ class StudentController extends Controller
     public function toggleStatus(User $student)
     {
         $student->update([
-            'status'    => $student->status === 'active' ? 'inactive' : 'active',
             'is_active' => $student->status === 'active' ? false : true,
         ]);
+        $student->profile()->updateOrCreate(
+            ['user_id' => $student->id],
+            ['status' => $student->status === 'active' ? 'inactive' : 'active']
+        );
         return redirect()->back()->with('success', 'Status updated!');
     }
 
@@ -138,9 +169,10 @@ class StudentController extends Controller
         return redirect()->route('admin.students.show', $student)->with('success', 'Course added successfully!');
     }
 
-    public function certificate(User $student, StudentCourse $studentCourse)
+    public function certificate(StudentCourse $studentCourse)
     {
-        return view('admin.students.certificate', compact('student', 'studentCourse'));
+        $student = $studentCourse->student()->with('profile')->firstOrFail();
+        return view('admin.registered_users.certificate', compact('student', 'studentCourse'));
     }
 
     public function updateCertificate(Request $request, StudentCourse $studentCourse)

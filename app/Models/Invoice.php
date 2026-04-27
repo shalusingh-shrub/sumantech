@@ -25,7 +25,7 @@ class Invoice extends Model
 
     public function student()
     {
-        return $this->belongsTo(Student::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function payments()
