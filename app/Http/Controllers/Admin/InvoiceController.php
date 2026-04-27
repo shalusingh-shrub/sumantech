@@ -1,19 +1,16 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Invoice;
 use App\Models\InvoicePayment;
-use App\Models\Student;
+use App\Models\User;
 use App\Models\Course;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 class InvoiceController extends Controller
 {
-    // Student ke saare invoices
-    public function index(Student $student)
+    public function index(User $student)
     {
         $invoices     = Invoice::where('user_id', $student->id)->latest()->get();
         $totalBilled  = $invoices->sum('total_amount');
@@ -33,8 +30,7 @@ class InvoiceController extends Controller
         return view('admin.invoices.index', compact('user', 'invoices', 'totalBilled', 'totalPaid', 'totalBalance', 'courses'));
     }
 
-    // Naya invoice create
-    public function store(Request $request, Student $student)
+    public function store(Request $request, User $student)
     {
         $request->validate([
             'total_amount' => 'required|numeric|min:1',
@@ -59,24 +55,21 @@ class InvoiceController extends Controller
         return redirect()->route('admin.invoices.index', $student)->with('success', 'Invoice created!');
     }
 
-    // Invoice detail
-    public function show(Student $student, Invoice $invoice)
+    public function show(User $student, Invoice $invoice)
     {
         $invoice->load('payments');
         $user = $student;
         return view('admin.invoices.show', compact('user', 'invoice'));
     }
 
-    // Edit invoice
-    public function edit(Student $student, Invoice $invoice)
+    public function edit(User $student, Invoice $invoice)
     {
         $user    = $student;
         $courses = Course::where('is_active', true)->get();
         return view('admin.invoices.edit', compact('user', 'invoice', 'courses'));
     }
 
-    // Update invoice
-    public function update(Request $request, Student $student, Invoice $invoice)
+    public function update(Request $request, User $student, Invoice $invoice)
     {
         $request->validate([
             'total_amount' => 'required|numeric|min:1',
@@ -95,11 +88,9 @@ class InvoiceController extends Controller
         ]);
 
         $invoice->updateStatus();
-
         return redirect()->route('admin.invoices.show', [$student, $invoice])->with('success', 'Invoice updated!');
     }
 
-    // Add payment
     public function addPayment(Request $request, Invoice $invoice)
     {
         $request->validate([
@@ -121,18 +112,16 @@ class InvoiceController extends Controller
         $invoice->save();
         $invoice->updateStatus();
 
-        $student = Student::find($invoice->user_id);
+        $student = User::find($invoice->user_id);
         return redirect()->route('admin.invoices.show', [$student, $invoice])->with('success', 'Payment added!');
     }
 
-    // Edit payment
     public function editPayment(Invoice $invoice, InvoicePayment $payment)
     {
-        $student = Student::find($invoice->user_id);
+        $student = User::find($invoice->user_id);
         return view('admin.invoices.edit_payment', compact('student', 'invoice', 'payment'));
     }
 
-    // Update payment
     public function updatePayment(Request $request, Invoice $invoice, InvoicePayment $payment)
     {
         $request->validate([
@@ -140,8 +129,6 @@ class InvoiceController extends Controller
             'payment_date'   => 'required|date',
             'payment_method' => 'required|in:cash,upi,online,cheque',
         ]);
-
-        $oldAmount = $payment->amount;
 
         $payment->update([
             'amount'         => $request->amount,
@@ -151,39 +138,33 @@ class InvoiceController extends Controller
             'note'           => $request->note,
         ]);
 
-        // Recalculate paid amount
         $invoice->paid_amount = $invoice->payments()->sum('amount');
         $invoice->save();
         $invoice->updateStatus();
 
-        $student = Student::find($invoice->user_id);
+        $student = User::find($invoice->user_id);
         return redirect()->route('admin.invoices.show', [$student, $invoice])->with('success', 'Payment updated!');
     }
 
-    // Delete payment (soft delete)
     public function destroyPayment(Invoice $invoice, InvoicePayment $payment)
     {
         $payment->delete();
-
-        // Recalculate paid amount
         $invoice->paid_amount = $invoice->payments()->sum('amount');
         $invoice->save();
         $invoice->updateStatus();
 
-        $student = Student::find($invoice->user_id);
+        $student = User::find($invoice->user_id);
         return redirect()->route('admin.invoices.show', [$student, $invoice])->with('success', 'Payment deleted!');
     }
 
-    // Invoice print
-    public function print(Student $student, Invoice $invoice)
+    public function print(User $student, Invoice $invoice)
     {
         $invoice->load('payments');
         $user = $student;
         return view('admin.invoices.print', compact('user', 'invoice'));
     }
 
-    // Soft delete invoice
-    public function destroy(Student $student, Invoice $invoice)
+    public function destroy(User $student, Invoice $invoice)
     {
         $invoice->delete();
         return redirect()->route('admin.invoices.index', $student)->with('success', 'Invoice deleted!');

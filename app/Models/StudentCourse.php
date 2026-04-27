@@ -1,6 +1,4 @@
 <?php
-// app/Models/StudentCourse.php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 class StudentCourse extends Model
 {
     protected $fillable = [
-        'student_id',
+        'user_id',
         'course_id',
         'course_name',
         'course_duration',
@@ -29,15 +27,14 @@ class StudentCourse extends Model
     ];
 
     protected $casts = [
-        'start_date'               => 'date',
-        'end_date'                 => 'date',
-        'reg_date'                 => 'date',
-        'certificate_issue_date'   => 'date',
+        'start_date'                 => 'date',
+        'end_date'                   => 'date',
+        'reg_date'                   => 'date',
+        'certificate_issue_date'     => 'date',
         'certificate_receiving_date' => 'date',
-        'regenerate_certificate'   => 'boolean',
+        'regenerate_certificate'     => 'boolean',
     ];
 
-    // Auto-generate certificate_id on create
     protected static function booted(): void
     {
         static::creating(function ($course) {
@@ -50,9 +47,15 @@ class StudentCourse extends Model
         });
     }
 
+    // User se linked (student)
     public function student()
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function course()
@@ -63,15 +66,6 @@ class StudentCourse extends Model
     public function studentMarks()
     {
         return $this->hasMany(StudentMark::class);
-    }
-
-    public function getTotalPercentageAttribute()
-    {
-        $marks = $this->marks;
-        if ($marks->isEmpty()) return 0;
-        $total = $marks->sum('max_marks');
-        $obtained = $marks->sum('obtained_marks');
-        return $total > 0 ? round(($obtained / $total) * 100, 2) : 0;
     }
 
     public function getFinalAmountAttribute(): float

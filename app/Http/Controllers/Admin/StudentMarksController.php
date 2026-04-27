@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Student;
+use App\Models\User;
 use App\Models\StudentCourse;
 use App\Models\StudentMark;
 use App\Models\CourseMarksTemplate;
@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class StudentMarksController extends Controller
 {
-    public function index(Student $student, StudentCourse $studentCourse)
+    public function index(User $student, StudentCourse $studentCourse)
     {
         $marks    = $studentCourse->studentMarks()->get();
         $template = CourseMarksTemplate::where('course_name', $studentCourse->course_name)->first();
@@ -27,7 +27,7 @@ class StudentMarksController extends Controller
         return view('admin.marks.index', compact('student', 'studentCourse', 'marks', 'template'));
     }
 
-    public function store(Request $request, Student $student, StudentCourse $studentCourse)
+    public function store(Request $request, User $student, StudentCourse $studentCourse)
     {
         $request->validate([
             'subjects'  => 'required|array',
@@ -69,16 +69,12 @@ class StudentMarksController extends Controller
             ]);
         }
 
-        // Completion date update
         if ($request->filled('completion_date')) {
             $studentCourse->update(['end_date' => $request->completion_date]);
         }
 
-        // Overall grade
         $overallPct = $totalMax > 0 ? round(($totalObtained / $totalMax) * 100, 1) : 0;
-        $studentCourse->update([
-            'overall_percentage' => $overallPct,
-        ]);
+        $studentCourse->update(['overall_percentage' => $overallPct]);
 
         return redirect()->route('admin.marks.index', [$student, $studentCourse])
                          ->with('success', 'Marks saved! Overall: ' . $overallPct . '%');
