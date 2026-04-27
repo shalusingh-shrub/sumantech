@@ -45,12 +45,13 @@ class RegisterController extends Controller
             'user_type'        => $request->user_type,
             'role'             => in_array($request->user_type, ['teacher', 'student']) ? $request->user_type : 'student',
             'password'         => Hash::make($request->password),
-            'is_active'        => true,
+            'is_active'        => false,
             'can_access_admin' => false, // admin access nahi hoga by default
         ]);
-
+    $regNum = User::generateRegNumber($request->date_of_birth);
         UserProfile::create([
             'user_id' => $user->id,
+            'registration_number' => $regNum,
             'dob' => $request->date_of_birth,
             'mobile' => $request->phone,
             'district' => $request->district,
@@ -70,6 +71,6 @@ class RegisterController extends Controller
         ]);
 
         // Redirect to PORTAL - not admin!
-        return redirect()->route('portal.overview')->with('success', 'Welcome to Teachers of Bihar! Please complete your profile.');
+        return redirect()->route('portal.overview')->with('success', "Welcome $request->name! Please complete your profile.");
     }
 }
