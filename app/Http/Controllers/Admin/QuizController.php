@@ -45,6 +45,9 @@ class QuizController extends Controller
         $data['show_result']         = $request->boolean('show_result');
         $data['allow_retake']        = $request->boolean('allow_retake');
         $data['created_by']          = auth()->id();
+        $data['quiz_name']           = $request->title;
+        $data['quiz_taken']          = 0;
+        $data['quiz_views']          = 0;
 
         if ($request->hasFile('thumbnail')) {
             $data['thumbnail'] = $request->file('thumbnail')->store('quizzes', 'public');
@@ -75,6 +78,7 @@ class QuizController extends Controller
         $data['randomize_options']   = $request->boolean('randomize_options');
         $data['show_result']         = $request->boolean('show_result');
         $data['allow_retake']        = $request->boolean('allow_retake');
+        $data['quiz_name']           = $request->title;
 
         if ($request->hasFile('thumbnail')) {
             if ($quiz->thumbnail) Storage::disk('public')->delete($quiz->thumbnail);
