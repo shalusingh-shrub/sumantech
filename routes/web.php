@@ -348,3 +348,35 @@ Route::post('admin/marks/templates', [\App\Http\Controllers\Admin\CourseMarksTem
 Route::get('admin/marks/templates/{template}/edit', [\App\Http\Controllers\Admin\CourseMarksTemplateController::class, 'edit'])->name('admin.marks.templates.edit')->middleware('auth');
 Route::put('admin/marks/templates/{template}', [\App\Http\Controllers\Admin\CourseMarksTemplateController::class, 'update'])->name('admin.marks.templates.update')->middleware('auth');
 Route::delete('admin/marks/templates/{template}', [\App\Http\Controllers\Admin\CourseMarksTemplateController::class, 'destroy'])->name('admin.marks.templates.destroy')->middleware('auth');
+// ─── Course Offerings & Pricing (Admin) ───────────────────────────────────
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+
+    // Course Offerings CRUD
+    Route::resource('course-offerings', App\Http\Controllers\Admin\CourseOfferingController::class)
+        ->names('course-offerings');
+
+    // Price Management
+    Route::get('course-offerings/{courseOffering}/pricing',
+        [App\Http\Controllers\Admin\CoursePricingController::class, 'index'])
+        ->name('course-offerings.pricing');
+
+    Route::post('course-offerings/{courseOffering}/pricing',
+        [App\Http\Controllers\Admin\CoursePricingController::class, 'update'])
+        ->name('course-offerings.pricing.update');
+
+    // All Enrollments (Admin)
+    Route::get('enrollments',
+        [App\Http\Controllers\EnrollmentController::class, 'adminIndex'])
+        ->name('enrollments.index');
+});
+
+// ─── Enrollments (User) ───────────────────────────────────────────────────
+Route::middleware(['auth'])->group(function () {
+    Route::get('my-enrollments',
+        [App\Http\Controllers\EnrollmentController::class, 'index'])
+        ->name('enrollments.index');
+
+    Route::post('enroll',
+        [App\Http\Controllers\EnrollmentController::class, 'store'])
+        ->name('enrollments.store');
+});
