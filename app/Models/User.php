@@ -71,7 +71,7 @@ class User extends Authenticatable
     }
     do {
         $rand = str_pad(random_int(0, 9999), 4, '0', STR_PAD_LEFT);
-        $reg  = 'ST-' . $dobFormatted  . $rand;
+        $reg  = 'ST-' . $dobFormatted . '-' . $rand;
     } while (UserProfile::where('registration_number', $reg)->exists());
     return $reg;
 }
