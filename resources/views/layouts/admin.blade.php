@@ -88,7 +88,29 @@
         <small>Suman Tech</small>
     </div>
 
-
+<div class="nav-section">Course Management</div>
+<div class="nav-link {{ request()->is('admin/course-offerings*') ? 'active' : '' }}"
+     style="cursor:pointer;" onclick="toggleMenu('offeringMenu')">
+    <i class="fas fa-tags"></i> Course Offerings
+    <i class="fas fa-chevron-down ms-auto" id="offeringMenuIcon" style="font-size:.7rem;"></i>
+</div>
+<div id="offeringMenu" style="display:{{ request()->is('admin/course-offerings*') ? 'block' : 'none' }};">
+    <a href="{{ route('admin.course-offerings.index') }}"
+       class="nav-link {{ request()->routeIs('admin.course-offerings.index') ? 'active' : '' }}"
+       style="padding-left:45px;font-size:12px;">
+        <i class="fas fa-list"></i> All Offerings
+    </a>
+    <a href="{{ route('admin.course-offerings.create') }}"
+       class="nav-link {{ request()->routeIs('admin.course-offerings.create') ? 'active' : '' }}"
+       style="padding-left:45px;font-size:12px;">
+        <i class="fas fa-plus"></i> Add Offering
+    </a>
+    <a href="{{ route('admin.enrollments.index') }}"
+       class="nav-link {{ request()->routeIs('admin.enrollments.index') ? 'active' : '' }}"
+       style="padding-left:45px;font-size:12px;">
+        <i class="fas fa-users"></i> Enrollments
+    </a>
+</div>
     <div class="nav-section">Student</div>
 <div class="nav-link {{ request()->is('admin/registration*') ? 'active' : '' }}"
      style="cursor:pointer;" onclick="toggleMenu('studentMenu')">
