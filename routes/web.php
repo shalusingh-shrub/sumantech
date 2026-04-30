@@ -380,3 +380,7 @@ Route::middleware(['auth'])->group(function () {
         [App\Http\Controllers\EnrollmentController::class, 'store'])
         ->name('enrollments.store');
 });
+// Registered Users - show, edit, update
+Route::get('admin/registered-users/{user}', [App\Http\Controllers\Admin\RegisteredUserController::class, 'show'])->name('admin.registered-users.show')->middleware('auth');
+Route::get('admin/registered-users/{user}/edit', [App\Http\Controllers\Admin\RegisteredUserController::class, 'edit'])->name('admin.registered-users.edit')->middleware('auth');
+Route::put('admin/registered-users/{user}', [App\Http\Controllers\Admin\RegisteredUserController::class, 'update'])->name('admin.registered-users.update')->middleware('auth');
