@@ -28,6 +28,19 @@ class User extends Authenticatable
     }
 
     // Role helpers
+    public function getRouteKeyName(): string
+{
+    return 'uuid';
+}
+  protected static function boot()
+{
+    parent::boot();
+    static::creating(function ($model) {
+        if (!$model->uuid) {
+            $model->uuid = \Illuminate\Support\Str::uuid();
+        }
+    });
+}
     public function isAdmin()    { return $this->role === 'admin'; }
     public function isStudent()  { return $this->role === 'student'; }
     public function isTeacher()  { return $this->role === 'teacher'; }
@@ -71,7 +84,7 @@ class User extends Authenticatable
     }
     do {
         $rand = str_pad(random_int(0, 9999), 4, '0', STR_PAD_LEFT);
-        $reg  = 'ST-' . $dobFormatted  . $rand;
+        $reg  = 'ST-' . $dobFormatted . '-' . $rand;
     } while (UserProfile::where('registration_number', $reg)->exists());
     return $reg;
 }
