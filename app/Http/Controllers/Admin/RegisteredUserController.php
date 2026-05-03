@@ -43,6 +43,41 @@ class RegisteredUserController extends Controller
         $msg = $user->can_access_admin ? 'Admin access diya gaya!' : 'Admin access hataya gaya!';
         return back()->with('success', $msg);
     }
+    public function show(User $user) {
+    $user->load('profile');
+    return view('admin.registered_users.show', compact('user'));
+}
+
+public function edit(User $user) {
+    $user->load('profile');
+    return view('admin.registered_users.edit', compact('user'));
+}
+
+public function update(Request $request, User $user) {
+    $request->validate([
+        'name'  => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,'.$user->id,
+        'phone' => 'nullable|string|max:20',
+    ]);
+
+    $user->update([
+        'name'       => $request->name,
+        'email'      => $request->email,
+        'phone'      => $request->phone,
+        'user_type'  => $request->user_type ?? $user->user_type,
+        'is_active'  => $request->boolean('is_active'),
+    ]);
+
+    if ($user->profile) {
+        $user->profile->update([
+            'district' => $request->district,
+            'school'   => $request->school,
+        ]);
+    }
+
+    return redirect()->route('admin.registered-users.index')
+        ->with('success', 'User updated!');
+}
 
     public function destroy(User $user) {
         if ($user->hasRole('super_admin')) {

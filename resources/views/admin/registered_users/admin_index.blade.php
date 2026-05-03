@@ -188,6 +188,14 @@
               <td style="color:#6c757d;font-size:.78rem;">{{ $user->created_at->format('d M Y') }}</td>
               <td>
                 <div class="d-flex gap-1">
+                  <a href="{{ route('admin.registered-users.show', $user) }}"
+                     class="btn btn-sm btn-outline-info" title="View" style="padding:4px 8px;">
+                    <i class="fas fa-eye" style="font-size:.75rem;"></i>
+                  </a>
+                  <a href="{{ route('admin.registered-users.edit', $user) }}"
+                     class="btn btn-sm btn-outline-primary" title="Edit" style="padding:4px 8px;">
+                    <i class="fas fa-edit" style="font-size:.75rem;"></i>
+                  </a>
                   <form method="POST" action="{{ route('admin.registered-users.toggle', $user) }}" class="d-inline">
                     @csrf @method('PATCH')
                     <button class="btn btn-sm btn-outline-warning" title="Toggle Status" style="padding:4px 8px;">
