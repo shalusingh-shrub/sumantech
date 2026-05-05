@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\UserProfile;
 use App\Models\TeamMember;
 use App\Models\NewsEvent;
 use App\Models\Publication;
@@ -54,18 +55,49 @@ class DatabaseSeeder extends Seeder
         $editor = Role::firstOrCreate(["name" => "editor"]);
         $editor->givePermissionTo(["manage_news", "manage_publications", "manage_eip", "view_dashboard"]);
 
+        $teacher = Role::firstOrCreate(["name" => "teacher"]);
+        $teacher->givePermissionTo(["view_dashboard"]);
+
+        Role::firstOrCreate(["name" => "student"]);
+
         // ── Users ─────────────────────────────────────
-        $u1 = User::firstOrCreate(["email" => "admin@teachersofbihar.org"], [
-            "name" => "Super Admin", "password" => Hash::make("password"),
-            "designation" => "Administrator", "is_active" => true,
+        $u1 = User::firstOrCreate(["email" => "admin@sumantech.in"], [
+            "name" => "Super Admin", "password" => Hash::make("Password@2026"),
+            "is_active" => true,
         ]);
+        $u1->update(["role" => "admin", "user_type" => "other", "can_access_admin" => true, "is_active" => true]);
+        UserProfile::updateOrCreate(["user_id" => $u1->id], ["designation" => "Administrator"]);
         $u1->assignRole("super_admin");
 
-        $u2 = User::firstOrCreate(["email" => "editor@teachersofbihar.org"], [
-            "name" => "Content Editor", "password" => Hash::make("password"),
-            "designation" => "Editor", "is_active" => true,
+        $u2 = User::firstOrCreate(["email" => "editor@sumantech.in"], [
+            "name" => "Content Editor", "password" => Hash::make("Password@2026"),
+            "is_active" => true,
         ]);
+        $u2->update(["role" => "admin", "user_type" => "other", "can_access_admin" => true, "is_active" => true]);
+        UserProfile::updateOrCreate(["user_id" => $u2->id], ["designation" => "Editor"]);
         $u2->assignRole("editor");
+
+        $u3 = User::firstOrCreate(["email" => "teacher@sumantech.in"], [
+            "name" => "Demo Teacher", "password" => Hash::make("Password@2026"),
+            "is_active" => true,
+        ]);
+        $u3->update(["role" => "teacher", "user_type" => "teacher", "can_access_admin" => false, "is_active" => true]);
+        UserProfile::updateOrCreate(["user_id" => $u3->id], [
+            "designation" => "Teacher",
+            "status" => "active",
+        ]);
+        $u3->assignRole("teacher");
+
+        $u4 = User::firstOrCreate(["email" => "student@sumantech.in"], [
+            "name" => "Demo Student", "password" => Hash::make("Password@2026"),
+            "is_active" => true,
+        ]);
+        $u4->update(["role" => "student", "user_type" => "student", "can_access_admin" => false, "is_active" => true]);
+        UserProfile::updateOrCreate(["user_id" => $u4->id], [
+            "designation" => "Student",
+            "status" => "active",
+        ]);
+        $u4->assignRole("student");
 
         // ── Sliders ───────────────────────────────────
         $sliders = [
@@ -91,12 +123,12 @@ class DatabaseSeeder extends Seeder
 
         // ── Team Members ──────────────────────────────
         $teamMembers = [
-            ["name" => "Dr. Rajesh Kumar",  "designation" => "Founder & President",  "department" => "Leadership",                "phone" => "9430000001", "email" => "founder@teachersofbihar.org",   "about" => "Ph.D. (Education), M.Ed., B.Ed. Founder of Teachers of Bihar. 20+ years of experience in education reform.", "role_type" => "founder",    "sort_order" => 1, "is_active" => true],
-            ["name" => "Dr. Priya Singh",   "designation" => "Co-Founder",           "department" => "Leadership",                "phone" => "9430000002", "email" => "cofounder@teachersofbihar.org", "about" => "M.Ed., Ph.D. (Education). Co-founder and core member driving curriculum innovation.", "role_type" => "co_founder", "sort_order" => 2, "is_active" => true],
-            ["name" => "Dr. Anju Kumari",   "designation" => "Lecturer",             "department" => "CMDE",                      "phone" => "9470333667", "email" => "anju@teachersofbihar.org",      "about" => "M.Sc. (Zoology), M.Ed., Ph.D.(Education), UGC-NET. Expert in curriculum development.", "role_type" => "lecturer",   "sort_order" => 3, "is_active" => true],
-            ["name" => "Mr. Amit Verma",    "designation" => "Core Member",          "department" => "Technology & Innovation",   "phone" => "9430000004", "email" => "amit@teachersofbihar.org",      "about" => "B.Tech, M.Ed. Technology enthusiast bridging tech and education.", "role_type" => "core_team",  "sort_order" => 4, "is_active" => true],
-            ["name" => "Mrs. Sunita Devi",  "designation" => "Content Specialist",   "department" => "Content Development",       "phone" => "9430000005", "email" => "sunita@teachersofbihar.org",    "about" => "M.A. (Hindi), B.Ed. Specializes in Hindi content for primary students.", "role_type" => "member",     "sort_order" => 5, "is_active" => true],
-            ["name" => "Mr. Vivek Sharma",  "designation" => "District Coordinator", "department" => "Field Operations",          "phone" => "9430000006", "email" => "vivek@teachersofbihar.org",     "about" => "B.Ed., M.A. Coordinates activities across 10 districts of Bihar.", "role_type" => "member",     "sort_order" => 6, "is_active" => true],
+            ["name" => "Dr. Rajesh Kumar",  "designation" => "Founder & President",  "department" => "Leadership",                "phone" => "9430000001", "email" => "founder@sumantech.in",   "about" => "Ph.D. (Education), M.Ed., B.Ed. Founder of Teachers of Bihar. 20+ years of experience in education reform.", "role_type" => "founder",    "sort_order" => 1, "is_active" => true],
+            ["name" => "Dr. Priya Singh",   "designation" => "Co-Founder",           "department" => "Leadership",                "phone" => "9430000002", "email" => "cofounder@sumantech.in", "about" => "M.Ed., Ph.D. (Education). Co-founder and core member driving curriculum innovation.", "role_type" => "co_founder", "sort_order" => 2, "is_active" => true],
+            ["name" => "Dr. Anju Kumari",   "designation" => "Lecturer",             "department" => "CMDE",                      "phone" => "9470333667", "email" => "anju@sumantech.in",      "about" => "M.Sc. (Zoology), M.Ed., Ph.D.(Education), UGC-NET. Expert in curriculum development.", "role_type" => "lecturer",   "sort_order" => 3, "is_active" => true],
+            ["name" => "Mr. Amit Verma",    "designation" => "Core Member",          "department" => "Technology & Innovation",   "phone" => "9430000004", "email" => "amit@sumantech.in",      "about" => "B.Tech, M.Ed. Technology enthusiast bridging tech and education.", "role_type" => "core_team",  "sort_order" => 4, "is_active" => true],
+            ["name" => "Mrs. Sunita Devi",  "designation" => "Content Specialist",   "department" => "Content Development",       "phone" => "9430000005", "email" => "sunita@sumantech.in",    "about" => "M.A. (Hindi), B.Ed. Specializes in Hindi content for primary students.", "role_type" => "member",     "sort_order" => 5, "is_active" => true],
+            ["name" => "Mr. Vivek Sharma",  "designation" => "District Coordinator", "department" => "Field Operations",          "phone" => "9430000006", "email" => "vivek@sumantech.in",     "about" => "B.Ed., M.A. Coordinates activities across 10 districts of Bihar.", "role_type" => "member",     "sort_order" => 6, "is_active" => true],
         ];
         foreach ($teamMembers as $tm) {
             TeamMember::firstOrCreate(["email" => $tm["email"]], $tm);
@@ -226,6 +258,9 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->command->info('✅ Sab tables mein data seed ho gaya!');
-        $this->command->info('📧 Admin login: admin@teachersofbihar.org / password');
+        $this->command->info('📧 Admin login: admin@sumantech.in / Password@2026');
+        $this->command->info('📧 Editor login: editor@sumantech.in / Password@2026');
+        $this->command->info('📧 Teacher login: teacher@sumantech.in / Password@2026');
+        $this->command->info('📧 Student login: student@sumantech.in / Password@2026');
     }
 }
