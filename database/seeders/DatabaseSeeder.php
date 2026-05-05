@@ -9,7 +9,8 @@ use App\Models\UserProfile;
 use App\Models\TeamMember;
 use App\Models\NewsEvent;
 use App\Models\Publication;
-use App\Models\Gallery;
+use App\Models\GalleryGroup;
+use App\Models\GalleryItem;
 use App\Models\Testimonial;
 use App\Models\TopFlash;
 use App\Models\Award;
@@ -179,7 +180,22 @@ class DatabaseSeeder extends Seeder
             ["title" => "Teacher Interviews 2025",                       "type" => "media", "video_url" => "https://www.youtube.com/watch?v=example3", "category" => "interview",  "is_active" => true],
         ];
         foreach ($galleries as $g) {
-            Gallery::firstOrCreate(["title" => $g["title"]], $g);
+            $group = GalleryGroup::firstOrCreate(
+                ["slug" => $g["category"]],
+                [
+                    "name" => ucwords(str_replace("_", " ", $g["category"])),
+                    "type" => $g["type"] === "image" ? "image" : "video",
+                    "is_active" => true,
+                ]
+            );
+
+            GalleryItem::firstOrCreate(
+                ["gallery_group_id" => $group->id, "title" => $g["title"]],
+                [
+                    "video_url" => $g["video_url"] ?? null,
+                    "is_active" => $g["is_active"],
+                ]
+            );
         }
 
         // ── Awards ────────────────────────────────────
