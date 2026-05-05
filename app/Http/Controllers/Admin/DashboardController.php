@@ -10,7 +10,7 @@ use App\Models\NewsEvent;
 use App\Models\Contact;
 use App\Models\Suggestion;
 use App\Models\Publication;
-use App\Models\Gallery;
+use App\Models\GalleryItem;
 use App\Models\Opinion;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -32,7 +32,7 @@ class DashboardController extends Controller implements HasMiddleware
             'team_members' => TeamMember::count(),
             'news' => NewsEvent::count(),
             'publications' => Publication::count(),
-            'gallery' => Gallery::count(),
+            'gallery' => GalleryItem::count(),
             'contacts' => Contact::where('is_read', false)->count(),
             'suggestions' => Suggestion::where('is_read', false)->count(),
             'opinions' => Opinion::where('is_approved', false)->count(),

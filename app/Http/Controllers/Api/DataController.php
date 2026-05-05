@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\NewsEvent;
 use App\Models\Publication;
-use App\Models\Gallery;
+use App\Models\GalleryItem;
 use App\Models\TeamMember;
 use App\Models\Award;
 use App\Models\Competition;
@@ -133,10 +133,16 @@ class DataController extends Controller
     // =============================================
     public function gallery(Request $request): JsonResponse
     {
-        $query = Gallery::where('is_active', true)->latest();
+        $query = GalleryItem::with('group')
+            ->where('is_active', true)
+            ->whereHas('group', fn ($q) => $q->where('is_active', true))
+            ->latest();
 
         if ($request->has('type')) {
-            $query->where('type', $request->type); // image, video, media
+            $type = $request->type === 'media' ? null : $request->type;
+            if ($type) {
+                $query->whereHas('group', fn ($q) => $q->where('type', $type));
+            }
         }
 
         $gallery = $query->paginate(12);

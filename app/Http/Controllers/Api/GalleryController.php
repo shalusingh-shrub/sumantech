@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Gallery;
+use App\Models\GalleryItem;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -15,25 +15,33 @@ class GalleryController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $query = Gallery::where('is_active', true);
+        $query = GalleryItem::with('group')
+            ->where('is_active', true)
+            ->whereHas('group', fn ($q) => $q->where('is_active', true));
 
         // Global Search
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('category', 'like', "%{$search}%");
+                  ->orWhereHas('group', function ($group) use ($search) {
+                      $group->where('name', 'like', "%{$search}%")
+                          ->orWhere('slug', 'like', "%{$search}%");
+                  });
             });
         }
 
         // Filter by type (image / video / media)
         if ($request->filled('type')) {
-            $query->where('type', $request->type);
+            $type = $request->type === 'media' ? null : $request->type;
+            if ($type) {
+                $query->whereHas('group', fn ($q) => $q->where('type', $type));
+            }
         }
 
         // Filter by category
         if ($request->filled('category')) {
-            $query->where('category', $request->category);
+            $query->whereHas('group', fn ($q) => $q->where('slug', $request->category));
         }
 
         // Date wise search
@@ -76,8 +84,10 @@ class GalleryController extends Controller
      */
     public function show(int $id): JsonResponse
     {
-        $gallery = Gallery::where('id', $id)
+        $gallery = GalleryItem::with('group')
+            ->where('id', $id)
             ->where('is_active', true)
+            ->whereHas('group', fn ($q) => $q->where('is_active', true))
             ->first();
 
         if (!$gallery) {
