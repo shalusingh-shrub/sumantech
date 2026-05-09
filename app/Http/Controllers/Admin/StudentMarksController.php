@@ -18,9 +18,13 @@ class StudentMarksController extends Controller
         if ($template) {
             if (is_string($template->subjects)) {
                 $template->subjects = json_decode($template->subjects, true) ?? [];
+            } elseif (is_null($template->subjects)) {
+                $template->subjects = [];
             }
             if (is_string($template->grade_standards)) {
                 $template->grade_standards = json_decode($template->grade_standards, true) ?? [];
+            } elseif (is_null($template->grade_standards)) {
+                $template->grade_standards = [];
             }
         }
 

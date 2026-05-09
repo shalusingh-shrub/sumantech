@@ -12,7 +12,7 @@ class CertificateController extends Controller
             'certificate_id' => 'required|string',
         ]);
 
-        $cert = StudentCourse::with('student')
+        $cert = StudentCourse::with('user')
             ->where('certificate_id', $request->certificate_id)
             ->where('cert_status', 'Active')
             ->first();

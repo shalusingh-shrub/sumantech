@@ -88,10 +88,70 @@
 
                     <div class="col-md-4">
                         <label class="form-label fw-semibold" style="font-size:.88rem;">Course Marks:</label>
-                        <input type="text" name="marks" class="form-control"
+                        <input type="text" name="marks" id="marksField" class="form-control"
                                placeholder="e.g. 75%" value="{{ old('marks', $course->marks) }}"
                                style="font-size:.88rem;">
+                        @php
+                            $subjectMarks = $course->studentMarks ?? collect();
+                            $totalMax     = $subjectMarks->sum('max_marks');
+                            $totalObt     = $subjectMarks->sum('obtained_marks');
+                            $overallPct   = $totalMax > 0 ? round(($totalObt/$totalMax)*100, 1) : null;
+                        @endphp
+                        @if($overallPct !== null)
+                        <small class="text-success fw-semibold mt-1 d-block">
+                            <i class="fas fa-chart-line me-1"></i>
+                            Marks se calculated: <strong>{{ $overallPct }}%</strong>
+                            <button type="button" onclick="document.getElementById('marksField').value='{{ $overallPct }}%'"
+                                    class="btn btn-xs btn-outline-success ms-2" style="font-size:.75rem;padding:1px 8px;">
+                                Auto Fill
+                            </button>
+                        </small>
+                        @endif
                     </div>
+
+                    {{-- Subject-wise Marks Table --}}
+                    @if(isset($subjectMarks) && $subjectMarks->count() > 0)
+                    <div class="col-12">
+                        <label class="form-label fw-semibold" style="font-size:.88rem;">
+                            <i class="fas fa-list-ol me-1 text-primary"></i>Subject-wise Marks:
+                        </label>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-sm mb-0" style="font-size:.85rem;">
+                                <thead style="background:#1a2a6c;color:#fff;">
+                                    <tr>
+                                        <th class="px-3">#</th>
+                                        <th>Subject Name</th>
+                                        <th class="text-center">Max Marks</th>
+                                        <th class="text-center">Obtained Marks</th>
+                                        <th class="text-center">Percentage</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($subjectMarks as $si => $mark)
+                                    @php $pct = $mark->max_marks > 0 ? round(($mark->obtained_marks/$mark->max_marks)*100,1) : 0; @endphp
+                                    <tr style="background:{{ $si%2==0?'#f8f9fa':'#fff' }};">
+                                        <td class="px-3">{{ $si+1 }}</td>
+                                        <td class="fw-semibold">{{ $mark->subject_name }}</td>
+                                        <td class="text-center">{{ $mark->max_marks }}</td>
+                                        <td class="text-center fw-bold" style="color:#1a2a6c;">{{ $mark->obtained_marks }}</td>
+                                        <td class="text-center fw-bold" style="color:{{ $pct >= 50 ? 'green':'red' }};">
+                                            {{ $pct }}%
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                    <tr style="background:#e8edff;font-weight:700;">
+                                        <td colspan="2" class="px-3">Total</td>
+                                        <td class="text-center">{{ $totalMax }}</td>
+                                        <td class="text-center" style="color:#1a2a6c;">{{ $totalObt }}</td>
+                                        <td class="text-center" style="color:{{ $overallPct >= 50 ? 'green':'red' }};">
+                                            {{ $overallPct }}%
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    @endif
 
                     <div class="col-md-8">
                         <label class="form-label fw-semibold" style="font-size:.88rem;">

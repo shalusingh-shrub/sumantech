@@ -220,6 +220,7 @@ class RegistrationController extends Controller
     public function editCourse(User $student, StudentCourse $course)
     {
         $courses = $this->courseList;
+        $course->load('studentMarks');
         return view('admin.registration.edit_course', compact('student', 'course', 'courses'));
     }
 

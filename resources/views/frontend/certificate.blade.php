@@ -40,7 +40,7 @@
 
         {{-- Certificate Result --}}
         @if(session('cert'))
-        @php $cert = session('cert'); $student = $cert->student; @endphp
+        @php $cert = session('cert'); $student = $cert->user; @endphp
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card border-0 shadow-lg" style="border-radius:20px;overflow:hidden;">
@@ -116,6 +116,42 @@
                                         </td>
                                         <td style="color:green;font-weight:700;">{{ $cert->marks ?? 'N/A' }}%</td>
                                     </tr>
+                                    @if($cert->studentMarks && $cert->studentMarks->count() > 0)
+                                    <tr>
+                                        <td colspan="2" style="padding:0;">
+                                            <table class="table table-sm mb-0" style="font-size:.85rem;">
+                                                <thead style="background:#0B1F3A;color:#fff;">
+                                                    <tr>
+                                                        <th class="px-3 py-2">#</th>
+                                                        <th class="py-2">Subject</th>
+                                                        <th class="py-2 text-center">Max Marks</th>
+                                                        <th class="py-2 text-center">Obtained</th>
+                                                        <th class="py-2 text-center">Percentage</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($cert->studentMarks as $si => $mark)
+                                                    <tr style="background:{{ $si%2==0?'#f8f9fa':'#fff' }};">
+                                                        <td class="px-3">{{ $si+1 }}</td>
+                                                        <td class="fw-semibold">{{ $mark->subject_name }}</td>
+                                                        <td class="text-center">{{ $mark->max_marks }}</td>
+                                                        <td class="text-center fw-bold" style="color:#1557B0;">{{ $mark->obtained_marks }}</td>
+                                                        <td class="text-center fw-bold" style="color:{{ $mark->max_marks > 0 && (($mark->obtained_marks/$mark->max_marks)*100) >= 50 ? 'green' : 'red' }};">
+                                                            {{ $mark->max_marks > 0 ? round(($mark->obtained_marks/$mark->max_marks)*100,1) : 0 }}%
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                    <tr style="background:#e8edff;font-weight:700;">
+                                                        <td colspan="2" class="px-3">Total</td>
+                                                        <td class="text-center">{{ $cert->studentMarks->sum('max_marks') }}</td>
+                                                        <td class="text-center" style="color:#1557B0;">{{ $cert->studentMarks->sum('obtained_marks') }}</td>
+                                                        <td class="text-center" style="color:green;">{{ $cert->marks ?? 'N/A' }}%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    @endif
                                     <tr>
                                         <td class="fw-bold" style="background:#f8f9fa;">
                                             <i class="fas fa-calendar-check me-2 text-primary"></i>Issue Date
