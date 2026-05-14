@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\GoodLuckMessageController;
 use App\Http\Controllers\Admin\EipResourceController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\QuizController;
+use App\Http\Controllers\Admin\InaugurationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,6 +87,8 @@ Route::post('/complaint-suggestion', [ContactController::class, 'suggestionStore
 // Your Opinion
 Route::get('/youropinionmatters', [HomeController::class, 'yourOpinion'])->name('your-opinion');
 Route::post('/youropinionmatters', [HomeController::class, 'yourOpinionStore'])->name('opinion.store');
+Route::get('/inauguration/{inauguration}/poster', [App\Http\Controllers\FrontInaugurationController::class, 'poster'])->name('inauguration.poster');
+Route::post('/inauguration/{inauguration}/verify', [App\Http\Controllers\FrontInaugurationController::class, 'verify'])->name('inauguration.verify');
 
 // Auth Routes
 require __DIR__.'/auth.php';
@@ -113,6 +116,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
 
     // Slider Management
     Route::resource('sliders', SliderController::class);
+
+    // Inauguration Management
+    Route::resource('inaugurations', InaugurationController::class)->except(['show']);
 
     // Publications Management
     Route::resource('publications', AdminPublicationController::class);
