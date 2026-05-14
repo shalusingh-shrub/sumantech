@@ -33,7 +33,13 @@ class HomeController extends Controller
     public function courses()
     {
         $courses = \App\Models\Course::where('is_active', true)->get();
-        return view('frontend.courses', compact('courses'));
+        $offeringsList = \App\Models\CourseOffering::with('course')
+            ->where('is_active', true)->get();
+        $offerings = [];
+        foreach($offeringsList as $o) {
+            $offerings[$o->course_id] = $o;
+        }
+        return view('frontend.courses', compact('courses', 'offerings'));
     }
 
     public function courseShow($id)

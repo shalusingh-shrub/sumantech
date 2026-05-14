@@ -58,14 +58,28 @@ class RegistrationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'          => 'required|string|max:100',
-            'father_name'   => 'required|string|max:100',
-            'date_of_birth' => 'required|date',
-            'mobile'        => 'required|digits:10|unique:user_profiles,mobile',
-            'address'       => 'required|string',
-            'gender'        => 'required|in:male,female,other',
-            'password'      => 'required|string|min:4',
+            'name'                => 'required|string|max:100|regex:/^[a-za-z\s]+$/',
+            'father_name'         => 'required|string|max:100|regex:/^[a-za-z\s]+$/',
+            'date_of_birth'       => 'required|date|before:today',
+            'mobile'              => 'required|digits:10|unique:user_profiles,mobile',
+            'whatsapp'            => 'nullable|digits:10',
+            'email'               => 'nullable|email|unique:users,email',
+            'address'             => 'required|string|max:500',
+            'gender'              => 'required|in:male,female,other',
+            'password'            => 'required|string|min:4|max:20',
+            'aadhaar_number'      => 'nullable|digits:12',
+            'image'               => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'aadhaar_card'        => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'registration_number' => 'nullable|unique:user_profiles,registration_number',
+        ], [
+            'name.regex'          => 'name sirf english letters mein hona chahiye!',
+            'father_name.regex'   => 'father name sirf english letters mein hona chahiye!',
+            'date_of_birth.before'=> 'date of birth future mein nahi ho sakti!',
+            'mobile.digits'       => 'mobile number 10 digits ka hona chahiye!',
+            'mobile.unique'       => 'ye mobile number already registered hai!',
+            'email.unique'        => 'ye email already registered hai!',
+            'aadhaar_number.digits'=> 'aadhaar number 12 digits ka hona chahiye!',
+            'image.max'           => 'image size 2mb se zyada nahi honi chahiye!',
         ]);
 
         if ($request->filled('registration_number')) {
@@ -133,12 +147,23 @@ class RegistrationController extends Controller
     public function update(Request $request, User $student)
     {
         $request->validate([
-            'name'          => 'required|string|max:100',
-            'father_name'   => 'required|string|max:100',
-            'date_of_birth' => 'required|date',
-            'mobile'        => 'required|digits:10',
-            'address'       => 'required|string',
-            'gender'        => 'required|in:male,female,other',
+            'name'           => 'required|string|max:100|regex:/^[a-za-z\s]+$/',
+            'father_name'    => 'required|string|max:100|regex:/^[a-za-z\s]+$/',
+            'date_of_birth'  => 'required|date|before:today',
+            'mobile'         => 'required|digits:10',
+            'whatsapp'       => 'nullable|digits:10',
+            'address'        => 'required|string|max:500',
+            'gender'         => 'required|in:male,female,other',
+            'aadhaar_number' => 'nullable|digits:12',
+            'image'          => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'aadhaar_card'   => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'password'       => 'nullable|string|min:4|max:20',
+        ], [
+            'name.regex'          => 'name sirf english letters mein hona chahiye!',
+            'father_name.regex'   => 'father name sirf english letters mein hona chahiye!',
+            'date_of_birth.before'=> 'date of birth future mein nahi ho sakti!',
+            'mobile.digits'       => 'mobile number 10 digits ka hona chahiye!',
+            'aadhaar_number.digits'=> 'aadhaar number 12 digits ka hona chahiye!',
         ]);
 
         $userData = [

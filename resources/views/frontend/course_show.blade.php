@@ -159,11 +159,34 @@
             <span class="fw-bold" style="color:#F0A500;font-size:1.2rem;">₹{{ number_format($course->fee, 0) }}</span>
           </div>
 
-          <a href="{{ route('admin.registration.create') }}"
+          @php
+            $courseOffering = \App\Models\CourseOffering::where('course_id', $course->id)->where('is_active', true)->first();
+          @endphp
+          @if($courseOffering)
+            @auth
+            <form method="POST" action="{{ route('enrollments.store') }}">
+              @csrf
+              <input type="hidden" name="course_offering_id" value="{{ $courseOffering->id }}">
+              <button type="submit" class="btn w-100 fw-bold py-2 mb-2"
+                      style="background:#F0A500;color:#0B1F3A;border-radius:8px;"
+                      onclick="return confirm('Do you want to enroll in this course?')">
+                <i class="fas fa-user-plus me-2"></i>Enroll Now
+              </button>
+            </form>
+            @else
+            <a href="{{ route('login') }}"
+               class="btn w-100 fw-bold py-2 mb-2"
+               style="background:#F0A500;color:#0B1F3A;border-radius:8px;">
+              <i class="fas fa-user-plus me-2"></i>Enroll Now
+            </a>
+            @endauth
+          @else
+          <a href="{{ route('contact') }}"
              class="btn w-100 fw-bold py-2 mb-2"
              style="background:#F0A500;color:#0B1F3A;border-radius:8px;">
             <i class="fas fa-user-plus me-2"></i>Enroll Now
           </a>
+          @endif
           <a href="{{ route('contact') }}"
              class="btn w-100 fw-bold py-2"
              style="background:#0B1F3A;color:#fff;border-radius:8px;">

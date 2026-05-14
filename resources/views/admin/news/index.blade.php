@@ -86,7 +86,7 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="7" class="text-center py-4 text-muted">Koi news/event nahi mila.</td></tr>
+                <tr><td colspan="7" class="text-center py-4 text-muted">No news/event found.</td></tr>
                 @endforelse
             </tbody>
         </table>

@@ -23,15 +23,15 @@ class EnrollmentController extends Controller
         $offering = CourseOffering::findOrFail($request->course_offering_id);
 
         if ($this->enrollmentService->isAlreadyEnrolled(auth()->user(), $offering)) {
-            return redirect()->back()->with('error', 'Aap already is course mein enrolled hain!');
+            return redirect()->route('courses')->with('error', 'Aap already is course mein enrolled hain!');
         }
 
         try {
             $enrollment = $this->enrollmentService->enroll(auth()->user(), $offering);
-            return redirect()->route('enrollments.index')
-                ->with('success', 'Successfully enrolled! Start: ' . $enrollment->start_date->format('d M Y'));
+            return redirect()->route('courses')
+                ->with('success', 'Successfully enrolled in ' . $offering->course->name . '!');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('courses')->with('error', $e->getMessage());
         }
     }
 

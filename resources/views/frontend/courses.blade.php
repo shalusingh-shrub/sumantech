@@ -58,11 +58,32 @@
               <span class="fw-bold" style="color:#F0A500;font-size:1.1rem;">
                 ₹{{ number_format($course->fee, 0) }}
               </span>
-              <a href="{{ route('course.show', $course->id) }}"
-                 class="btn btn-sm fw-bold px-3"
-                 style="background:#0B1F3A;color:#fff;border-radius:8px;">
-                View Details
-              </a>
+              <div class="d-flex gap-2">
+                <a href="{{ route('course.show', $course->id) }}"
+                   class="btn btn-sm fw-bold px-3"
+                   style="background:#0B1F3A;color:#fff;border-radius:8px;">
+                  View Details
+                </a>
+                @if(isset($offerings[$course->id]))
+                  @auth
+                    <form method="POST" action="{{ route('enrollments.store') }}">
+                      @csrf
+                      <input type="hidden" name="course_offering_id" value="{{ $offerings[$course->id]->id }}">
+                      <button type="submit" class="btn btn-sm fw-bold px-3"
+                              style="background:#F0A500;color:#0B1F3A;border-radius:8px;"
+                              onclick="return confirm('Do you want to enroll in this course?')">
+                        <i class="fas fa-user-plus me-1"></i>Enroll
+                      </button>
+                    </form>
+                  @else
+                    <a href="{{ route('login') }}"
+                       class="btn btn-sm fw-bold px-3"
+                       style="background:#F0A500;color:#0B1F3A;border-radius:8px;">
+                      <i class="fas fa-user-plus me-1"></i>Enroll
+                    </a>
+                  @endauth
+                @endif
+              </div>
             </div>
           </div>
         </div>
