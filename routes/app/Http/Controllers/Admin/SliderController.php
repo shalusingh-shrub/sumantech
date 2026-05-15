@@ -44,7 +44,7 @@ class SliderController extends Controller implements HasMiddleware
         }
 
         Slider::create($data);
-        return redirect()->route('admin.sliders.index')->with('success', 'Slider successfully add ho gaya!');
+        return redirect()->route('admin.sliders.index')->with('success', 'Slider added successfully.');
     }
 
     public function edit(Slider $slider) { return view('admin.sliders.edit', compact('slider')); }
@@ -61,12 +61,12 @@ class SliderController extends Controller implements HasMiddleware
         }
 
         $slider->update($data);
-        return redirect()->route('admin.sliders.index')->with('success', 'Slider successfully update ho gaya!');
+        return redirect()->route('admin.sliders.index')->with('success', 'Slider updated successfully.');
     }
 
     public function destroy(Slider $slider)
     {
         $slider->delete();
-        return redirect()->route('admin.sliders.index')->with('success', 'Slider delete ho gaya!');
+        return redirect()->route('admin.sliders.index')->with('success', 'Slider deleted successfully.');
     }
 }

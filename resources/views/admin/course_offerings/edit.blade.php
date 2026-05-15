@@ -33,7 +33,7 @@
             {{-- Warning --}}
             <div class="alert alert-warning">
                 <i class="fas fa-exclamation-triangle me-2"></i>
-                <strong>Note:</strong> Duration change karne se sirf <strong>naye enrollments</strong> affect honge. Purane enrollments unchanged rahenge!
+                <strong>Note:</strong> Changing the duration will affect only <strong>new enrollments</strong>. Existing enrollments will remain unchanged.
             </div>
 
             <form action="{{ route('admin.course-offerings.update', $courseOffering) }}" method="POST">
@@ -45,7 +45,7 @@
                         <label class="form-label fw-semibold">Course</label>
                         <input type="text" class="form-control bg-light"
                                value="{{ $courseOffering->course->name }}" readonly>
-                        <small class="text-muted">Course change nahi ho sakta</small>
+                        <small class="text-muted">Course cannot be changed.</small>
                     </div>
 
                     {{-- Duration --}}
@@ -78,7 +78,7 @@
                                    readonly>
                         </div>
                         <small class="text-muted">
-                            Price change karne ke liye
+                            To change the price
                             <a href="{{ route('admin.course-offerings.pricing', $courseOffering) }}">Price Management</a>
                             pe jao
                         </small>

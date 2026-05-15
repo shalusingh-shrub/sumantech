@@ -83,7 +83,7 @@ class GalleryController extends Controller
         if (!$gallery) {
             return response()->json([
                 'success' => false,
-                'message' => 'Gallery item nahi mila.',
+                'message' => 'Gallery item not found.',
             ], 404);
         }
 

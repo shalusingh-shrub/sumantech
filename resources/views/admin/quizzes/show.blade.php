@@ -86,12 +86,12 @@
             </div>
             <div class="mb-3">
               <label class="form-label fw-semibold">Question *</label>
-              <textarea name="question" class="form-control" rows="3" placeholder="Question likhо yahan..." required></textarea>
+              <textarea name="question" class="form-control" rows="3" placeholder="Enter the question here..." required></textarea>
             </div>
 
             {{-- MCQ options --}}
             <div id="add_mcq_section">
-              <label class="form-label fw-semibold">Options (Correct wala select karo)</label>
+              <label class="form-label fw-semibold">Options (Select the correct one)</label>
               @for($i = 0; $i < 4; $i++)
               <div class="input-group mb-2">
                 <div class="input-group-text">
@@ -105,7 +105,7 @@
 
             {{-- Multiple Correct options --}}
             <div id="add_mc_section" style="display:none;">
-              <label class="form-label fw-semibold">Options (Sab correct wale check karo)</label>
+              <label class="form-label fw-semibold">Options (Select all correct answers)</label>
               @for($i = 0; $i < 4; $i++)
               <div class="input-group mb-2">
                 <div class="input-group-text">
@@ -164,7 +164,7 @@
             </div>
 
             <div id="edit_mcq_section">
-              <label class="form-label fw-semibold">Options (Correct wala select karo)</label>
+              <label class="form-label fw-semibold">Options (Select the correct one)</label>
               @for($i = 0; $i < 4; $i++)
               <div class="input-group mb-2">
                 <div class="input-group-text">
@@ -176,7 +176,7 @@
             </div>
 
             <div id="edit_mc_section" style="display:none;">
-              <label class="form-label fw-semibold">Options (Sab correct wale check karo)</label>
+              <label class="form-label fw-semibold">Options (Select all correct answers)</label>
               @for($i = 0; $i < 4; $i++)
               <div class="input-group mb-2">
                 <div class="input-group-text">
@@ -272,7 +272,7 @@
           @empty
           <div class="text-center py-5 text-muted">
             <i class="fas fa-question-circle fa-3x mb-3 d-block" style="opacity:.2;"></i>
-            Koi question nahi — left side se add karo!
+            No questions available. Add one from the left side.
           </div>
           @endforelse
         </div>

@@ -126,7 +126,7 @@ class HomeController extends Controller
 
         \App\Models\Opinion::create($request->only(['name', 'email', 'district', 'school', 'opinion']));
 
-        return redirect()->back()->with('success', 'आपकी राय सफलतापूर्वक जमा की गई। धन्यवाद!');
+        return redirect()->back()->with('success', 'Your opinion has been submitted successfully. Thank you!');
     }
 
     public function podcast()

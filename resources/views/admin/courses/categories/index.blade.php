@@ -69,7 +69,7 @@
             <div class="mb-3">
               <label class="form-label fw-semibold">Description</label>
               <textarea name="description" class="form-control" rows="3"
-                        placeholder="Sub course ke baare mein...">{{ old('description') }}</textarea>
+                        placeholder="Write about the sub-course...">{{ old('description') }}</textarea>
             </div>
             <div class="mb-3">
               <label class="form-label fw-semibold">Image</label>
@@ -152,7 +152,7 @@
                 <tr>
                   <td colspan="7" class="text-center py-5 text-muted">
                     <i class="fas fa-layer-group fa-3x mb-3 d-block" style="opacity:.2;"></i>
-                    Koi sub course nahi — left side se add karo!
+                    No sub-courses available. Add one from the left side.
                   </td>
                 </tr>
                 @endforelse

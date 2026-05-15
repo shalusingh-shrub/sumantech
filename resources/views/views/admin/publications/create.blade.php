@@ -54,7 +54,7 @@
             <div class="mb-3">
                 <label class="form-label fw-semibold">PDF File</label>
                 <input type="file" name="file" class="form-control @error('file') is-invalid @enderror" accept=".pdf">
-                <small class="text-muted">Sirf PDF — Max 10MB</small>
+                <small class="text-muted">PDF only - Max 10MB</small>
                 @error('file')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
         </div>

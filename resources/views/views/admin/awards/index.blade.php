@@ -75,14 +75,14 @@
                     </td>
                     <td>
                         <a href="{{ route('admin.awards.edit', $award) }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                        <form action="{{ route('admin.awards.destroy', $award) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete karna chahte ho?')">
+                        <form action="{{ route('admin.awards.destroy', $award) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this?')">
                             @csrf @method('DELETE')
                             <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                         </form>
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="8" class="text-center py-4 text-muted">Koi award nahi mila.</td></tr>
+                <tr><td colspan="8" class="text-center py-4 text-muted">No awards found.</td></tr>
                 @endforelse
             </tbody>
         </table>

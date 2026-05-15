@@ -47,7 +47,7 @@ class StudentCourse extends Model
         });
     }
 
-    // User se linked (student)
+    // Linked to the user (student)
     public function student()
     {
         return $this->belongsTo(User::class, 'user_id');

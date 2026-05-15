@@ -45,7 +45,7 @@
             </div>
             <div class="col-12">
                 <label class="form-label fw-semibold">Bio / About</label>
-                <textarea name="bio" class="form-control" rows="3" placeholder="Apne baare mein kuch likhein...">{{ old('bio', $user->profile->bio ?? '') }}</textarea>
+                <textarea name="bio" class="form-control" rows="3" placeholder="Write something about yourself...">{{ old('bio', $user->profile->bio ?? '') }}</textarea>
             </div>
         </div>
 

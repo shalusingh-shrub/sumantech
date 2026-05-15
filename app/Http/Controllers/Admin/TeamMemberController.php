@@ -48,7 +48,7 @@ class TeamMemberController extends Controller implements HasMiddleware
         }
 
         TeamMember::create($data);
-        return redirect()->route('admin.team.index')->with('success', 'Team member successfully add ho gaya!');
+        return redirect()->route('admin.team.index')->with('success', 'Team member added successfully.');
     }
 
     public function edit(TeamMember $team) { return view('admin.team.edit', compact('team')); }
@@ -65,19 +65,19 @@ class TeamMemberController extends Controller implements HasMiddleware
         }
 
         $team->update($data);
-        return redirect()->route('admin.team.index')->with('success', 'Team member successfully update ho gaya!');
+        return redirect()->route('admin.team.index')->with('success', 'Team member updated successfully.');
     }
 
     public function destroy(TeamMember $team)
     {
         if ($team->photo) Storage::disk('public')->delete('team/' . $team->photo);
         $team->delete();
-        return redirect()->route('admin.team.index')->with('success', 'Team member delete ho gaya!');
+        return redirect()->route('admin.team.index')->with('success', 'Team member deleted successfully.');
     }
 
     public function toggleStatus(TeamMember $team)
     {
         $team->update(['is_active' => !$team->is_active]);
-        return redirect()->back()->with('success', 'Status update ho gaya!');
+        return redirect()->back()->with('success', 'Status updated successfully.');
     }
 }

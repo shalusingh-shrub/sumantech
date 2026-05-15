@@ -97,7 +97,7 @@
                 <img src="{{ $competition->image_url }}" class="img-fluid rounded mb-2" style="max-height:150px;" onerror="this.onerror=null;this.style.opacity='0.3'">
             @endif
             <input type="file" name="image" class="form-control" accept="image/*">
-            <small class="text-muted">Naya image upload karo ya khali chhodo</small>
+            <small class="text-muted">Upload a new image or leave it blank.</small>
             @error('image')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
         </div>
     </div>

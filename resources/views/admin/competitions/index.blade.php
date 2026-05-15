@@ -101,7 +101,7 @@
                         </td>
                     </tr>
                     @empty
-                    <tr><td colspan="9" class="text-center py-4 text-muted">Koi competition nahi mili.</td></tr>
+                    <tr><td colspan="9" class="text-center py-4 text-muted">No competitions found.</td></tr>
                     @endforelse
                 </tbody>
             </table>

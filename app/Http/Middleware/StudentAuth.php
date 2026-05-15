@@ -11,7 +11,7 @@ class StudentAuth
     {
         if (!session('student_id')) {
             return redirect()->route('student.login')
-                           ->withErrors(['email' => 'Pehle login karo!']);
+                           ->withErrors(['email' => 'Please log in first.']);
         }
         return $next($request);
     }

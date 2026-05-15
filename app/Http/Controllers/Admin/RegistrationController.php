@@ -111,7 +111,7 @@ class RegistrationController extends Controller
 
         \App\Models\Notification::send(
             'new_student',
-            'Naya Student Register!',
+            'New Student Registered!',
             $userData['name'] . ' ne registration kiya - ' . $regNum,
             route('admin.registration.show', $student)
         );

@@ -9,13 +9,13 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * PreventMaliciousInput Middleware
  *
- * Ye middleware teeno threats se bachata hai:
+ * This middleware protects against three threats:
  *
  * 1. SQL Injection — SELECT, DROP, UNION jaisi queries
  * 2. XSS (Cross Site Scripting) — <script> tags, javascript: etc.
  * 3. Malicious data — null bytes, path traversal, shell commands
  *
- * Request ko sanitize karta hai — harmful data hata deta hai.
+ * Sanitizes the request by removing harmful data.
  * Agar bahut zyada suspicious ho toh request block kar deta hai.
  */
 class PreventMaliciousInput
@@ -81,7 +81,7 @@ class PreventMaliciousInput
 
     public function handle(Request $request, Closure $next): Response
     {
-        // GET params check karo
+        // Check GET parameters
         foreach ($request->query() as $key => $value) {
             if (is_string($value)) {
                 $check = $this->checkAndBlock($key, $value);
@@ -89,7 +89,7 @@ class PreventMaliciousInput
             }
         }
 
-        // POST body check karo
+        // Check POST body
         foreach ($request->all() as $key => $value) {
             if (in_array($key, $this->skipFields)) continue;
 
@@ -98,7 +98,7 @@ class PreventMaliciousInput
                 if ($check !== null) return $check;
             }
 
-            // Nested arrays bhi check karo
+            // Check nested arrays too
             if (is_array($value)) {
                 foreach ($value as $subKey => $subValue) {
                     if (is_string($subValue)) {
@@ -109,7 +109,7 @@ class PreventMaliciousInput
             }
         }
 
-        // Headers check karo — User-Agent injection etc.
+        // Check headers, such as User-Agent injection
         $userAgent = $request->userAgent() ?? '';
         foreach ($this->maliciousPatterns as $pattern) {
             if (preg_match($pattern, $userAgent)) {
@@ -117,7 +117,7 @@ class PreventMaliciousInput
             }
         }
 
-        // Sanitize karke aage bhejo
+        // Sanitize and continue
         $this->sanitizeRequest($request);
 
         return $next($request);
@@ -151,13 +151,13 @@ class PreventMaliciousInput
 
     protected function sanitizeRequest(Request $request): void
     {
-        // Input clean karo — HTML tags strip karo (safe fields ke liye)
+        // Clean input by stripping HTML tags for safe fields
         $input = $request->all();
         array_walk_recursive($input, function (&$value, $key) {
             if (is_string($value) && !in_array($key, $this->skipFields)) {
-                // HTML entities encode karo
+                // Encode HTML entities
                 $value = htmlspecialchars($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-                // Null bytes hata do
+                // Remove null bytes
                 $value = str_replace("\0", '', $value);
                 // Leading/trailing whitespace
                 $value = trim($value);
@@ -168,7 +168,7 @@ class PreventMaliciousInput
 
     protected function blockRequest(string $reason): Response
     {
-        // Log karo suspicious attempt
+        // Log the suspicious attempt
         \Log::warning("Blocked malicious request: {$reason}", [
             'ip'  => request()->ip(),
             'url' => request()->fullUrl(),

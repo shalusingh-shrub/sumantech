@@ -27,7 +27,7 @@
         <div class="card border-0 shadow-sm p-4 mb-3" style="border-radius:10px;">
             <div class="mb-3">
                 <label class="form-label fw-semibold">Competition Title <span class="text-danger">*</span></label>
-                <input type="text" name="title" class="form-control form-control-lg @error('title') is-invalid @enderror" placeholder="Competition ka naam likhiye..." value="{{ old('title') }}" required>
+                <input type="text" name="title" class="form-control form-control-lg @error('title') is-invalid @enderror" placeholder="Enter competition name..." value="{{ old('title') }}" required>
                 @error('title')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
             <div class="mb-3">
@@ -70,7 +70,7 @@
             <h6><i class="fas fa-image me-2"></i>Competition Image</h6>
             <div class="img-preview-wrap mb-2" onclick="document.getElementById('imageInput').click()">
                 <img id="imagePreview" src="" style="display:none; max-height:150px;" class="img-fluid rounded">
-                <div id="imgPlaceholder"><i class="fas fa-cloud-upload-alt fa-2x text-muted mb-2"></i><p class="text-muted mb-0" style="font-size:13px;">Click karke image upload karo</p></div>
+                <div id="imgPlaceholder"><i class="fas fa-cloud-upload-alt fa-2x text-muted mb-2"></i><p class="text-muted mb-0" style="font-size:13px;">Click to upload image</p></div>
             </div>
             <input type="file" name="image" id="imageInput" class="form-control d-none" accept="image/*">
         </div>

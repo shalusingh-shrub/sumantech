@@ -36,7 +36,7 @@
                    value="{{ old('slug', $course->slug ?? '') }}"
                    placeholder="e.g. advanced-diploma-computer-application">
           </div>
-          <small class="text-muted">Auto-generate hoga Course Name se — ya manually type karo</small>
+          <small class="text-muted">Auto-generated from the course name, or you can enter it manually.</small>
         </div>
 
         <div class="mb-3">
@@ -81,7 +81,7 @@
 <script>
 function autoSlug(input) {
     const slugField = document.getElementById('slugField');
-    // Sirf tab auto-generate karo jab slug field empty ho
+    // Auto-generate only when the slug field is empty
     if (!slugField.dataset.manual) {
         slugField.value = input.value.toLowerCase()
             .replace(/[^a-z0-9\s-]/g, '')
@@ -91,7 +91,7 @@ function autoSlug(input) {
     }
 }
 
-// Agar user manually slug type kare toh auto-generate band karo
+// Disable auto-generation when the user manually types a slug
 document.getElementById('slugField').addEventListener('input', function() {
     if (this.value) {
         this.dataset.manual = 'true';

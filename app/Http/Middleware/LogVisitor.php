@@ -10,7 +10,7 @@ class LogVisitor
 {
     public function handle(Request $request, Closure $next)
     {
-        // Admin aur API routes track mat karo
+        // Do not track admin or API routes
         if (!$request->is('admin*') && !$request->is('api*')) {
             VisitorLog::create([
                 'ip_address' => $request->ip(),

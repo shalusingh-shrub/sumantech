@@ -69,7 +69,7 @@
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
                             <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
-                                value="{{ old('name') }}" placeholder="Apna pura naam likhein" required>
+                                value="{{ old('name') }}" placeholder="Enter your full name" required>
                         </div>
                         @error('name')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
                     </div>
@@ -109,7 +109,7 @@
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
                             <input type="text" name="district" class="form-control"
-                                value="{{ old('district') }}" placeholder="Apna district likhein">
+                                value="{{ old('district') }}" placeholder="Enter your district">
                         </div>
                     </div>
                     <div class="col-12">
@@ -117,7 +117,7 @@
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-school"></i></span>
                             <input type="text" name="school" class="form-control"
-                                value="{{ old('school') }}" placeholder="School ka naam">
+                                value="{{ old('school') }}" placeholder="School name">
                         </div>
                     </div>
                     {{-- Student Class --}}
@@ -151,7 +151,7 @@
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-lock"></i></span>
                             <input type="password" name="password_confirmation" class="form-control"
-                                placeholder="Password dobara likhein" required>
+                                placeholder="Re-enter password" required>
                         </div>
                     </div>
                 </div>

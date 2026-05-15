@@ -18,7 +18,7 @@ class AuthenticatedSessionController extends Controller
             'password' => 'required',
             'captcha'  => 'required',
         ], [
-            'captcha.required' => 'CAPTCHA fill karna zaroori hai.',
+            'captcha.required' => 'CAPTCHA is required.',
         ]);
 
         // Case-insensitive CAPTCHA check
@@ -27,7 +27,7 @@ class AuthenticatedSessionController extends Controller
 
         if (empty($sessionCaptcha) || $inputCaptcha !== $sessionCaptcha) {
             return back()
-                ->withErrors(['captcha' => 'CAPTCHA galat hai. Dobara try karein.'])
+                ->withErrors(['captcha' => 'CAPTCHA is incorrect. Please try again.'])
                 ->withInput($request->except('password', 'captcha'));
         }
 
@@ -59,7 +59,7 @@ class AuthenticatedSessionController extends Controller
         }
 
         return back()
-            ->withErrors(['email' => 'Email ya password galat hai.'])
+            ->withErrors(['email' => 'Email or password is incorrect.'])
             ->withInput($request->except('password', 'captcha'));
     }
 

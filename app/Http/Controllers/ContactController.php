@@ -27,12 +27,12 @@ class ContactController extends Controller
 
         Notification::send(
             'new_contact',
-            'Naya Contact Message!',
-            $request->name . ' ne message bheja — ' . Str::limit($request->subject ?? 'No subject', 40),
+            'New Contact Message!',
+            $request->name . ' sent a message - ' . Str::limit($request->subject ?? 'No subject', 40),
             route('admin.contacts.index')
         );
 
-        return redirect()->back()->with('success', 'Aapka sandesh safaltapurvak bhej diya gaya. Dhanyavad!');
+        return redirect()->back()->with('success', 'Your message has been sent successfully. Thank you!');
     }
 
     public function suggestionBox()
@@ -54,11 +54,11 @@ class ContactController extends Controller
 
         Notification::send(
             'new_opinion',
-            'Naya Suggestion Aaya!',
-            $request->name . ' ne ' . $request->type . ' diya',
+            'New Suggestion Received!',
+            $request->name . ' submitted a ' . $request->type,
             route('admin.suggestions.index')
         );
 
-        return redirect()->back()->with('success', 'Aapka sujhav/shikayat safaltapurvak darj ki gayi. Dhanyavad!');
+        return redirect()->back()->with('success', 'Your suggestion/complaint has been submitted successfully. Thank you!');
     }
 }

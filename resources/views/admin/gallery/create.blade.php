@@ -47,7 +47,7 @@
                         <input type="text" name="slug" id="slugField" class="form-control"
                                value="{{ old('slug') }}"
                                placeholder="e.g. annual-function-2024">
-                        <small class="text-muted">Auto-generate hoga name se</small>
+                        <small class="text-muted">Auto-generated from the name.</small>
                     </div>
 
                     {{-- Type --}}
@@ -91,7 +91,7 @@
                     <div class="col-md-12">
                         <label class="form-label fw-semibold">Description <span class="text-danger">*</span></label>
                         <textarea name="description" class="form-control" rows="3" required
-                                  placeholder="Gallery ke baare mein likhein...">{{ old('description') }}</textarea>
+                                  placeholder="Write about the gallery...">{{ old('description') }}</textarea>
                     </div>
 
                     {{-- Meta Data --}}
@@ -114,7 +114,7 @@
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Cover Image</label>
                         <input type="file" name="cover_image" class="form-control" accept="image/*">
-                        <small class="text-muted">Optional — nahi diya toh pehli image use hogi</small>
+                        <small class="text-muted">Optional. If not provided, the first image will be used.</small>
                     </div>
 
                     {{-- Pin to Home --}}

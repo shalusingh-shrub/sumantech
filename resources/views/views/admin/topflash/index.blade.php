@@ -49,7 +49,7 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="9" class="text-center py-4 text-muted">Koi flash news nahi mila.</td></tr>
+                <tr><td colspan="9" class="text-center py-4 text-muted">No flash news found.</td></tr>
                 @endforelse
             </tbody>
         </table>

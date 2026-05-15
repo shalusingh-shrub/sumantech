@@ -22,18 +22,18 @@ class PublicationController extends Controller implements HasMiddleware
     private function getCategories()
     {
         return [
-            'science_corner' => 'विज्ञान कार्नर',
+            'science_corner' => 'Science Corner',
             'tlm'            => 'TLM',
-            'anusandhaanam'  => 'अनुसंधानम्',
-            'abhimat'        => 'अभिमत',
-            'emagazine'      => 'ई-मैगजीन',
-            'karmana'        => 'कर्मणा',
-            'balman'         => 'बाल मन',
-            'suvichar'       => 'सुविचार',
+            'anusandhaanam'  => 'Research',
+            'abhimat'        => 'Opinion',
+            'emagazine'      => 'E-Magazine',
+            'karmana'        => 'Action',
+            'balman'         => 'Young Minds',
+            'suvichar'       => 'Thought of the Day',
             'eresources'     => 'e-Resources',
-            'balmanch'       => 'बालमंच',
-            'shabdkosh'      => 'शिक्षा शब्दकोष',
-            'gyandrishti'    => 'ज्ञान दृष्टि',
+            'balmanch'       => 'Children's Forum',
+            'shabdkosh'      => 'Education Glossary',
+            'gyandrishti'    => 'Knowledge Perspective',
             'other'          => 'Other',
         ];
     }

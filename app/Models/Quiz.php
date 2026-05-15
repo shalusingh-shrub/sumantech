@@ -58,7 +58,7 @@ class Quiz extends Model
         return $this->thumbnail ? asset('storage/'.$this->thumbnail) : null;
     }
 
-    // Ek email ne kitni baar diya
+    // Number of attempts made by one email
     public function attemptsByEmail($email)
     {
         return $this->results()->where('participant_email', $email)->count();

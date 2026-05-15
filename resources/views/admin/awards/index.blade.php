@@ -71,7 +71,7 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="9" class="text-center py-4 text-muted">Koi award nahi mila.</td></tr>
+                <tr><td colspan="9" class="text-center py-4 text-muted">No awards found.</td></tr>
                 @endforelse
             </tbody>
         </table>

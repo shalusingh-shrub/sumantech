@@ -46,7 +46,7 @@ class GalleryController extends Controller
 
         $gallery = GalleryGroup::create($data);
         return redirect()->route('admin.gallery.index')
-                         ->with('success', 'Gallery created! Ab images/videos add karo.');
+                         ->with('success', 'Gallery created successfully. You can now add images/videos.');
     }
 
     public function edit(GalleryGroup $gallery)
@@ -93,7 +93,7 @@ class GalleryController extends Controller
         return redirect()->route('admin.gallery.index')->with('success', 'Gallery deleted!');
     }
 
-    // Gallery Items manage karo
+    // Manage gallery items
     public function manageItems(GalleryGroup $gallery)
     {
         $items = $gallery->items()->get();

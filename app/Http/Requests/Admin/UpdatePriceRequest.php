@@ -20,8 +20,8 @@ class UpdatePriceRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'price.required' => 'Naya price zaroori hai!',
-            'price.min'      => 'Price 0 se kam nahi ho sakta!',
+            'price.required' => 'New price is required.',
+            'price.min'      => 'Price cannot be less than 0.',
         ];
     }
 }

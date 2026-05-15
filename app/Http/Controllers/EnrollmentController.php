@@ -23,7 +23,7 @@ class EnrollmentController extends Controller
         $offering = CourseOffering::findOrFail($request->course_offering_id);
 
         if ($this->enrollmentService->isAlreadyEnrolled(auth()->user(), $offering)) {
-            return redirect()->back()->with('error', 'Aap already is course mein enrolled hain!');
+            return redirect()->back()->with('error', 'You are already enrolled in this course.');
         }
 
         try {

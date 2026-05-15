@@ -194,7 +194,7 @@
                 <button class="el-btn" onclick="addEl('institute')"><i class="fas fa-university" style="color:#1a2a6c;width:16px;"></i> Institute Name</button>
                 <button class="el-btn" onclick="addEl('custom')"><i class="fas fa-font" style="color:#6c757d;width:16px;"></i> Custom Label</button>
                 <button class="el-btn" onclick="addEl('sign')"><i class="fas fa-signature" style="color:#333;width:16px;"></i> Authorised Signature</button>
-                <button class="el-btn" onclick="document.getElementById('imgUp').click()"><i class="fas fa-image" style="color:#28a745;width:16px;"></i> Image Add Karo</button>
+                <button class="el-btn" onclick="document.getElementById('imgUp').click()"><i class="fas fa-image" style="color:#28a745;width:16px;"></i> Add Image</button>
                 <input type="file" id="imgUp" accept="image/*" style="display:none;" onchange="addImgEl(this)">
             </div>
 
@@ -334,7 +334,7 @@ function addEl(type) {
         case 'father':    txt = 'S/O, D/O: ' + SD.father; css += 'font-size:13px;color:rgba(255,255,255,.75);'; break;
         case 'institute': txt = 'SUMAN TECH'; css += 'font-size:26px;'; break;
         case 'sign':      txt = 'Authorised Signature'; css += 'font-size:12px;color:rgba(255,255,255,.5);'; break;
-        case 'custom':    txt = 'Custom Text — Edit karo'; css += 'font-size:16px;'; break;
+        case 'custom':    txt = 'Custom Text — Edit'; css += 'font-size:16px;'; break;
     }
 
     el.setAttribute('style', css + 'left:80px;top:' + (40 + elIdx * 28) + 'px;position:absolute;');

@@ -9,35 +9,35 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * VerifyApiKey Middleware
  *
- * Har public API request mein X-API-KEY header verify karta hai.
- * Bina valid API key ke koi bhi data nahi milega.
+ * Verifies the X-API-KEY header for every public API request.
+ * No data is returned without a valid API key.
  *
  * Usage:
  *   Header: X-API-KEY: your-api-key-here
- *   .env mein add karo: API_KEY=your-secret-key-here
+ *   Add this to .env: API_KEY=your-secret-key-here
  */
 class VerifyApiKey
 {
     public function handle(Request $request, Closure $next): Response
     {
-        // API Key header se lo
+        // Get the API key from the header
         $apiKey = $request->header('X-API-KEY');
 
-        // Agar header nahi diya
+        // If the header is missing
         if (!$apiKey) {
             return response()->json([
                 'success' => false,
-                'message' => 'API key missing. Header mein X-API-KEY bhejo.',
+                'message' => 'API key is missing. Send X-API-KEY in the header.',
                 'hint'    => 'Header: X-API-KEY: your-api-key',
             ], 401);
         }
 
-        // .env se valid keys lo — comma separated multiple keys support
+        // Get valid keys from .env with support for multiple comma-separated keys
         $validKeys = array_filter(
             array_map('trim', explode(',', env('API_KEYS', '')))
         );
 
-        // Key match karo
+        // Match the key
         if (!in_array($apiKey, $validKeys)) {
             return response()->json([
                 'success' => false,

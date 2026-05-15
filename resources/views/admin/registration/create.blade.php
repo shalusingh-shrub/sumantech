@@ -69,7 +69,7 @@
         <div class="form-control bg-light text-muted" style="font-size:.85rem;">
             <i class="fas fa-sync-alt me-1"></i>
             ST-<span id="dobPreview">DDMMYYYY</span>-XXXX
-            <small class="text-info ms-2">(DOB fill karne pe update hoga)</small>
+            <small class="text-info ms-2">(Updates after DOB is entered)</small>
         </div>
         <input type="hidden" name="registration_number" id="regHidden" value="">
     </div>

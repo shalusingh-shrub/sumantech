@@ -24,14 +24,14 @@ class RegisterController extends Controller
             'school'    => 'nullable|string|max:255',
             'password'  => 'required|min:8|confirmed',
         ], [
-            'name.required'      => 'Naam zaroori hai.',
-            'email.required'     => 'Email zaroori hai.',
+            'name.required'      => 'Name is required.',
+            'email.required'     => 'Email is required.',
             'email.unique'       => 'Yeh email already registered hai.',
-            'phone.required'     => 'Phone number zaroori hai.',
-            'user_type.required' => 'Account type select karo.',
-            'password.required'  => 'Password zaroori hai.',
-            'password.min'       => 'Password kam se kam 8 characters ka hona chahiye.',
-            'password.confirmed' => 'Password match nahi kar raha.',
+            'phone.required'     => 'Phone number is required.',
+            'user_type.required' => 'Please select an account type.',
+            'password.required'  => 'Password is required.',
+            'password.min'       => 'Password must be at least 8 characters.',
+            'password.confirmed' => 'Passwords do not match.',
         ]);
 
         $user = User::create([
@@ -43,7 +43,7 @@ class RegisterController extends Controller
             'school'           => $request->school,
             'password'         => Hash::make($request->password),
             'is_active'        => true,
-            'can_access_admin' => false, // admin access nahi hoga by default
+            'can_access_admin' => false, // admin access is disabled by default
         ]);
 
         Auth::login($user);

@@ -33,7 +33,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Title <span class="text-danger">*</span></label>
-                    <input type="text" name="title" class="form-control" required placeholder="Achievement ka naam">
+                    <input type="text" name="title" class="form-control" required placeholder="Achievement name">
                 </div>
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Description</label>
@@ -83,7 +83,7 @@
                     @if($a->description)<p class="mb-0 mt-1 small text-muted">{{ Str::limit($a->description, 80) }}</p>@endif
                 </div>
                 <div class="d-flex flex-column gap-1">
-                    <form method="POST" action="{{ route('portal.achievements.delete', $a) }}" onsubmit="return confirm('Delete karna chahte ho?')">
+                    <form method="POST" action="{{ route('portal.achievements.delete', $a) }}" onsubmit="return confirm('Are you sure you want to delete this?')">
                         @csrf @method('DELETE')
                         <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
                     </form>
@@ -95,7 +95,7 @@
             @empty
             <div class="text-center py-4 text-muted">
                 <i class="fas fa-trophy fa-3x mb-3 d-block opacity-25"></i>
-                Koi achievement nahi hai abhi. Add karo!
+                No achievements available yet. Add one now.
             </div>
             @endforelse
         </div>

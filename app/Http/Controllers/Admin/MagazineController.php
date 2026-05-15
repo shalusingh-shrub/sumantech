@@ -104,9 +104,9 @@ class MagazineController extends Controller implements HasMiddleware
     public function storeCategory(Request $request)
     {
         $request->validate(['name' => ['required', 'string', 'max:100', 'unique:magazine_categories,name']], [
-            'name.required' => 'Category name zaroori hai.',
-            'name.unique'   => 'Ye category pehle se exist karti hai.',
-            'name.max'      => 'Category name 100 characters se zyada nahi ho sakta.',
+            'name.required' => 'Category name is required.',
+            'name.unique'   => 'This category already exists.',
+            'name.max'      => 'Category name cannot exceed 100 characters.',
         ]);
 
         MagazineCategory::create(['name' => $request->name, 'slug' => Str::slug($request->name), 'is_active' => true]);

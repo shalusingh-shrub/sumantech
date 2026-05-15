@@ -59,7 +59,7 @@
                     </div>
                 </div>
 
-                {{-- CAPTCHA - Server side se generate hoga --}}
+                {{-- CAPTCHA - Generated server-side --}}
                 <div class="mb-3">
                     <label class="form-label fw-semibold">Enter CAPTCHA</label>
                     <div class="captcha-box mb-2">

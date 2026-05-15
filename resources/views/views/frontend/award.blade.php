@@ -77,16 +77,16 @@
             </div>
             <div class="modal-body p-4">
                 <div class="mb-3">
-                    <label class="form-label fw-semibold">Apna Naam Likhiye <span class="text-danger">*</span></label>
+                    <label class="form-label fw-semibold">Enter Your Name <span class="text-danger">*</span></label>
                     <input type="text" id="certName" class="form-control form-control-lg"
-                           placeholder="Yahan apna naam likhiye..."
+                           placeholder="Enter your name here..."
                            oninput="updateCertName(this.value)">
                 </div>
 
                 {{-- Certificate Preview --}}
                 <div class="cert-preview mb-3" id="certPreviewWrap">
                     <img id="certImg" src="" alt="Certificate" style="width:100%;border-radius:8px;">
-                    <div class="cert-name-overlay" id="certNameOverlay">Aapka Naam</div>
+                    <div class="cert-name-overlay" id="certNameOverlay">Your Name</div>
                 </div>
 
                 <div class="text-center">
@@ -111,19 +111,19 @@ function openCertModal(awardId, certUrl, awardTitle) {
     currentAwardTitle = awardTitle;
     document.getElementById('certImg').src = certUrl;
     document.getElementById('certName').value = '';
-    document.getElementById('certNameOverlay').innerText = 'Aapka Naam';
+    document.getElementById('certNameOverlay').innerText = 'Your Name';
     var modal = new bootstrap.Modal(document.getElementById('certModal'));
     modal.show();
 }
 
 function updateCertName(name) {
-    document.getElementById('certNameOverlay').innerText = name || 'Aapka Naam';
+    document.getElementById('certNameOverlay').innerText = name || 'Your Name';
 }
 
 function downloadCertificate() {
     var name = document.getElementById('certName').value.trim();
     if (!name) {
-        alert('Pehle apna naam likhiye!');
+        alert('Please enter your name first.');
         document.getElementById('certName').focus();
         return;
     }

@@ -22,13 +22,13 @@ class User extends Authenticatable
         'department',
         'about',
         'is_active',
-        'api_token',   // ← API authentication ke liye
+        'api_token',   // ← For API authentication
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
-        'api_token',   // ← Response mein kabhi nahi dikhega
+        'api_token',   // ← Never returned in responses
     ];
     //   'name','email','password','phone','avatar',
     //     'designation','department','about','is_active',

@@ -91,7 +91,7 @@ bg.onload=function(){
 if(CL&&CL.length>0){CL.forEach(function(el){var d=document.createElement('div');d.style.cssText='position:absolute;white-space:nowrap;line-height:1.2;left:'+(el.x||0)+'%;top:'+(el.y||0)+'%;';if(el.kind==='image'){var i=document.createElement('img');i.src=el.src;i.style.cssText='width:'+(el.w||80)+'px;display:block;';d.appendChild(i);}else{var t=(el.type==='label')?(el.label||''):(v[el.type]||'');d.innerText=t;d.style.fontSize=(el.fs||24)+'px';d.style.color=el.color||'#1a2a6c';d.style.fontWeight=el.fw||'700';d.style.fontStyle=el.fi||'normal';d.style.textAlign=el.align||'center';}wrap.appendChild(d);});}
 canvas.appendChild(wrap);
 setTimeout(function(){html2canvas(wrap,{scale:2,useCORS:true,allowTaint:true,logging:false,backgroundColor:'#ffffff',width:800}).then(function(c){var a=document.createElement('a');a.download='certificate-'+name.replace(/\s+/g,'-')+'.png';a.href=c.toDataURL('image/png');document.body.appendChild(a);a.click();document.body.removeChild(a);btn.disabled=false;btn.innerHTML='<i class="fas fa-download me-1"></i> Download Certificate';canvas.innerHTML='';}).catch(function(){btn.disabled=false;btn.innerHTML='<i class="fas fa-download me-1"></i> Download Certificate';});},500);};
-bg.onerror=function(){btn.disabled=false;btn.innerHTML='<i class="fas fa-download me-1"></i> Download Certificate';alert('Certificate image load nahi ho rahi. Admin se check karwao.');};
+bg.onerror=function(){btn.disabled=false;btn.innerHTML='<i class="fas fa-download me-1"></i> Download Certificate';alert('Certificate image could not be loaded. Please contact the administrator.');};
 wrap.appendChild(bg);bg.src=CB;}
 </script>
 @endpush

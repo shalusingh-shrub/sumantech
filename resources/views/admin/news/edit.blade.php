@@ -50,7 +50,7 @@
                             <i class="fas fa-cog"></i> Manage
                         </a>
                     </div>
-                    <small class="text-muted">Nayi category banana ho toh <a href="{{ route('admin.news-categories.index') }}" target="_blank">yahan click karo</a></small>
+                    <small class="text-muted">To create a new category, <a href="{{ route('admin.news-categories.index') }}" target="_blank">click here</a></small>
                 </div>
 
                 <div class="mb-3">

@@ -18,12 +18,12 @@ class CoursePricingService
     public function updatePrice(CourseOffering $offering, float $newPrice): CoursePriceHistory
     {
         return DB::transaction(function () use ($offering, $newPrice) {
-            // Old price band karo
+            // Close the old price
             CoursePriceHistory::where('course_offering_id', $offering->id)
                 ->whereNull('effective_to')
                 ->update(['effective_to' => now()]);
 
-            // Naya price add karo
+            // Add the new price
             return CoursePriceHistory::create([
                 'course_offering_id' => $offering->id,
                 'price'              => $newPrice,

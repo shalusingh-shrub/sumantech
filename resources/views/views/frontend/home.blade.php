@@ -33,7 +33,7 @@
             <div class="col-md-7">
                 <div class="section-title">Welcome to Suman Tech</div>
                 <p>Suman Tech (ToB) is a voluntary organization of government school Suman Tech. It was established with the aim to improve the quality of education in Bihar and to empower teachers with resources, training, and community support.</p>
-                <p class="hindi-text">हम बिहार के सरकारी विद्यालय के शिक्षकों का एक स्वैच्छिक संगठन हैं जो शिक्षा की गुणवत्ता में सुधार के लिए कार्यरत हैं।</p>
+                <p class="hindi-text">We are a voluntary organization of Bihar government school teachers working to improve the quality of education.</p>
                 <a href="{{ route('about') }}" class="btn btn-success me-2">Learn More</a>
                 <a href="{{ route('team') }}" class="btn btn-outline-primary">Our Team</a>
             </div>
@@ -102,7 +102,7 @@
                 <div class="card h-100 border-0 shadow-sm">
                     <div class="card-body text-center p-4">
                         <div class="mb-3"><i class="fas fa-headphones fa-3x text-danger"></i></div>
-                        <h5 class="fw-bold hindi-text">शिक्षा श्रुति</h5>
+                        <h5 class="fw-bold hindi-text">Shiksha Shruti</h5>
                         <p class="text-muted">Audio-based educational content and podcast for teachers and students in Bihar.</p>
                         <a href="{{ route('shiksha-shriti') }}" class="btn btn-outline-danger btn-sm">Know More</a>
                     </div>

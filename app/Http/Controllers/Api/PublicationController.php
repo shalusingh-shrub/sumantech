@@ -89,7 +89,7 @@ class PublicationController extends Controller
         if (!$publication) {
             return response()->json([
                 'success' => false,
-                'message' => 'Publication nahi mili.',
+                'message' => 'Publication not found.',
             ], 404);
         }
 

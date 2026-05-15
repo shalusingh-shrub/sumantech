@@ -47,7 +47,7 @@ class GalleryController extends Controller implements HasMiddleware
         }
 
         Gallery::create($data);
-        return redirect()->route('admin.gallery.index')->with('success', 'Gallery item successfully add ho gaya!');
+        return redirect()->route('admin.gallery.index')->with('success', 'Gallery item added successfully.');
     }
 
     public function edit(Gallery $gallery) { return view('admin.gallery.edit', compact('gallery')); }
@@ -64,12 +64,12 @@ class GalleryController extends Controller implements HasMiddleware
         }
 
         $gallery->update($data);
-        return redirect()->route('admin.gallery.index')->with('success', 'Gallery item successfully update ho gaya!');
+        return redirect()->route('admin.gallery.index')->with('success', 'Gallery item updated successfully.');
     }
 
     public function destroy(Gallery $gallery)
     {
         $gallery->delete();
-        return redirect()->route('admin.gallery.index')->with('success', 'Gallery item delete ho gaya!');
+        return redirect()->route('admin.gallery.index')->with('success', 'Gallery item deleted successfully.');
     }
 }

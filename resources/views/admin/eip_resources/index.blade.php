@@ -42,7 +42,7 @@
                 </td>
             </tr>
             @empty
-            <tr><td colspan="8" class="text-center py-4 text-muted">Koi resource nahi mila.</td></tr>
+            <tr><td colspan="8" class="text-center py-4 text-muted">No resources found.</td></tr>
             @endforelse
         </tbody>
     </table>
