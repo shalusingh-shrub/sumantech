@@ -36,6 +36,9 @@ class CourseController extends Controller
             'image'       => 'nullable|image|max:2048',
             'description' => 'nullable|string',
             'highlights'  => 'nullable|string',
+            'badge_label' => 'nullable|string|max:50',
+            'icon_class'  => 'nullable|string|max:100',
+            'card_color'  => 'nullable|string|max:20',
         ]);
 
         $data = $request->except(['image', 'syllabus']);
@@ -77,6 +80,9 @@ class CourseController extends Controller
             'image'       => 'nullable|image|max:2048',
             'description' => 'nullable|string',
             'highlights'  => 'nullable|string',
+            'badge_label' => 'nullable|string|max:50',
+            'icon_class'  => 'nullable|string|max:100',
+            'card_color'  => 'nullable|string|max:20',
         ]);
 
         $data = $request->except('image');
