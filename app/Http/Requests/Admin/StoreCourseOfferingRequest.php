@@ -24,12 +24,12 @@ class StoreCourseOfferingRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'course_id.required'      => 'Course select karna zaroori hai!',
-            'duration_value.required' => 'Duration value zaroori hai!',
-            'duration_value.min'      => 'Duration kam se kam 1 hona chahiye!',
-            'duration_unit.required'  => 'Duration unit select karna zaroori hai!',
-            'price.required'          => 'Price zaroori hai!',
-            'price.min'               => 'Price 0 se kam nahi ho sakta!',
+            'course_id.required'      => 'Please select a course.',
+            'duration_value.required' => 'Duration value is required.',
+            'duration_value.min'      => 'Duration must be at least 1.',
+            'duration_unit.required'  => 'Please select a duration unit.',
+            'price.required'          => 'Price is required.',
+            'price.min'               => 'Price cannot be less than 0.',
         ];
     }
 }

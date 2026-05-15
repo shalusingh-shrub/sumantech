@@ -44,7 +44,7 @@
 @endif
 
 @if(!$award->certificate_template)
-<div class="alert alert-warning"><i class="fas fa-exclamation-triangle me-2"></i>Pehle certificate template upload karo — <a href="{{ route('admin.awards.edit', $award) }}">Edit Award</a></div>
+<div class="alert alert-warning"><i class="fas fa-exclamation-triangle me-2"></i>Please upload the certificate template first — <a href="{{ route('admin.awards.edit', $award) }}">Edit Award</a></div>
 @else
 
 <div class="builder-wrap">
@@ -53,7 +53,7 @@
 
     {{-- Add Elements --}}
     <div class="panel-card">
-        <h6><i class="fas fa-plus me-1"></i>Elements Add Karo</h6>
+        <h6><i class="fas fa-plus me-1"></i>Add Elements</h6>
         <button class="elem-btn" onclick="addText('name','Participant Name')"><i class="fas fa-user text-primary fa-fw"></i>Participant Name</button>
         <button class="elem-btn" onclick="addText('cert_number','CERT-2025-0001')"><i class="fas fa-hashtag text-success fa-fw"></i>Certificate Number</button>
         <button class="elem-btn" onclick="addText('date', getTodayDate())"><i class="fas fa-calendar text-warning fa-fw"></i>Date (Auto)</button>
@@ -61,7 +61,7 @@
         <button class="elem-btn" onclick="addText('award_title', @json($award->title))"><i class="fas fa-trophy text-danger fa-fw"></i>Award Title</button>
         <button class="elem-btn" onclick="addText('category','Category')"><i class="fas fa-tag text-info fa-fw"></i>Category</button>
         <button class="elem-btn" onclick="addLabel()"><i class="fas fa-font text-secondary fa-fw"></i>Custom Label</button>
-        <button class="elem-btn" onclick="document.getElementById('imgUpload').click()"><i class="fas fa-image text-success fa-fw"></i>Image Add Karo</button>
+        <button class="elem-btn" onclick="document.getElementById('imgUpload').click()"><i class="fas fa-image text-success fa-fw"></i>Add Image</button>
         <input type="file" id="imgUpload" accept="image/*" style="display:none" onchange="addImage(this)">
     </div>
 
@@ -208,7 +208,7 @@ function restoreText(d) {
 
 // ── Add label ──────────────────────────────────────
 function addLabel() {
-    var text = prompt('Label text likhiye:', 'Custom Text');
+    var text = prompt('Enter label text:', 'Custom Text');
     if (!text) return;
     addText('label', text);
 }

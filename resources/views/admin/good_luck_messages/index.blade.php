@@ -41,7 +41,7 @@
                 </td>
             </tr>
             @empty
-            <tr><td colspan="7" class="text-center py-4 text-muted">Koi message nahi mila.</td></tr>
+            <tr><td colspan="7" class="text-center py-4 text-muted">No messages found.</td></tr>
             @endforelse
         </tbody>
     </table>

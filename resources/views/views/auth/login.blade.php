@@ -147,7 +147,7 @@
         const input = document.getElementById('captchaInput').value.trim();
         if (input !== captchaText) {
             e.preventDefault();
-            alert('CAPTCHA galat hai! Please dobara try karein.');
+            alert('CAPTCHA is incorrect. Please try again.');
             generateCaptcha();
         }
     });

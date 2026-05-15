@@ -117,7 +117,7 @@
                         <tr>
                             <td colspan="11" class="text-center py-5 text-muted">
                                 <i class="fas fa-images fa-3x mb-3 d-block" style="opacity:.2;"></i>
-                                Koi gallery nahi — pehle add karo!
+                                No galleries available. Add one first.
                             </td>
                         </tr>
                         @endforelse

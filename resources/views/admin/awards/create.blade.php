@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="col-md-8 mb-3">
                     <label class="form-label fw-semibold">Title <span class="text-danger">*</span></label>
-                    <input type="text" name="title" class="form-control form-control-lg @error('title') is-invalid @enderror" placeholder="Award ka naam..." value="{{ old('title') }}" required>
+                    <input type="text" name="title" class="form-control form-control-lg @error('title') is-invalid @enderror" placeholder="Award name..." value="{{ old('title') }}" required>
                     @error('title')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
                 <div class="col-md-4 mb-3">
@@ -55,7 +55,7 @@
                 <input type="file" name="certificate_template" class="form-control @error('certificate_template') is-invalid @enderror" accept="image/*">
                 <small class="text-muted">
                     <i class="fas fa-info-circle me-1 text-primary"></i>
-                    Certificate image upload karo — website pe user apna naam likhke download kar sakta hai!
+                    Upload a certificate image so users can enter their name on the website and download it.
                     JPG, PNG, WebP — Max 5MB
                 </small>
                 @error('certificate_template')<div class="invalid-feedback">{{ $message }}</div>@enderror

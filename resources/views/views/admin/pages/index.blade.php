@@ -41,7 +41,7 @@
                 </td>
             </tr>
             @empty
-            <tr><td colspan="7" class="text-center py-4 text-muted">Koi page nahi mila.</td></tr>
+            <tr><td colspan="7" class="text-center py-4 text-muted">No pages found.</td></tr>
             @endforelse
         </tbody>
     </table>

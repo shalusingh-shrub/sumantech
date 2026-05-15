@@ -68,7 +68,7 @@ class TeamController extends Controller
         if (!$member) {
             return response()->json([
                 'success' => false,
-                'message' => 'Team member nahi mila.',
+                'message' => 'Team member not found.',
             ], 404);
         }
 

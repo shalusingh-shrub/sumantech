@@ -4,7 +4,7 @@
 @section('content')
 <div class="page-banner">
     <div class="container">
-        <h1>Your Opinion Matters - आपकी राय मायने रखती है</h1>
+        <h1>Your Opinion Matters</h1>
     </div>
 </div>
 <div class="container py-5">

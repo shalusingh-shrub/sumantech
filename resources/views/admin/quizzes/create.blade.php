@@ -45,7 +45,7 @@
           <div class="col-12">
             <label class="form-label fw-semibold">Description</label>
             <textarea name="description" class="form-control" rows="2"
-                      placeholder="Quiz ke baare mein likhо...">{{ old('description') }}</textarea>
+                      placeholder="Write about the quiz...">{{ old('description') }}</textarea>
           </div>
           <div class="col-md-3">
             <label class="form-label fw-semibold">Time Limit (Minutes)</label>

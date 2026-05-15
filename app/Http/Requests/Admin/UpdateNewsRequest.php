@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 class UpdateNewsRequest extends FormRequest
 {
     /**
-     * Sirf manage_news permission wale hi update kar sakte hain
+     * Only users with manage_news permission can update
      */
     public function authorize(): bool
     {
@@ -17,16 +17,16 @@ class UpdateNewsRequest extends FormRequest
     }
 
     /**
-     * Validation se pehle data automatically prepare karo
+     * Prepare data automatically before validation
      */
     protected function prepareForValidation(): void
     {
-        // Title trim karo
+        // Trim the title
         if ($this->title) {
             $this->merge(['title' => trim($this->title)]);
         }
 
-        // Slug auto-generate karo (update ke time suffix = current news id)
+        // Auto-generate the slug (use current news ID as suffix during update)
         if ($this->boolean('auto_slug') || empty($this->slug)) {
             $this->merge(['slug' => Str::slug($this->title) . '-' . $this->route('news')->id]);
         } else {
@@ -43,12 +43,12 @@ class UpdateNewsRequest extends FormRequest
     }
 
     /**
-     * Update ke liye validation rules
-     * Slug unique check mein current record ka ID ignore hoga
+     * Validation rules for updates
+     * Ignore the current record ID during the unique slug check
      */
     public function rules(): array
     {
-        // Current news ka ID lo route se
+        // Get the current news ID from the route
         $newsId = $this->route('news')->id;
 
         return [
@@ -70,7 +70,7 @@ class UpdateNewsRequest extends FormRequest
     }
 
     /**
-     * Field ke human-readable naam
+     * Human-readable field names
      */
     public function attributes(): array
     {
@@ -93,7 +93,7 @@ class UpdateNewsRequest extends FormRequest
     }
 
     /**
-     * Custom error messages Hindi mein
+     * Custom error messages
      */
     public function messages(): array
     {
@@ -108,7 +108,7 @@ class UpdateNewsRequest extends FormRequest
             'news_category_id.exists'  => 'The selected category is not valid.',
             'news_type.required'       => 'News Type is required.',
             'news_type.in'             => 'News Type must be either news or event.',
-            'event_date.required_if'   => 'Event type select kiya hai toh Event Date zaroori hai.',
+            'event_date.required_if'   => 'Event date is required when event type is selected.',
             'event_date.date'          => 'Event Date must be a valid date.',
             'publish_date.date'        => 'Publish Date must be a valid date.',
             'status.required'          => 'Status is required.',

@@ -84,7 +84,7 @@
               <td>{{ $payment->note ?? '-' }}</td>
             </tr>
             @empty
-            <tr><td colspan="6" class="text-center py-4 text-muted">Koi payment nahi hui abhi.</td></tr>
+            <tr><td colspan="6" class="text-center py-4 text-muted">No payments have been made yet.</td></tr>
             @endforelse
           </tbody>
         </table>

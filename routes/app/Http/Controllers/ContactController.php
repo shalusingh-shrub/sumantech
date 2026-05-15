@@ -26,7 +26,7 @@ class ContactController extends Controller
 
         Contact::create($request->only(['name', 'email', 'phone', 'subject', 'message']));
 
-        return redirect()->back()->with('success', 'आपका संदेश सफलतापूर्वक भेज दिया गया है। धन्यवाद!');
+        return redirect()->back()->with('success', 'Your message has been sent successfully. Thank you!');
     }
 
     public function suggestionBox()
@@ -46,6 +46,6 @@ class ContactController extends Controller
 
         Suggestion::create($request->only(['name', 'email', 'phone', 'type', 'message']));
 
-        return redirect()->back()->with('success', 'आपका सुझाव/शिकायत सफलतापूर्वक दर्ज की गई। धन्यवाद!');
+        return redirect()->back()->with('success', 'Your suggestion/complaint has been submitted successfully. Thank you!');
     }
 }

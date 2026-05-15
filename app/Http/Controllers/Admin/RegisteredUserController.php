@@ -40,7 +40,7 @@ class RegisteredUserController extends Controller
 
     public function toggleAdminAccess(User $user) {
         $user->update(['can_access_admin' => !$user->can_access_admin]);
-        $msg = $user->can_access_admin ? 'Admin access diya gaya!' : 'Admin access hataya gaya!';
+        $msg = $user->can_access_admin ? 'Admin access granted.' : 'Admin access removed.';
         return back()->with('success', $msg);
     }
     public function show(User $user) {
@@ -81,7 +81,7 @@ public function update(Request $request, User $user) {
 
     public function destroy(User $user) {
         if ($user->hasRole('super_admin')) {
-            return back()->with('error', 'Super admin ko delete nahi kar sakte!');
+            return back()->with('error', 'Super admin cannot be deleted.');
         }
         $user->delete();
         return back()->with('success', 'User deleted!');

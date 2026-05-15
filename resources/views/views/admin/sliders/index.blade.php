@@ -52,7 +52,7 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="8" class="text-center py-4 text-muted">Koi slider nahi mila.</td></tr>
+                <tr><td colspan="8" class="text-center py-4 text-muted">No sliders found.</td></tr>
                 @endforelse
             </tbody>
         </table>

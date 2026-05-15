@@ -68,7 +68,7 @@ class AwardController extends Controller
         if (!$award) {
             return response()->json([
                 'success' => false,
-                'message' => 'Award nahi mila.',
+                'message' => 'Award not found.',
             ], 404);
         }
 

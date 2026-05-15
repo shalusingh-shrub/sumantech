@@ -339,7 +339,7 @@
 <div class="top-bar">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center">
-            <span class="hindi-text">शिक्षा बदलेगी, बिहार बदलेगा</span>
+            <span class="hindi-text">Education will transform Bihar</span>
             <div>
                 @guest
                     <a href="{{ route('login') }}"><i class="fas fa-user me-1"></i>User Login</a>
@@ -401,21 +401,21 @@
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="mega-col-title">Science & Research</div>
-                                <a class="mega-link hindi-text" href="{{ route('science-corner') }}">विज्ञान कार्नर</a>
-                                <a class="mega-link hindi-text" href="{{ route('anusandhaanam') }}">अनुसंधानम्</a>
+                                <a class="mega-link hindi-text" href="{{ route('science-corner') }}">Science Corner</a>
+                                <a class="mega-link hindi-text" href="{{ route('anusandhaanam') }}">Research</a>
                                 <a class="mega-link" href="{{ route('tlm') }}">TLM</a>
                                 <a class="mega-link" href="{{ route('eresources') }}">e-Resources</a>
                             </div>
                             <div class="col-md-3">
                                 <div class="mega-col-title">Magazines</div>
-                                <a class="mega-link hindi-text" href="{{ route('emagazine') }}">ई-मैगजीन</a>
-                                <a class="mega-link hindi-text" href="{{ route('abhimat') }}">अभिमत</a>
-                                <a class="mega-link hindi-text" href="{{ route('karmana') }}">कर्मणा</a>
+                                <a class="mega-link hindi-text" href="{{ route('emagazine') }}">E-Magazine</a>
+                                <a class="mega-link hindi-text" href="{{ route('abhimat') }}">Opinion</a>
+                                <a class="mega-link hindi-text" href="{{ route('karmana') }}">Action</a>
                             </div>
                             <div class="col-md-3">
                                 <div class="mega-col-title">For Students</div>
-                                <a class="mega-link hindi-text" href="{{ route('balman') }}">बाल मन</a>
-                                <a class="mega-link hindi-text" href="{{ route('suvichar') }}">सुविचार</a>
+                                <a class="mega-link hindi-text" href="{{ route('balman') }}">Young Minds</a>
+                                <a class="mega-link hindi-text" href="{{ route('suvichar') }}">Thought of the Day</a>
                             </div>
                             <div class="col-md-3">
                                 <div class="mega-col-title">Online</div>
@@ -547,11 +547,11 @@ function copyPageLink(e) {
             </div>
             <div class="col-md-3 mb-4">
                 <h5>Publications</h5>
-                <a href="{{ route('science-corner') }}" class="hindi-text">विज्ञान कार्नर</a>
+                <a href="{{ route('science-corner') }}" class="hindi-text">Science Corner</a>
                 <a href="{{ route('tlm') }}">TLM</a>
-                <a href="{{ route('emagazine') }}" class="hindi-text">ई-मैगजीन</a>
-                <a href="{{ route('balman') }}" class="hindi-text">बाल मन</a>
-                <a href="{{ route('suvichar') }}" class="hindi-text">सुविचार</a>
+                <a href="{{ route('emagazine') }}" class="hindi-text">E-Magazine</a>
+                <a href="{{ route('balman') }}" class="hindi-text">Young Minds</a>
+                <a href="{{ route('suvichar') }}" class="hindi-text">Thought of the Day</a>
                 <a href="{{ route('eresources') }}">e-Resources</a>
             </div>
             <div class="col-md-3 mb-4">

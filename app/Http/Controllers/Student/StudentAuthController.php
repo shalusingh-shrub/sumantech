@@ -36,15 +36,15 @@ class StudentAuthController extends Controller
             ->first();
 
         if (!$student) {
-            return back()->withErrors(['login' => 'ID, Mobile ya Email galat hai!']);
+            return back()->withErrors(['login' => 'ID, mobile number, or email is incorrect.']);
         }
 
         if (!Hash::check($request->password, $student->password)) {
-            return back()->withErrors(['password' => 'Password galat hai!']);
+            return back()->withErrors(['password' => 'Password is incorrect.']);
         }
 
         if ($student->status !== 'active') {
-            return back()->withErrors(['login' => 'Account active nahi hai!']);
+            return back()->withErrors(['login' => 'Account is not active.']);
         }
 
         session(['student_id' => $student->id]);

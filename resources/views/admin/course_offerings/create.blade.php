@@ -75,7 +75,7 @@
                                    value="{{ old('price') }}" min="0" step="0.01" required
                                    placeholder="e.g. 5000">
                         </div>
-                        <small class="text-muted">Ye price lock hoga enrollment pe</small>
+                        <small class="text-muted">This price will be locked at enrollment.</small>
                     </div>
 
                     {{-- Status --}}

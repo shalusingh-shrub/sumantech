@@ -14,13 +14,13 @@
             <i class="fas fa-trophy" style="font-size:3rem;color:#28a745;"></i>
           </div>
           <h2 class="fw-bold mt-3 text-success">Congratulations!</h2>
-          <p class="text-muted">Tumne quiz pass kar liya! 🎉</p>
+          <p class="text-muted">You passed the quiz!</p>
           @else
           <div style="width:100px;height:100px;border-radius:50%;background:rgba(220,53,69,.1);display:flex;align-items:center;justify-content:center;margin:0 auto;">
             <i class="fas fa-times-circle" style="font-size:3rem;color:#dc3545;"></i>
           </div>
           <h2 class="fw-bold mt-3 text-danger">Better Luck Next Time!</h2>
-          <p class="text-muted">Dobara try karo! 💪</p>
+          <p class="text-muted">Please try again.</p>
           @endif
 
           {{-- Score Circle --}}
@@ -61,10 +61,10 @@
 
           {{-- Letter --}}
           <div class="p-4 mb-4 text-start rounded" style="background:linear-gradient(135deg,#f8f9ff,#e8edff);border-left:4px solid #1a2a6c;">
-            <p class="mb-2" style="font-size:.95rem;">प्रिय <strong>{{ $result->participant_name }}</strong>,</p>
+            <p class="mb-2" style="font-size:.95rem;">Dear <strong>{{ $result->participant_name }}</strong>,</p>
             <p class="mb-2" style="font-size:.95rem;">
-              बधाई हो! आपने <strong>{{ strtoupper($result->quiz->title) }}</strong> पूरा कर लिया है और
-              <strong style="color:{{ $result->result=='pass'?'#28a745':'#dc3545' }};">{{ $result->percentage }}%</strong> स्कोर किया है।
+              Congratulations! You have completed <strong>{{ strtoupper($result->quiz->title) }}</strong> and scored
+              <strong style="color:{{ $result->result=='pass'?'#28a745':'#dc3545' }};">{{ $result->percentage }}%</strong>.
             </p>
             @if($result->quiz->certificate_message)
             <p class="mb-2" style="font-size:.9rem;">{{ $result->quiz->certificate_message }}</p>

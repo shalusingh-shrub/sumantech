@@ -40,7 +40,7 @@ class CourseOfferingController extends Controller
             'is_active'      => $request->boolean('is_active', true),
         ]);
 
-        // Initial price set karo
+        // Set the initial price
         $this->pricingService->updatePrice($offering, $request->price);
 
         return redirect()->route('admin.course-offerings.index')

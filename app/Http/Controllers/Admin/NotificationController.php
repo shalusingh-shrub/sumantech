@@ -23,7 +23,7 @@ class NotificationController extends Controller
     public function markAllRead()
     {
         Notification::where('is_read', false)->update(['is_read' => true]);
-        return back()->with('success', 'Sab notifications read kar li!');
+        return back()->with('success', 'All notifications marked as read.');
     }
 
     public function getUnread()

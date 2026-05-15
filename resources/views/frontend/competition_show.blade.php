@@ -28,7 +28,7 @@
                 {{-- Submissions Section --}}
                 <div id="submissions" class="mt-4 p-3 bg-light rounded">
                     <h5 class="fw-bold"><i class="fas fa-users me-2"></i>Submissions</h5>
-                    <p class="text-muted mb-0">Koi submission nahi mili abhi tak.</p>
+                    <p class="text-muted mb-0">No submissions available yet.</p>
                 </div>
             </div>
         </div>

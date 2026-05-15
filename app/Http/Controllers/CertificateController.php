@@ -18,7 +18,7 @@ class CertificateController extends Controller
             ->first();
 
         if (!$cert) {
-            return back()->withErrors(['certificate_id' => 'Certificate ID galat hai ya exist nahi karta!'])->withInput();
+            return back()->withErrors(['certificate_id' => 'Certificate ID is incorrect or does not exist.'])->withInput();
         }
 
         return back()->with('cert', $cert)->withInput();

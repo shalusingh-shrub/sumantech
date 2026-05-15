@@ -22,7 +22,7 @@
         <form method="GET" class="row g-2 align-items-end">
             <div class="col-md-5">
                 <label class="form-label fw-semibold mb-1">Search</label>
-                <input type="text" name="search" class="form-control" placeholder="Title se search karein..." value="{{ request('search') }}">
+                <input type="text" name="search" class="form-control" placeholder="Search by title..." value="{{ request('search') }}">
             </div>
             <div class="col-md-4">
                 <label class="form-label fw-semibold mb-1">Magazine Type</label>
@@ -64,7 +64,7 @@
         @if($magazines->isEmpty())
             <div class="text-center py-5">
                 <i class="fas fa-book fa-3x text-muted mb-3"></i>
-                <p class="text-muted">Koi magazine nahi hai.</p>
+                <p class="text-muted">No magazines available.</p>
                 <a href="{{ route('admin.magazines.create') }}" class="btn btn-tob"><i class="fas fa-plus me-2"></i>Add Magazine</a>
             </div>
         @else
@@ -113,7 +113,7 @@
                             <div class="d-flex gap-1">
                                 <a href="{{ route('admin.magazines.show', $mag) }}" class="action-btn btn-view"><i class="fas fa-eye"></i></a>
                                 <a href="{{ route('admin.magazines.edit', $mag) }}" class="action-btn btn-edit"><i class="fas fa-edit"></i></a>
-                                <form action="{{ route('admin.magazines.destroy', $mag) }}" method="POST" onsubmit="return confirm('Delete karna chahte ho?')">
+                                <form action="{{ route('admin.magazines.destroy', $mag) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this?')">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="action-btn btn-del"><i class="fas fa-trash"></i></button>
                                 </form>

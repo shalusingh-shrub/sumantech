@@ -67,7 +67,7 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="9" class="text-center py-4 text-muted">Koi team member nahi mila.</td></tr>
+                <tr><td colspan="9" class="text-center py-4 text-muted">No team members found.</td></tr>
                 @endforelse
             </tbody>
         </table>

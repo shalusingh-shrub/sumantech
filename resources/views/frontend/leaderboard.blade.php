@@ -211,7 +211,7 @@
                 </div>
                 @elseif($selectedQuiz)
                 <div class="text-center py-4 text-muted">
-                    <i class="fas fa-info-circle me-2"></i>Is quiz ka koi result nahi hai abhi.
+                    <i class="fas fa-info-circle me-2"></i>No results are available for this quiz yet.
                 </div>
                 @endif
             </div>

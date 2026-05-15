@@ -7,7 +7,7 @@
       <h4 class="mb-0 fw-bold" style="color:#1a2a6c;">
         <i class="fas fa-plus-circle me-2"></i>Create Marks Template
       </h4>
-      <small class="text-muted">Course wise marks format set karo</small>
+      <small class="text-muted">Set the course-wise marks format.</small>
     </div>
     <a href="{{ route('admin.marks-template.index') }}" class="btn btn-outline-secondary btn-sm">
       <i class="fas fa-arrow-left me-1"></i>Back
@@ -28,7 +28,7 @@
           {{-- Template ID Info --}}
           <div class="alert alert-info py-2 mb-3" style="font-size:.85rem;">
             <i class="fas fa-info-circle me-2"></i>
-            <strong>Template ID</strong> automatically generate hoga — e.g. <code>TEMP-DCA-2026-142</code>
+            <strong>Template ID</strong> will be generated automatically — e.g. <code>TEMP-DCA-2026-142</code>
           </div>
 
           <div class="row g-3 mb-4">
@@ -168,7 +168,7 @@ function addRow() {
 
 function removeRow(btn) {
     if (document.querySelectorAll('#subjectsBody tr').length <= 1) {
-        alert('Kam se kam 1 subject hona chahiye!');
+        alert('At least one subject is required.');
         return;
     }
     btn.closest('tr').remove();

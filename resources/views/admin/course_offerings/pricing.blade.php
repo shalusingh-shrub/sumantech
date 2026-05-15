@@ -69,7 +69,7 @@
 
                     <div class="alert alert-warning py-2 mb-3" style="font-size:.82rem;">
                         <i class="fas fa-info-circle me-1"></i>
-                        Naya price sirf <strong>naye enrollments</strong> pe apply hoga. Purane enrollments unchanged rahenge!
+                        The new price will apply only to <strong>new enrollments</strong>. Existing enrollments will remain unchanged.
                     </div>
 
                     <form action="{{ route('admin.course-offerings.pricing.update', $courseOffering) }}"
@@ -132,7 +132,7 @@
                                 @empty
                                 <tr>
                                     <td colspan="5" class="text-center py-4 text-muted">
-                                        Koi price history nahi
+                                        No price history available.
                                     </td>
                                 </tr>
                                 @endforelse

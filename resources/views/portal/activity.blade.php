@@ -25,7 +25,7 @@
                     <td><small>{{ $a->created_at->format('d M Y h:i A') }}</small></td>
                 </tr>
                 @empty
-                <tr><td colspan="4" class="text-center py-4 text-muted">Koi activity nahi hai abhi.</td></tr>
+                <tr><td colspan="4" class="text-center py-4 text-muted">No activity available yet.</td></tr>
                 @endforelse
             </tbody>
         </table>

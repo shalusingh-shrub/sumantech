@@ -40,7 +40,7 @@
                     <img src="{{ $award->image_url }}" class="d-block mb-2 rounded" style="height:80px;" onerror="this.onerror=null;this.style.opacity='0.3'">
                 @endif
                 <input type="file" name="image" class="form-control" accept="image/*">
-                <small class="text-muted">Naya image upload karo ya khali chhodo</small>
+                <small class="text-muted">Upload a new image or leave it blank.</small>
             </div>
         </div>
 
@@ -60,7 +60,7 @@
                 @endif
                 <label class="form-label fw-semibold">Upload New Certificate Template</label>
                 <input type="file" name="certificate_template" class="form-control" accept="image/*">
-                <small class="text-muted"><i class="fas fa-info-circle me-1 text-primary"></i>Naya upload karo ya khali chhodo</small>
+                <small class="text-muted"><i class="fas fa-info-circle me-1 text-primary"></i>Upload a new file or leave it blank.</small>
             </div>
         </div>
     </div>

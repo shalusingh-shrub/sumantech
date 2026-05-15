@@ -57,7 +57,7 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="9" class="text-center py-4 text-muted">Koi publication nahi mili.</td></tr>
+                <tr><td colspan="9" class="text-center py-4 text-muted">No publications found.</td></tr>
                 @endforelse
             </tbody>
         </table>

@@ -86,13 +86,13 @@
           <div class="col-12">
             <label class="form-label fw-semibold">Description</label>
             <textarea name="description" class="form-control" rows="3"
-                      placeholder="Course ke baare mein likhо...">{{ old('description', $course->description) }}</textarea>
+                      placeholder="Write about the course...">{{ old('description', $course->description) }}</textarea>
           </div>
           <div class="col-12">
             <label class="form-label fw-semibold">Course Highlights</label>
             <textarea name="highlights" class="form-control" rows="4"
-                      placeholder="Har line mein ek highlight likhо...">{{ old('highlights', $course->highlights) }}</textarea>
-            <small class="text-muted">Har line mein ek point likho</small>
+                      placeholder="Enter one highlight per line...">{{ old('highlights', $course->highlights) }}</textarea>
+            <small class="text-muted">Enter one point per line.</small>
           </div>
           <div class="col-12">
             <label class="form-label fw-semibold">Career Opportunities</label>

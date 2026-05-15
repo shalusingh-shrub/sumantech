@@ -117,13 +117,13 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Publication</a>
                     <ul class="dropdown-menu" style="max-height:400px;overflow-y:auto;">
-                        <li><a class="dropdown-item" href="#">विज्ञान कार्नर</a></li>
+                        <li><a class="dropdown-item" href="#">Science Corner</a></li>
                         <li><a class="dropdown-item" href="#">TLM</a></li>
-                        <li><a class="dropdown-item" href="#">अनुसंधानम्</a></li>
-                        <li><a class="dropdown-item" href="#">अभिमत</a></li>
-                        <li><a class="dropdown-item" href="#">ई-मैगजीन</a></li>
-                        <li><a class="dropdown-item" href="#">कर्मणा</a></li>
-                        <li><a class="dropdown-item" href="#">गद्य गुँजन</a></li>
+                        <li><a class="dropdown-item" href="#">Research</a></li>
+                        <li><a class="dropdown-item" href="#">Opinion</a></li>
+                        <li><a class="dropdown-item" href="#">E-Magazine</a></li>
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Prose Collection</a></li>
                         <li><a class="dropdown-item" href="#">e-Resources</a></li>
                     </ul>
                 </li>

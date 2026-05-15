@@ -68,7 +68,7 @@ class CompetitionController extends Controller
         if (!$competition) {
             return response()->json([
                 'success' => false,
-                'message' => 'Competition nahi mili.',
+                'message' => 'Competition not found.',
             ], 404);
         }
 

@@ -93,7 +93,7 @@
                             <div class="d-flex gap-1">
                                 <a href="{{ route('admin.quizzes.show', $quiz) }}" class="action-btn btn-view" title="View"><i class="fas fa-eye"></i></a>
                                 <a href="{{ route('admin.quizzes.edit', $quiz) }}" class="action-btn btn-edit" title="Edit"><i class="fas fa-edit"></i></a>
-                                <form action="{{ route('admin.quizzes.destroy', $quiz) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete karna chahte ho?')">
+                                <form action="{{ route('admin.quizzes.destroy', $quiz) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this?')">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="action-btn btn-del" title="Delete"><i class="fas fa-trash"></i></button>
                                 </form>
@@ -101,7 +101,7 @@
                         </td>
                     </tr>
                     @empty
-                    <tr><td colspan="8" class="text-center py-4 text-muted">Koi quiz nahi mili.</td></tr>
+                    <tr><td colspan="8" class="text-center py-4 text-muted">No quizzes found.</td></tr>
                     @endforelse
                 </tbody>
             </table>

@@ -19,12 +19,12 @@
         <div class="card border-0 shadow-sm p-4" style="border-radius:10px;">
             <div class="mb-3">
                 <label class="form-label fw-semibold">Quiz Name <span class="text-danger">*</span></label>
-                <input type="text" name="quiz_name" class="form-control form-control-lg @error('quiz_name') is-invalid @enderror" placeholder="Quiz ka naam likhiye..." value="{{ old('quiz_name') }}" form="quizForm" required>
+                <input type="text" name="quiz_name" class="form-control form-control-lg @error('quiz_name') is-invalid @enderror" placeholder="Enter quiz name..." value="{{ old('quiz_name') }}" form="quizForm" required>
                 @error('quiz_name')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
             <div class="mb-3">
                 <label class="form-label fw-semibold">Description</label>
-                <textarea name="description" class="form-control @error('description') is-invalid @enderror" rows="5" placeholder="Quiz ke baare mein likhiye..." form="quizForm">{{ old('description') }}</textarea>
+                <textarea name="description" class="form-control @error('description') is-invalid @enderror" rows="5" placeholder="Write about the quiz..." form="quizForm">{{ old('description') }}</textarea>
                 @error('description')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
         </div>

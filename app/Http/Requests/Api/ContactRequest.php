@@ -22,11 +22,11 @@ class ContactRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required'    => 'Naam zaroori hai.',
-            'email.required'   => 'Email zaroori hai.',
+            'name.required'    => 'Name is required.',
+            'email.required'   => 'Email is required.',
             'email.email'      => 'Valid email dalo.',
-            'message.required' => 'Message zaroori hai.',
-            'message.min'      => 'Message kam se kam 10 characters ka hona chahiye.',
+            'message.required' => 'Message is required.',
+            'message.min'      => 'Message must be at least 10 characters.',
         ];
     }
 

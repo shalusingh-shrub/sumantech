@@ -22,11 +22,11 @@ class SuggestionRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required'    => 'Naam zaroori hai.',
-            'type.required'    => 'Type zaroori hai — suggestion ya complaint.',
-            'type.in'          => 'Type sirf suggestion ya complaint ho sakta hai.',
-            'message.required' => 'Message zaroori hai.',
-            'message.min'      => 'Message kam se kam 10 characters ka hona chahiye.',
+            'name.required'    => 'Name is required.',
+            'type.required'    => 'Type is required: suggestion or complaint.',
+            'type.in'          => 'Type must be either suggestion or complaint.',
+            'message.required' => 'Message is required.',
+            'message.min'      => 'Message must be at least 10 characters.',
         ];
     }
 
