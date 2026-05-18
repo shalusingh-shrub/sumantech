@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
             "manage_news", "manage_publications", "manage_gallery",
             "manage_testimonials", "manage_contacts", "manage_awards",
             "manage_competitions", "manage_eip", "manage_pages",
-            "manage_top_flash", "manage_opinions", "view_dashboard",
+            "manage_top_flash", "manage_opinions", "manage_inaugurations", "view_dashboard",
         ];
         foreach ($permissions as $permission) {
             Permission::firstOrCreate(["name" => $permission]);
@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
             "manage_team", "manage_sliders", "manage_news", "manage_publications",
             "manage_gallery", "manage_testimonials", "manage_contacts",
             "manage_awards", "manage_competitions", "manage_eip",
-            "manage_pages", "manage_top_flash", "manage_opinions", "view_dashboard",
+            "manage_pages", "manage_top_flash", "manage_opinions", "manage_inaugurations", "view_dashboard",
         ]);
 
         $editor = Role::firstOrCreate(["name" => "editor"]);

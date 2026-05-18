@@ -546,6 +546,9 @@ function copyPageLink(e) {
 {{-- ══ PAGE CONTENT ══ --}}
 @yield('content')
 
+@php($activeInauguration = \App\Models\Inauguration::activeForRequest(request()))
+@include('front.inauguration-modal', ['activeInauguration' => $activeInauguration])
+
 {{-- ══ FOOTER ══ --}}
 <footer class="site-footer">
     <div class="container">
