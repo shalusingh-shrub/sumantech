@@ -54,6 +54,40 @@
         </div>
 
         <div class="mb-3">
+          <label class="form-label fw-bold">Course Image</label>
+          <input type="file" name="image" class="form-control" accept="image/*">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Description</label>
+          <textarea name="description" class="form-control" rows="3"
+                    placeholder="Write a short course description...">{{ old('description', $course->description ?? '') }}</textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Homepage Badge</label>
+          <input type="text" name="badge_label" class="form-control"
+                 value="{{ old('badge_label', $course->badge_label ?? '') }}"
+                 placeholder="e.g. Popular, Bestseller, Job Ready">
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Card Icon Class</label>
+            <input type="text" name="icon_class" class="form-control"
+                   value="{{ old('icon_class', $course->icon_class ?? '') }}"
+                   placeholder="e.g. fa-desktop">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Card Color</label>
+            <input type="text" name="card_color" class="form-control"
+                   value="{{ old('card_color', $course->card_color ?? '') }}"
+                   placeholder="e.g. #0B3D8C">
+          </div>
+        </div>
+        <small class="text-muted d-block mb-3">Optional. Leave blank to auto-select badge, icon, and color from the course name.</small>
+
+        <div class="mb-3">
           <label class="form-label fw-bold">Status</label><br>
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="is_active" value="1"

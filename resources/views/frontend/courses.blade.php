@@ -58,7 +58,7 @@
               <span class="fw-bold" style="color:#F0A500;font-size:1.1rem;">
                 ₹{{ number_format($course->fee, 0) }}
               </span>
-              <a href="{{ route('course.show', $course->id) }}"
+              <a href="{{ $course->slug ? route('course.show', $course->slug) : route('course.legacy-show', $course->id) }}"
                  class="btn btn-sm fw-bold px-3"
                  style="background:#0B1F3A;color:#fff;border-radius:8px;">
                 View Details

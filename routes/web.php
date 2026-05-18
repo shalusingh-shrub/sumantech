@@ -4,6 +4,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ContactController;
@@ -34,8 +35,9 @@ use App\Http\Controllers\Admin\QuizController;
 |--------------------------------------------------------------------------
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/courses', [App\Http\Controllers\HomeController::class, 'courses'])->name('courses');
-Route::get('/courses/{id}', [App\Http\Controllers\HomeController::class, 'courseShow'])->name('course.show');
+Route::get('/courses', [CourseController::class, 'index'])->name('courses');
+Route::get('/course/{course:slug}', [CourseController::class, 'show'])->name('course.show');
+Route::get('/courses/{id}', [CourseController::class, 'legacyShow'])->whereNumber('id')->name('course.legacy-show');
 Route::get('/about-us', [HomeController::class, 'about'])->name('about');
 Route::get('/team', [HomeController::class, 'team'])->name('team');
 Route::get('/team/member/{id}', [HomeController::class, 'teamMemberDetail'])->name('team.member.detail');
