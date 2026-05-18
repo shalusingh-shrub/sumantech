@@ -52,7 +52,7 @@
         @empty
         <div class="col-12 text-center py-5 text-muted">
             <i class="fas fa-images fa-3x mb-3 d-block" style="opacity:.3;"></i>
-            <p>Koi image nahi hai.</p>
+            <p>No images available.</p>
         </div>
         @endforelse
     </div>
@@ -111,7 +111,7 @@
         @empty
         <div class="col-12 text-center py-5 text-muted">
             <i class="fas fa-video fa-3x mb-3 d-block" style="opacity:.3;"></i>
-            <p>Koi video nahi hai.</p>
+            <p>No videos available.</p>
         </div>
         @endforelse
     </div>

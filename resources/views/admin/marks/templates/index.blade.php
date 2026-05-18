@@ -7,7 +7,7 @@
       <h4 class="mb-0 fw-bold" style="color:#1a2a6c;">
         <i class="fas fa-star me-2"></i>Course Marks Templates
       </h4>
-      <small class="text-muted">Course-wise marks format set karo</small>
+      <small class="text-muted">Set the course-wise marks format.</small>
     </div>
     <a href="{{ route('admin.marks.templates.create') }}" class="btn btn-warning fw-bold px-4">
       <i class="fas fa-plus me-2"></i>Create Template
@@ -79,7 +79,7 @@
             <tr>
               <td colspan="6" class="text-center py-5 text-muted">
                 <i class="fas fa-star fa-3x mb-3 d-block" style="opacity:.2;"></i>
-                Koi template nahi — pehle create karo!
+                No templates available. Create one first.
               </td>
             </tr>
             @endforelse

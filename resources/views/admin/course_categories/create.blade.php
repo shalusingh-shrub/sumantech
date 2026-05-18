@@ -32,12 +32,12 @@
                         <label class="form-label fw-semibold">Slug *</label>
                         <input type="text" name="slug" id="slugField" class="form-control"
                                placeholder="e.g. computer-courses" value="{{ old('slug') }}">
-                        <small class="text-muted">Auto-generate hoga name se</small>
+                        <small class="text-muted">Auto-generated from the name.</small>
                     </div>
                     <div class="col-md-12">
                         <label class="form-label fw-semibold">Description</label>
                         <textarea name="description" class="form-control" rows="3"
-                                  placeholder="Category ke baare mein likhein...">{{ old('description') }}</textarea>
+                                  placeholder="Write about the category...">{{ old('description') }}</textarea>
                     </div>
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Category Image</label>

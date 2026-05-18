@@ -19,12 +19,12 @@ use App\Http\Controllers\Api\FormController;
 |--------------------------------------------------------------------------
 |
 | Middlewares lagi hain:
-|   api.log    → Sab requests log hoti hain (database mein)
-|   api.secure → SQL injection + XSS block hota hai (sab routes pe)
+|   api.log    → All requests are logged in the database
+|   api.secure → SQL injection and XSS are blocked on all routes
 |   api.key    → X-API-KEY header verify hoti hai (public routes pe)
 |   auth:api   → Bearer token verify hota hai (protected routes pe)
 |
-| .env mein add karo:
+| Add this to .env:
 |   API_KEYS=your-secret-key-123,another-key-456
 |
 */

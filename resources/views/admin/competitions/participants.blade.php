@@ -49,7 +49,7 @@
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="9" class="text-center py-4 text-muted">Koi participant nahi mila.</td></tr>
+                <tr><td colspan="9" class="text-center py-4 text-muted">No participants found.</td></tr>
                 @endforelse
             </tbody>
         </table>

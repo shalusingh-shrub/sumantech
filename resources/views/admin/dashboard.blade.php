@@ -108,7 +108,10 @@
                 <a href="{{ route('admin.news.create') }}" class="btn btn-sm btn-tob mb-2 w-100"><i class="fas fa-plus me-2"></i>Add News/Event</a>
                 <a href="{{ route('admin.team.create') }}" class="btn btn-sm btn-outline-primary mb-2 w-100"><i class="fas fa-user-plus me-2"></i>Add Team Member</a>
                 <a href="{{ route('admin.publications.create') }}" class="btn btn-sm btn-outline-success mb-2 w-100"><i class="fas fa-book me-2"></i>Add Publication</a>
-                <a href="{{ route('admin.sliders.create') }}" class="btn btn-sm btn-outline-warning w-100"><i class="fas fa-image me-2"></i>Add Slider</a>
+                <a href="{{ route('admin.sliders.create') }}" class="btn btn-sm btn-outline-warning mb-2 w-100"><i class="fas fa-image me-2"></i>Add Slider</a>
+                @if(auth()->user()?->can('manage_inaugurations') || auth()->user()?->hasRole(['super_admin', 'superadmin', 'admin']) || auth()->user()?->role === 'admin')
+                    <a href="{{ route('admin.inaugurations.index') }}" class="btn btn-sm btn-outline-success w-100"><i class="fas fa-rocket me-2"></i>Manage Inauguration</a>
+                @endif
             </div>
         </div>
     </div>

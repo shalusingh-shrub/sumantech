@@ -445,7 +445,7 @@
                         <li><hr class="dropdown-divider" style="border-color:rgba(255,255,255,.1)"></li>
                         @php $navCourses = \App\Models\Course::where('is_active', true)->get(); @endphp
                         @foreach($navCourses as $nc)
-                        <li><a class="dropdown-item" href="{{ route('course.show', $nc->id) }}">
+                        <li><a class="dropdown-item" href="{{ $nc->slug ? route('course.show', $nc->slug) : route('course.legacy-show', $nc->id) }}">
                             @php
                                 $icons = ['DCA'=>'fa-desktop','ADCA'=>'fa-laptop','Tally'=>'fa-calculator','DIGITA'=>'fa-chart-line','Web'=>'fa-code','Digital'=>'fa-bullhorn','MS Office'=>'fa-file-word','DTP'=>'fa-paint-brush','Programming'=>'fa-terminal'];
                                 $ic = 'fa-book';
@@ -545,6 +545,9 @@ function copyPageLink(e) {
 
 {{-- ══ PAGE CONTENT ══ --}}
 @yield('content')
+
+@php($activeInauguration = \App\Models\Inauguration::activeForRequest(request()))
+@include('front.inauguration-modal', ['activeInauguration' => $activeInauguration])
 
 {{-- ══ FOOTER ══ --}}
 <footer class="site-footer">

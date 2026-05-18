@@ -148,6 +148,12 @@
     </a>
     @endcan
 
+    @if(auth()->user()?->can('manage_inaugurations') || auth()->user()?->hasRole(['super_admin', 'superadmin', 'admin']) || auth()->user()?->role === 'admin')
+    <a href="{{ route('admin.inaugurations.index') }}" class="nav-link {{ request()->is('admin/inaugurations*') ? 'active' : '' }}">
+        <i class="fas fa-rocket"></i> Inauguration
+    </a>
+    @endif
+
     @can('manage_top_flash')
     <a href="{{ route('admin.topflash.index') }}" class="nav-link {{ request()->is('admin/topflash*') ? 'active' : '' }}">
         <i class="fas fa-bolt"></i> Top Flash

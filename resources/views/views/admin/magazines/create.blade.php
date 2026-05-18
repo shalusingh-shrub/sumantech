@@ -50,7 +50,7 @@
             <div class="mb-3">
                 <label class="form-label fw-semibold">PDF File</label>
                 <input type="file" name="file" class="form-control @error('file') is-invalid @enderror" accept=".pdf">
-                <small class="text-muted">Sirf PDF — Max 10MB</small>
+                <small class="text-muted">PDF only - Max 10MB</small>
                 @error('file')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
         </div>
@@ -76,7 +76,7 @@
             <h6><i class="fas fa-image me-2"></i>Cover Image</h6>
             <div class="img-preview-wrap mb-2" onclick="document.getElementById('imageInput').click()">
                 <img id="imagePreview" src="" style="display:none; max-height:150px;" class="img-fluid">
-                <div id="imgPlaceholder"><i class="fas fa-cloud-upload-alt fa-2x text-muted mb-2"></i><p class="text-muted mb-0" style="font-size:13px;">Click karke upload karo</p></div>
+                <div id="imgPlaceholder"><i class="fas fa-cloud-upload-alt fa-2x text-muted mb-2"></i><p class="text-muted mb-0" style="font-size:13px;">Click to upload</p></div>
             </div>
             <input type="file" name="image" id="imageInput" class="form-control d-none" accept="image/*">
             @error('image')<div class="text-danger small mt-1">{{ $message }}</div>@enderror

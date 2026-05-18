@@ -22,9 +22,9 @@ class OpinionRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required'    => 'Naam zaroori hai.',
-            'opinion.required' => 'Opinion zaroori hai.',
-            'opinion.min'      => 'Opinion kam se kam 10 characters ka hona chahiye.',
+            'name.required'    => 'Name is required.',
+            'opinion.required' => 'Opinion is required.',
+            'opinion.min'      => 'Opinion must be at least 10 characters.',
         ];
     }
 

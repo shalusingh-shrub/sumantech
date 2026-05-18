@@ -77,6 +77,25 @@
               <option value="Advanced"     {{ $course->course_level=='Advanced'     ?'selected':'' }}>Advanced</option>
             </select>
           </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">Homepage Badge</label>
+            <input type="text" name="badge_label" class="form-control"
+                   value="{{ old('badge_label', $course->badge_label) }}"
+                   placeholder="e.g. Popular, Bestseller, Job Ready">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">Card Icon Class</label>
+            <input type="text" name="icon_class" class="form-control"
+                   value="{{ old('icon_class', $course->icon_class) }}"
+                   placeholder="e.g. fa-desktop">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label fw-semibold">Card Color</label>
+            <input type="text" name="card_color" class="form-control"
+                   value="{{ old('card_color', $course->card_color) }}"
+                   placeholder="e.g. #0B3D8C">
+            <small class="text-muted">Optional homepage card styling.</small>
+          </div>
           <div class="col-md-6">
             <label class="form-label fw-semibold">Eligibility</label>
             <input type="text" name="eligibility" class="form-control"
@@ -86,13 +105,13 @@
           <div class="col-12">
             <label class="form-label fw-semibold">Description</label>
             <textarea name="description" class="form-control" rows="3"
-                      placeholder="Course ke baare mein likhо...">{{ old('description', $course->description) }}</textarea>
+                      placeholder="Write about the course...">{{ old('description', $course->description) }}</textarea>
           </div>
           <div class="col-12">
             <label class="form-label fw-semibold">Course Highlights</label>
             <textarea name="highlights" class="form-control" rows="4"
-                      placeholder="Har line mein ek highlight likhо...">{{ old('highlights', $course->highlights) }}</textarea>
-            <small class="text-muted">Har line mein ek point likho</small>
+                      placeholder="Enter one highlight per line...">{{ old('highlights', $course->highlights) }}</textarea>
+            <small class="text-muted">Enter one point per line.</small>
           </div>
           <div class="col-12">
             <label class="form-label fw-semibold">Career Opportunities</label>

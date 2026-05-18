@@ -18,8 +18,8 @@ return [
     | Authentication Guards
     |--------------------------------------------------------------------------
     |
-    | 'api' guard -> Token se authentication (Bearer Token)
-    | 'web' guard -> Session se authentication (browser)
+    | 'api' guard -> Token-based authentication (Bearer Token)
+    | 'web' guard -> Session-based authentication (browser)
     |
     */
 
@@ -32,7 +32,7 @@ return [
         'api' => [
             'driver'    => 'token',
             'provider'  => 'users',
-            'hash'      => true, // token SHA-256 hash karke store hoga
+            'hash'      => true, // token will be stored as a SHA-256 hash
         ],
     ],
 

@@ -48,7 +48,7 @@ class NewsEventController extends Controller implements HasMiddleware
         return view('admin.news.create', compact('categories'));
     }
 
-    // StoreNewsRequest — store ke liye
+    // StoreNewsRequest for storing records
     public function store(StoreNewsRequest $request)
     {
         $data = $request->except(['image', '_token', 'auto_slug']);
@@ -64,7 +64,7 @@ class NewsEventController extends Controller implements HasMiddleware
 
         NewsEvent::create($data);
         return redirect()->route('admin.news.index')
-            ->with('success', 'News/Event successfully add ho gaya!');
+            ->with('success', 'News/Event added successfully.');
     }
 
     public function edit(NewsEvent $news)
@@ -73,7 +73,7 @@ class NewsEventController extends Controller implements HasMiddleware
         return view('admin.news.edit', compact('news', 'categories'));
     }
 
-    // UpdateNewsRequest — update ke liye
+    // UpdateNewsRequest for updating records
     public function update(UpdateNewsRequest $request, NewsEvent $news)
     {
         $data = $request->except(['image', '_token', '_method', 'auto_slug']);
@@ -89,13 +89,13 @@ class NewsEventController extends Controller implements HasMiddleware
 
         $news->update($data);
         return redirect()->route('admin.news.index')
-            ->with('success', 'Successfully update ho gaya!');
+            ->with('success', 'Updated successfully.');
     }
 
     public function destroy(NewsEvent $news)
     {
         $news->delete();
         return redirect()->route('admin.news.index')
-            ->with('success', 'Successfully delete ho gaya!');
+            ->with('success', 'Deleted successfully.');
     }
 }

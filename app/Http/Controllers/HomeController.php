@@ -9,6 +9,7 @@ use App\Models\NewsEvent;
 use App\Models\Publication;
 use App\Models\Testimonial;
 use App\Models\TeamMember;
+use App\Models\Course;
 
 class HomeController extends Controller
 {
@@ -19,9 +20,10 @@ class HomeController extends Controller
         $latestNews = NewsEvent::where('is_published', true)->latest()->take(6)->get();
         $testimonials = Testimonial::where('is_active', true)->inRandomOrder()->take(3)->get();
         $latestPublications = Publication::where('is_active', true)->latest()->take(8)->get();
+        $featuredCourses = Course::where('is_active', true)->latest()->get();
 
         return view('frontend.home', compact(
-            'sliders', 'topFlashes', 'latestNews', 'testimonials', 'latestPublications'
+            'sliders', 'topFlashes', 'latestNews', 'testimonials', 'latestPublications', 'featuredCourses'
         ));
     }
 
@@ -145,11 +147,11 @@ class HomeController extends Controller
         \App\Models\Opinion::create($request->only(['name', 'email', 'district', 'school', 'opinion']));
 \App\Models\Notification::send(
     'new_opinion',
-    'Naya Opinion Aaya!',
-    $request->name . ' ne opinion diya',
+    'New Opinion Received!',
+    $request->name . ' shared an opinion',
     route('admin.opinions.index')
 );
-        return redirect()->back()->with('success', 'Your message has been sent successfully. Thank you!');
+        return redirect()->back()->with('success', 'Your opinion has been submitted successfully. Thank you!');
     }
 
 public function podcast()

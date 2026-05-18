@@ -61,8 +61,8 @@
                             </label>
                             <input type="text" name="title" class="form-control"
                                    value="{{ old('title') }}"
-                                   placeholder="Sab items ka same title hoga">
-                            <small class="text-muted">Agar diya toh is batch ke sab items ka same title hoga</small>
+                                   placeholder="All items will use the same title">
+                            <small class="text-muted">If provided, all items in this batch will use the same title.</small>
                         </div>
 
                         @if($gallery->type == 'image')
@@ -70,12 +70,12 @@
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
                                 Images <span class="text-danger">*</span>
-                                <small class="text-muted fw-normal">(Max 5 ek baar mein)</small>
+                                <small class="text-muted fw-normal">(Max 5 at a time)</small>
                             </label>
                             <div class="upload-area" id="uploadArea"
                                  style="border:2px dashed #1a2a6c;border-radius:10px;padding:20px;text-align:center;cursor:pointer;background:#f8f9ff;">
                                 <i class="fas fa-cloud-upload-alt fa-2x mb-2" style="color:#1a2a6c;"></i>
-                                <p class="mb-1 fw-semibold" style="color:#1a2a6c;">Click ya drag karo</p>
+                                <p class="mb-1 fw-semibold" style="color:#1a2a6c;">Click or drag files here</p>
                                 <p class="text-muted mb-0" style="font-size:.8rem;">JPG, PNG, WEBP — Max 5MB each</p>
                                 <input type="file" name="images[]" id="imageInput"
                                        multiple accept="image/*"
@@ -114,7 +114,7 @@
                             <label class="form-label fw-semibold">Video URL <span class="text-danger">*</span></label>
                             <input type="url" name="video_url" class="form-control"
                                    placeholder="https://youtube.com/watch?v=...">
-                            <small class="text-muted">YouTube, Vimeo ya koi bhi video URL</small>
+                            <small class="text-muted">YouTube, Vimeo, or any video URL</small>
                         </div>
 
                         <div id="fileField" class="mb-3" style="display:none;">
@@ -204,7 +204,7 @@
                     @else
                     <div class="text-center py-5 text-muted">
                         <i class="fas fa-{{ $gallery->type=='video' ? 'video' : 'images' }} fa-3x mb-3 d-block" style="opacity:.2;"></i>
-                        Koi item nahi — pehle add karo!
+                        No items available. Add one first.
                     </div>
                     @endif
                 </div>
@@ -259,7 +259,7 @@ function previewImages(input) {
         reader.readAsDataURL(file);
     });
     if (input.files.length > 5) {
-        container.innerHTML += `<div class="col-12"><small class="text-danger fw-semibold">⚠️ Sirf pehli 5 images upload hongi!</small></div>`;
+        container.innerHTML += `<div class="col-12"><small class="text-danger fw-semibold">Only the first 5 images will be uploaded.</small></div>`;
     }
 }
 

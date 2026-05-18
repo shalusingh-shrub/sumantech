@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
             "manage_news", "manage_publications", "manage_gallery",
             "manage_testimonials", "manage_contacts", "manage_awards",
             "manage_competitions", "manage_eip", "manage_pages",
-            "manage_top_flash", "manage_opinions", "view_dashboard",
+            "manage_top_flash", "manage_opinions", "manage_inaugurations", "view_dashboard",
         ];
         foreach ($permissions as $permission) {
             Permission::firstOrCreate(["name" => $permission]);
@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
             "manage_team", "manage_sliders", "manage_news", "manage_publications",
             "manage_gallery", "manage_testimonials", "manage_contacts",
             "manage_awards", "manage_competitions", "manage_eip",
-            "manage_pages", "manage_top_flash", "manage_opinions", "view_dashboard",
+            "manage_pages", "manage_top_flash", "manage_opinions", "manage_inaugurations", "view_dashboard",
         ]);
 
         $editor = Role::firstOrCreate(["name" => "editor"]);
@@ -236,8 +236,8 @@ class DatabaseSeeder extends Seeder
         // ── Opinions ──────────────────────────────────
         $opinions = [
             ["name" => "Rakesh Yadav",  "email" => "rakesh@gmail.com",  "district" => "Patna",      "school" => "PS Phulwarisharif",  "opinion" => "Bagless Saturday is amazing. Children are more creative now.",  "is_approved" => true],
-            ["name" => "Puja Kumari",   "email" => "puja@gmail.com",    "district" => "Nalanda",    "school" => "UMS Biharsharif",    "opinion" => "TOB ke trainings se mera teaching kaafi improve hua hai.",       "is_approved" => true],
-            ["name" => "Sanjay Mehta",  "email" => "sanjay@gmail.com",  "district" => "Gaya",       "school" => "PS Bodh Gaya",       "opinion" => "Science Corner ka material bahut useful hai classroom ke liye.", "is_approved" => true],
+            ["name" => "Puja Kumari",   "email" => "puja@gmail.com",    "district" => "Nalanda",    "school" => "UMS Biharsharif",    "opinion" => "TOB training programs have greatly improved my teaching.",       "is_approved" => true],
+            ["name" => "Sanjay Mehta",  "email" => "sanjay@gmail.com",  "district" => "Gaya",       "school" => "PS Bodh Gaya",       "opinion" => "Science Corner materials are very useful for the classroom.", "is_approved" => true],
             ["name" => "Anita Singh",   "email" => "anita@gmail.com",   "district" => "Muzaffarpur","school" => "MS Muzaffarpur",      "opinion" => "TLM training changed how I look at teaching completely.",        "is_approved" => true],
         ];
         foreach ($opinions as $op) {
@@ -273,7 +273,7 @@ class DatabaseSeeder extends Seeder
             Page::firstOrCreate(["slug" => $page["slug"]], $page);
         }
 
-        $this->command->info('✅ Sab tables mein data seed ho gaya!');
+        $this->command->info('✅ Data seeded successfully in all tables!');
         $this->command->info('📧 Admin login: admin@sumantech.in / Password@2026');
         $this->command->info('📧 Editor login: editor@sumantech.in / Password@2026');
         $this->command->info('📧 Teacher login: teacher@sumantech.in / Password@2026');

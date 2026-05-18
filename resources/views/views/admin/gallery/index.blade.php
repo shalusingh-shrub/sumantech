@@ -13,7 +13,7 @@
         <form method="GET" class="row g-2 align-items-end">
             <div class="col-md-5">
                 <label class="form-label fw-semibold mb-1">Search</label>
-                <input type="text" name="search" class="form-control" placeholder="Title se search karein..." value="{{ request('search') }}">
+                <input type="text" name="search" class="form-control" placeholder="Search by title..." value="{{ request('search') }}">
             </div>
             <div class="col-md-3">
                 <label class="form-label fw-semibold mb-1">Type</label>
@@ -84,14 +84,14 @@
                     </td>
                     <td>
                         <a href="{{ route('admin.gallery.edit', $item) }}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                        <form action="{{ route('admin.gallery.destroy', $item) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete karna chahte ho?')">
+                        <form action="{{ route('admin.gallery.destroy', $item) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this?')">
                             @csrf @method('DELETE')
                             <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                         </form>
                     </td>
                 </tr>
                 @empty
-                <tr><td colspan="8" class="text-center py-4 text-muted">Koi gallery item nahi mila.</td></tr>
+                <tr><td colspan="8" class="text-center py-4 text-muted">No gallery items found.</td></tr>
                 @endforelse
             </tbody>
         </table>

@@ -5,7 +5,7 @@
 <section style="background:linear-gradient(135deg,#0B1F3A,#1a3a6c);padding:60px 0;">
   <div class="container text-center text-white">
     <h2 class="fw-bold mb-2">Online Quizzes</h2>
-    <p style="opacity:.8;">Apni knowledge test karo — Free Online Quizzes</p>
+    <p style="opacity:.8;">Test your knowledge with free online quizzes.</p>
   </div>
 </section>
 
@@ -60,7 +60,7 @@
       @empty
       <div class="col-12 text-center py-5 text-muted">
         <i class="fas fa-question-circle fa-3x mb-3 d-block" style="opacity:.2;"></i>
-        Abhi koi quiz available nahi hai.
+        No quizzes are available yet.
       </div>
       @endforelse
     </div>

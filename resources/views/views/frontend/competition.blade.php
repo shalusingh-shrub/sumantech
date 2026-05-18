@@ -50,7 +50,7 @@
                             View Submission
                         </a>
 
-                        {{-- Participate Now - Sirf tab dikhao jab end date future mein ho --}}
+                        {{-- Show Participate Now only when the end date is in the future --}}
                         @if($comp->end_date && $comp->end_date->isFuture())
                         <a href="{{ $comp->registration_link ?? route('competition.show', $comp->slug) }}"
                            target="{{ $comp->registration_link ? '_blank' : '_self' }}"

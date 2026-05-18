@@ -26,16 +26,16 @@ class RegisterController extends Controller
             'school'    => 'nullable|string|max:255',
             'password'  => 'required|min:8|confirmed',
         ], [
-            'name.required'      => 'Naam zaroori hai.',
-            'email.required'     => 'Email zaroori hai.',
+            'name.required'      => 'Name is required.',
+            'email.required'     => 'Email is required.',
             'email.unique'       => 'Yeh email already registered hai.',
-            'phone.required'     => 'Phone number zaroori hai.',
-            'date_of_birth.required' => 'Date of birth zaroori hai.',
-            'date_of_birth.before'   => 'Date of birth aaj se pehle ki honi chahiye.',
-            'user_type.required' => 'Account type select karo.',
-            'password.required'  => 'Password zaroori hai.',
-            'password.min'       => 'Password kam se kam 8 characters ka hona chahiye.',
-            'password.confirmed' => 'Password match nahi kar raha.',
+            'phone.required'     => 'Phone number is required.',
+            'date_of_birth.required' => 'Date of birth is required.',
+            'date_of_birth.before'   => 'Date of birth must be before today.',
+            'user_type.required' => 'Please select an account type.',
+            'password.required'  => 'Password is required.',
+            'password.min'       => 'Password must be at least 8 characters.',
+            'password.confirmed' => 'Passwords do not match.',
         ]);
 
         $user = User::create([
@@ -46,7 +46,7 @@ class RegisterController extends Controller
             'role'             => in_array($request->user_type, ['teacher', 'student']) ? $request->user_type : 'student',
             'password'         => Hash::make($request->password),
             'is_active'        => false,
-            'can_access_admin' => false, // admin access nahi hoga by default
+            'can_access_admin' => false, // admin access is disabled by default
         ]);
     $regNum = User::generateRegNumber($request->date_of_birth);
         UserProfile::create([

@@ -15,7 +15,7 @@ class AuthController extends Controller
 {
     // =============================================
     // POST /api/signup
-    // Register karo naya user
+    // Register a new user
     // =============================================
     public function signup(Request $request): JsonResponse
     {
@@ -46,7 +46,7 @@ class AuthController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Account successfully bana diya gaya!',
+            'message' => 'Account created successfully.',
             'token'   => $token,
             'user'    => [
                 'id'          => $user->id,
@@ -63,7 +63,7 @@ class AuthController extends Controller
 
     // =============================================
     // POST /api/login
-    // Login karo aur token lo
+    // Log in and get a token
     // =============================================
     public function login(Request $request): JsonResponse
     {
@@ -85,18 +85,18 @@ class AuthController extends Controller
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Email ya password galat hai.',
+                'message' => 'Email or password is incorrect.',
             ], 401);
         }
 
         if (!$user->is_active) {
             return response()->json([
                 'success' => false,
-                'message' => 'Aapka account band kar diya gaya hai. Admin se sampark karein.',
+                'message' => 'Your account has been disabled. Please contact the administrator.',
             ], 403);
         }
 
-        // Naya token generate karo
+        // Generate a new token
         $token = Str::random(60);
 
         $user->update([
@@ -131,7 +131,7 @@ class AuthController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'User information mili!',
+            'message' => 'User information retrieved successfully.',
             'user'    => [
                 'id'          => $user->id,
                 'name'        => $user->name,
@@ -151,7 +151,7 @@ class AuthController extends Controller
 
     // =============================================
     // POST /api/logout
-    // Token delete karo (logout)
+    // Delete the token (logout)
     // =============================================
     public function logout(Request $request): JsonResponse
     {
@@ -159,7 +159,7 @@ class AuthController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Logout ho gaye! Token delete kar diya gaya.',
+            'message' => 'Logged out successfully. Token deleted.',
         ]);
     }
 }

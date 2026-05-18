@@ -126,10 +126,10 @@
           @if($studentCourse->end_date)
           <input type="date" name="completion_date" class="form-control"
                  value="{{ $studentCourse->end_date->format('Y-m-d') }}">
-          <small class="text-success"><i class="fas fa-check me-1"></i>Course end date se auto-fill</small>
+          <small class="text-success"><i class="fas fa-check me-1"></i>Auto-filled from the course end date</small>
           @else
           <input type="date" name="completion_date" class="form-control">
-          <small class="text-muted">Course end date set nahi hai — manually daalo</small>
+          <small class="text-muted">Course end date is not set. Enter it manually.</small>
           @endif
         </div>
         <div class="col-md-8">

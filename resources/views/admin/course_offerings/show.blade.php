@@ -112,7 +112,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="4" class="text-center py-3 text-muted">Koi price history nahi</td>
+                                    <td colspan="4" class="text-center py-3 text-muted">No price history available.</td>
                                 </tr>
                                 @endforelse
                             </tbody>
@@ -163,7 +163,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="7" class="text-center py-3 text-muted">Koi enrollment nahi abhi</td>
+                                    <td colspan="7" class="text-center py-3 text-muted">No enrollments available yet.</td>
                                 </tr>
                                 @endforelse
                             </tbody>

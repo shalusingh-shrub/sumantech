@@ -19,12 +19,12 @@
 
 @if($award->cert_layout)
 <div class="alert alert-success py-2 mb-3">
-    <i class="fas fa-check-circle me-2"></i>Certificate layout ready! Naye participants ka certificate auto-generate hoga.
+    <i class="fas fa-check-circle me-2"></i>Certificate layout is ready. Certificates will be generated automatically for new participants.
     <a href="{{ route('admin.awards.certificateBuilder', $award) }}" class="ms-2">Edit Layout</a>
 </div>
 @else
 <div class="alert alert-warning py-2 mb-3">
-    <i class="fas fa-exclamation-triangle me-2"></i>Certificate layout set nahi hai!
+    <i class="fas fa-exclamation-triangle me-2"></i>Certificate layout is not set.
     <a href="{{ route('admin.awards.certificateBuilder', $award) }}" class="btn btn-sm btn-warning ms-2">Setup Certificate Builder</a>
 </div>
 @endif
@@ -88,7 +88,7 @@
                             </td>
                         </tr>
                         @empty
-                        <tr><td colspan="7" class="text-center py-4 text-muted">Koi participant nahi.</td></tr>
+                        <tr><td colspan="7" class="text-center py-4 text-muted">No participants found.</td></tr>
                         @endforelse
                     </tbody>
                 </table>

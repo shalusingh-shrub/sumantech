@@ -4,6 +4,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ContactController;
@@ -27,6 +28,7 @@ use App\Http\Controllers\Admin\GoodLuckMessageController;
 use App\Http\Controllers\Admin\EipResourceController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\QuizController;
+use App\Http\Controllers\Admin\InaugurationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,8 +36,9 @@ use App\Http\Controllers\Admin\QuizController;
 |--------------------------------------------------------------------------
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/courses', [App\Http\Controllers\HomeController::class, 'courses'])->name('courses');
-Route::get('/courses/{id}', [App\Http\Controllers\HomeController::class, 'courseShow'])->name('course.show');
+Route::get('/courses', [CourseController::class, 'index'])->name('courses');
+Route::get('/course/{course:slug}', [CourseController::class, 'show'])->name('course.show');
+Route::get('/courses/{id}', [CourseController::class, 'legacyShow'])->whereNumber('id')->name('course.legacy-show');
 Route::get('/about-us', [HomeController::class, 'about'])->name('about');
 Route::get('/team', [HomeController::class, 'team'])->name('team');
 Route::get('/team/member/{id}', [HomeController::class, 'teamMemberDetail'])->name('team.member.detail');
@@ -86,6 +89,8 @@ Route::post('/complaint-suggestion', [ContactController::class, 'suggestionStore
 // Your Opinion
 Route::get('/youropinionmatters', [HomeController::class, 'yourOpinion'])->name('your-opinion');
 Route::post('/youropinionmatters', [HomeController::class, 'yourOpinionStore'])->name('opinion.store');
+Route::get('/inauguration/{inauguration}/poster', [App\Http\Controllers\FrontInaugurationController::class, 'poster'])->name('inauguration.poster');
+Route::post('/inauguration/{inauguration}/verify', [App\Http\Controllers\FrontInaugurationController::class, 'verify'])->name('inauguration.verify');
 
 // Auth Routes
 require __DIR__.'/auth.php';
@@ -113,6 +118,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
 
     // Slider Management
     Route::resource('sliders', SliderController::class);
+
+    // Inauguration Management
+    Route::resource('inaugurations', InaugurationController::class)->except(['show']);
 
     // Publications Management
     Route::resource('publications', AdminPublicationController::class);

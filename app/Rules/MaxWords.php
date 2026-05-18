@@ -15,7 +15,7 @@ class MaxWords implements ValidationRule
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        // HTML tags strip karo pehle (CKEditor ke liye)
+        // Strip HTML tags first for CKEditor
         $plainText = strip_tags($value);
         $wordCount = count(preg_split('/\s+/', trim($plainText), -1, PREG_SPLIT_NO_EMPTY));
 

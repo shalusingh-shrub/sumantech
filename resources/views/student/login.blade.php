@@ -46,7 +46,7 @@
                 <label class="form-label fw-bold">Registration ID / Mobile / Email</label>
                 <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-user"></i></span>
-                    <input type="text" name="login" class="form-control" placeholder="ST-XXXXXXXXXX ya Mobile" value="{{ old('login') }}" required>
+                    <input type="text" name="login" class="form-control" placeholder="ST-XXXXXXXXXX or Mobile" value="{{ old('login') }}" required>
                 </div>
             </div>
             <div class="mb-4">

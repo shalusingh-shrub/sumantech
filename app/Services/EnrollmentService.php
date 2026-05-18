@@ -18,18 +18,18 @@ class EnrollmentService
     {
         return DB::transaction(function () use ($user, $offering) {
 
-            // Current price fetch karo
+            // Fetch the current price
             $currentPrice = $this->pricingService->getCurrentPrice($offering);
 
             if (!$currentPrice) {
-                throw new Exception('Is course ka koi active price nahi hai!');
+                throw new Exception('This course does not have an active price.');
             }
 
-            // Start date aur end date calculate karo
+            // Calculate the start and end dates
             $startDate = now();
             $endDate   = $this->calculateEndDate($startDate, $offering->duration_value, $offering->duration_unit);
 
-            // Enrollment create karo
+            // Create the enrollment
             return UserCourseEnrollment::create([
                 'user_id'            => $user->id,
                 'course_offering_id' => $offering->id,

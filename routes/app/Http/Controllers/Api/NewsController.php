@@ -86,7 +86,7 @@ class NewsController extends Controller
         if (!$news) {
             return response()->json([
                 'success' => false,
-                'message' => 'News nahi mili.',
+                'message' => 'News not found.',
             ], 404);
         }
 

@@ -120,7 +120,7 @@
                         <td>
                             <div class="d-flex gap-1">
                                 <a href="{{ route('admin.competitions.edit', $comp) }}" class="action-btn btn-edit" title="Edit"><i class="fas fa-edit"></i></a>
-                                <form action="{{ route('admin.competitions.destroy', $comp) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete karna chahte ho?')">
+                                <form action="{{ route('admin.competitions.destroy', $comp) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this?')">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="action-btn btn-del" title="Delete"><i class="fas fa-trash"></i></button>
                                 </form>
@@ -128,7 +128,7 @@
                         </td>
                     </tr>
                     @empty
-                    <tr><td colspan="9" class="text-center py-4 text-muted">Koi competition nahi mili.</td></tr>
+                    <tr><td colspan="9" class="text-center py-4 text-muted">No competitions found.</td></tr>
                     @endforelse
                 </tbody>
             </table>

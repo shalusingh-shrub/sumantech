@@ -86,7 +86,7 @@
     @else
     <div class="text-center py-5 text-muted">
         <i class="fas fa-video fa-3x mb-3 d-block" style="opacity:.3;"></i>
-        <p>Koi video gallery available nahi hai.</p>
+        <p>No video gallery is available.</p>
     </div>
     @endif
 

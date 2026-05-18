@@ -40,7 +40,7 @@ class TopFlashController extends Controller implements HasMiddleware
         $data['created_by'] = auth()->id();
 
         TopFlash::create($data);
-        return redirect()->route('admin.topflash.index')->with('success', 'Flash news successfully add ho gaya!');
+        return redirect()->route('admin.topflash.index')->with('success', 'Flash news added successfully.');
     }
 
     public function edit(TopFlash $topflash) { return view('admin.topflash.edit', compact('topflash')); }
@@ -53,12 +53,12 @@ class TopFlashController extends Controller implements HasMiddleware
         $data['updated_by'] = auth()->id();
 
         $topflash->update($data);
-        return redirect()->route('admin.topflash.index')->with('success', 'Flash news successfully update ho gaya!');
+        return redirect()->route('admin.topflash.index')->with('success', 'Flash news updated successfully.');
     }
 
     public function destroy(TopFlash $topflash)
     {
         $topflash->delete();
-        return redirect()->route('admin.topflash.index')->with('success', 'Flash news delete ho gaya!');
+        return redirect()->route('admin.topflash.index')->with('success', 'Flash news deleted successfully.');
     }
 }

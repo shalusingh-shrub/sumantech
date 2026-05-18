@@ -11,17 +11,17 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * LogApiRequest Middleware
  *
- * Har API request ka record database mein save karta hai:
+ * Saves every API request record in the database:
  * - IP address, URL, method
- * - Request body aur query params
- * - Response status aur time
+ * - Request body and query parameters
+ * - Response status and time
  * - Suspicious activity flag
  *
  * Stored in: api_logs table
  */
 class LogApiRequest
 {
-    // Ye fields kabhi log nahi honge (sensitive data)
+    // These fields are never logged because they contain sensitive data
     protected array $sensitiveFields = [
         'password', 'password_confirmation',
         'token', 'api_key', 'secret',
@@ -41,17 +41,17 @@ class LogApiRequest
     {
         $startTime = microtime(true);
 
-        // Request process karo
+        // Process the request
         $response = $next($request);
 
-        // Response time calculate karo
+        // Calculate response time
         $responseTimeMs = (int) ((microtime(true) - $startTime) * 1000);
 
-        // Background mein log save karo — response slow nahi hoga
+        // Save logs in the background so the response is not slowed down
         try {
             $this->saveLog($request, $response, $responseTimeMs);
         } catch (\Exception $e) {
-            // Log save fail ho toh bhi request rukni nahi chahiye
+            // The request should continue even if log saving fails
             \Log::error('API Log save failed: ' . $e->getMessage());
         }
 
@@ -60,7 +60,7 @@ class LogApiRequest
 
     protected function saveLog(Request $request, Response $response, int $responseTimeMs): void
     {
-        // Request body — sensitive fields hata do
+        // Request body with sensitive fields removed
         $requestBody = null;
         if ($request->isMethod('POST') || $request->isMethod('PUT') || $request->isMethod('PATCH')) {
             $body = $request->all();
@@ -81,7 +81,7 @@ class LogApiRequest
         // Suspicious check
         [$isSuspicious, $suspiciousReason] = $this->checkSuspicious($request);
 
-        // API key (pehle 8 chars hi save karo security ke liye)
+        // API key; store only the first 8 characters for security
         $apiKey = $request->header('X-API-KEY');
         if ($apiKey) {
             $apiKey = substr($apiKey, 0, 8) . '****';
@@ -106,7 +106,7 @@ class LogApiRequest
 
     protected function checkSuspicious(Request $request): array
     {
-        // Sab input check karo
+        // Check all input
         $allInput = $request->fullUrl() . ' ' . json_encode($request->all());
 
         foreach ($this->suspiciousPatterns as $pattern) {

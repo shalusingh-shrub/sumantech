@@ -20,8 +20,8 @@ class EnrollmentRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'course_offering_id.required' => 'Course offering select karna zaroori hai!',
-            'course_offering_id.exists'   => 'Selected course offering exist nahi karta!',
+            'course_offering_id.required' => 'Please select a course offering.',
+            'course_offering_id.exists'   => 'The selected course offering does not exist.',
         ];
     }
 }

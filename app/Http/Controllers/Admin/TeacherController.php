@@ -42,7 +42,7 @@ class TeacherController extends Controller
         }
 
         Teacher::create($data);
-        return redirect()->route('admin.teachers.index')->with('success', 'Teacher add ho gaya!');
+        return redirect()->route('admin.teachers.index')->with('success', 'Teacher added successfully.');
     }
 
     public function edit(Teacher $teacher) {
@@ -66,11 +66,11 @@ class TeacherController extends Controller
         }
 
         $teacher->update($data);
-        return redirect()->route('admin.teachers.index')->with('success', 'Teacher update ho gaya!');
+        return redirect()->route('admin.teachers.index')->with('success', 'Teacher updated successfully.');
     }
 
     public function destroy(Teacher $teacher) {
         $teacher->delete();
-        return redirect()->route('admin.teachers.index')->with('success', 'Teacher delete ho gaya!');
+        return redirect()->route('admin.teachers.index')->with('success', 'Teacher deleted successfully.');
     }
 }

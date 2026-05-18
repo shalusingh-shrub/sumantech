@@ -75,7 +75,7 @@
           </td>
         </tr>
         @empty
-        <tr><td colspan="7" class="text-center py-4 text-muted">Koi invoice nahi hai abhi.</td></tr>
+        <tr><td colspan="7" class="text-center py-4 text-muted">No invoices available yet.</td></tr>
         @endforelse
       </tbody>
     </table>

@@ -35,12 +35,12 @@
             <h5 class="fw-bold mb-1" style="color:#1a2a6c;">
               <i class="fas fa-user-circle me-2"></i>Enter Your Details
             </h5>
-            <p class="text-muted mb-4" style="font-size:.85rem;">Please fill in the details below before starting the quiz.</p>
+            <p class="text-muted mb-4" style="font-size:.85rem;">Please complete the information below before starting the quiz.</p>
 
             @if($attemptCount > 0)
             <div class="alert alert-info py-2 mb-3" style="font-size:.85rem;">
               <i class="fas fa-info-circle me-1"></i>
-              You have previously attempted this quiz <strong>{{ $attemptCount }} time(s)</strong>.
+              You have already attempted this quiz <strong>{{ $attemptCount }} times</strong> attempt kiya hai.
             </div>
             @endif
 
@@ -50,7 +50,7 @@
                 <input type="text" name="participant_name" class="form-control form-control-lg"
                        value="{{ old('participant_name', auth()->user()->name ?? '') }}"
                        required placeholder="Name (In English Only)"
-                       pattern="[A-Za-z\s]+" title="Please enter in English only">
+                       pattern="[A-Za-z\s]+" title="Please use English only">
               </div>
               <div class="col-md-6">
                 <label class="form-label fw-semibold">Email <span class="text-danger">*</span></label>
@@ -63,7 +63,7 @@
                 <input type="text" name="participant_school" class="form-control form-control-lg"
                        value="{{ old('participant_school') }}"
                        required placeholder="School/College Name"
-                       pattern="[A-Za-z0-9\s,.\-]+" title="Please enter in English only">
+                       pattern="[A-Za-z0-9\s,.\-]+" title="Please use English only">
               </div>
               <div class="col-md-6">
                 <label class="form-label fw-semibold">Phone <span class="text-danger">*</span></label>
@@ -115,7 +115,7 @@
               @if($question->question_type === 'multiple_correct')
               <div class="alert py-2 mb-3" style="background:#fff3cd;border:1px solid #ffc107;font-size:.82rem;border-radius:8px;">
                 <i class="fas fa-check-double me-1" style="color:#856404;"></i>
-                <strong style="color:#856404;">Multiple answers may be correct</strong> — select all that apply!
+                <strong style="color:#856404;">Multiple answers are correct</strong> — select all options that apply.
               </div>
               @endif
 
@@ -225,16 +225,16 @@ function startQuiz() {
     const email  = document.querySelector('[name="participant_email"]').value.trim();
     const school = document.querySelector('[name="participant_school"]').value.trim();
     const phone  = document.querySelector('[name="participant_phone"]').value.trim();
-    if (!name || !email || !school || !phone) { alert('Please fill all required fields!'); return; }
-    if (!/^[A-Za-z\s]+$/.test(name)) { alert('Name must be in English only!'); return; }
-    if (!/^\S+@\S+\.\S+$/.test(email)) { alert('Please enter a valid email address!'); return; }
-    if (!/^[0-9]{10}$/.test(phone)) { alert('please enter a valid 10 digit phone number!'); return; }
+    if (!name || !email || !school || !phone) { alert('All fields are required.'); return; }
+    if (!/^[A-Za-z\s]+$/.test(name)) { alert('Please enter the name in English only.'); return; }
+    if (!/^\S+@\S+\.\S+$/.test(email)) { alert('Please enter a valid email address.'); return; }
+    if (!/^[0-9]{10}$/.test(phone)) { alert('Please enter a 10-digit phone number.'); return; }
     document.getElementById('infoStep').style.display = 'none';
     document.getElementById('quizStep').style.display = 'block';
     @if($quiz->time_limit > 0) startTimer(); @endif
 }
 
-// ✅ Checkbox toggle — Multiple Correct ke liye
+// Checkbox toggle for multiple correct answers
 function toggleCheckbox(id, divEl) {
     const input = document.getElementById(id);
     input.checked = !input.checked;
@@ -253,7 +253,7 @@ function toggleCheckbox(id, divEl) {
     }
 }
 
-// ✅ Radio — MCQ / True False ke liye
+// Radio toggle for MCQ / True-False questions
 function selectRadio(input) {
     const list = input.closest('.options-list');
     list.querySelectorAll('.option-item').forEach(l => {
@@ -286,7 +286,7 @@ function goToNext(currentIndex, questionId, questionType) {
             err = document.createElement('div');
             err.className = 'answer-error alert alert-danger py-2 mt-3';
             err.style.fontSize = '.85rem';
-            err.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i>Please select at least one option!';
+            err.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i>Please select an option first.';
             qCard.querySelector('.options-list').after(err);
         }
         return;
@@ -310,7 +310,7 @@ function submitQuiz(questionId, questionType) {
             err = document.createElement('div');
             err.className = 'answer-error alert alert-danger py-2 mt-3';
             err.style.fontSize = '.85rem';
-            err.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i>Pehle ek option select karo!';
+            err.innerHTML = '<i class="fas fa-exclamation-circle me-1"></i>Please select an option first.';
             qCard.querySelector('.options-list').after(err);
         }
         return;

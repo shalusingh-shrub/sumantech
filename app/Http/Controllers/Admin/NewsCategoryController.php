@@ -26,9 +26,9 @@ class NewsCategoryController extends Controller implements HasMiddleware
         $request->validate([
             'name' => 'required|string|max:100|unique:news_categories,name',
         ], [
-            'name.required' => 'Category name zaroori hai.',
-            'name.unique'   => 'Ye category pehle se exist karti hai.',
-            'name.max'      => 'Category name 100 characters se zyada nahi ho sakta.',
+            'name.required' => 'Category name is required.',
+            'name.unique'   => 'This category already exists.',
+            'name.max'      => 'Category name cannot exceed 100 characters.',
         ]);
 
         NewsCategory::create([

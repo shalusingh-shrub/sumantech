@@ -27,6 +27,6 @@ class CoursePricingController extends Controller
         $this->pricingService->updatePrice($courseOffering, $request->price);
 
         return redirect()->route('admin.course-offerings.pricing', $courseOffering)
-            ->with('success', 'Price updated successfully! Purane enrollments pe koi asar nahi.');
+            ->with('success', 'Price updated successfully. Existing enrollments are not affected.');
     }
 }

@@ -19,7 +19,7 @@
                     @csrf
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Category Name *</label>
-                        <input type="text" name="name" class="form-control" placeholder="e.g. दैनिक ज्ञानकोश" value="{{ old('name') }}" required>
+                        <input type="text" name="name" class="form-control" placeholder="e.g. Daily Knowledge Base" value="{{ old('name') }}" required>
                     </div>
                     <button type="submit" class="btn btn-tob w-100"><i class="fas fa-save me-2"></i>Add Category</button>
                 </form>
@@ -33,7 +33,7 @@
             </div>
             <div class="card-body p-0">
                 @if($categories->isEmpty())
-                    <div class="text-center text-muted p-4">Koi category nahi. Upar se add karo!</div>
+                    <div class="text-center text-muted p-4">No categories available. Add one above.</div>
                 @else
                 <table class="table table-hover mb-0 align-middle">
                     <thead><tr><th>#</th><th>Name</th><th>Slug</th><th>Magazines</th><th>Action</th></tr></thead>
@@ -45,7 +45,7 @@
                             <td><code>{{ $cat->slug }}</code></td>
                             <td><span class="badge bg-primary">{{ $cat->magazines_count }}</span></td>
                             <td>
-                                <form action="{{ route('admin.magazines.destroyCategory', $cat) }}" method="POST" onsubmit="return confirm('Delete karna chahte ho?')">
+                                <form action="{{ route('admin.magazines.destroyCategory', $cat) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this?')">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                                 </form>

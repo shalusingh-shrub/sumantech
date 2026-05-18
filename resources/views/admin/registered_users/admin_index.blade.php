@@ -77,7 +77,7 @@
               <i class="fas fa-search text-muted" style="font-size:.8rem;"></i>
             </span>
             <input type="text" name="search" class="form-control border-start-0 ps-0"
-                   placeholder="Search naam, email, phone..."
+                   placeholder="Search name, email, phone..."
                    value="{{ request('search') }}" style="font-size:.88rem;">
           </div>
         </div>

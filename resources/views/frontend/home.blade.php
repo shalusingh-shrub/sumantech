@@ -176,42 +176,20 @@
             <h2 class="section-heading">We Are Offering You Courses For<br><em>Learning & Developing</em> Your Skills</h2>
         </div>
 
-        @php
-        $staticCourses = [
-            ['title'=>'DCA – Diploma in Computer Application','desc'=>'Foundational computer skills. Covers MS Office, Internet, and basic programming.','tag'=>'Popular','duration'=>'2 Months','color'=>'#0B3D8C','icon'=>'fa-desktop'],
-            ['title'=>'ADCA – Advanced Diploma in Computer Application','desc'=>'Advanced skills from basic to expert. Best course for complete computer knowledge.','tag'=>'Bestseller','duration'=>'4 Months','color'=>'#1557B0','icon'=>'fa-laptop'],
-            ['title'=>'Tally Prime – E-Accounting','desc'=>'Master Tally Prime for GST filing, accounting and financial management.','tag'=>'Job Ready','duration'=>'3 Months','color'=>'#0E6B50','icon'=>'fa-calculator'],
-            ['title'=>'DIGITA – Diploma in GST, Income Tax & Accounting','desc'=>'Complete diploma covering GST, Income Tax, Tally, and Accounting.','tag'=>'New','duration'=>'6 Months','color'=>'#6B1F3A','icon'=>'fa-file-invoice-dollar'],
-            ['title'=>'HTML – Web Development','desc'=>'Build beautiful websites using HTML, CSS and JavaScript from scratch.','tag'=>null,'duration'=>'2 Months','color'=>'#0B4D6C','icon'=>'fa-code'],
-            ['title'=>'Digital Marketing','desc'=>'Learn SEO, Social Media, Google Ads and grow businesses online.','tag'=>null,'duration'=>'3 Months','color'=>'#3D1F6B','icon'=>'fa-bullhorn'],
-        ];
-        @endphp
-
         <div class="row g-4">
-            @foreach($staticCourses as $course)
+            @forelse($featuredCourses as $course)
             <div class="col-md-4 col-sm-6 reveal">
-                <div class="st-card h-100">
-                    <div style="height:150px;background:linear-gradient(135deg,{{ $course['color'] }},rgba(0,0,0,.3) 150%);display:flex;align-items:center;justify-content:center;position:relative;">
-                        <i class="fas {{ $course['icon'] }}" style="font-size:2.5rem;color:rgba(255,255,255,.25);"></i>
-                        @if($course['tag'])
-                        <span class="position-absolute top-0 start-0 m-3 px-2 py-1 rounded-pill" style="background:var(--gold);color:var(--navy);font-size:.68rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;">{{ $course['tag'] }}</span>
-                        @endif
-                    </div>
-                    <div class="p-3">
-                        <h5 style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:8px;">{{ $course['title'] }}</h5>
-                        <p style="font-size:.85rem;color:var(--muted);line-height:1.65;margin-bottom:14px;">{{ $course['desc'] }}</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span style="font-size:.78rem;color:var(--muted);"><i class="far fa-clock me-1"></i>{{ $course['duration'] }}</span>
-                            <a href="{{ route('home') ?? '#' }}" style="font-size:.82rem;font-weight:700;color:var(--blue);text-decoration:none;">View Details →</a>
-                        </div>
-                    </div>
-                </div>
+                <x-course-card :course="$course" />
             </div>
-            @endforeach
+            @empty
+            <div class="col-12 text-center py-4">
+                <p class="text-muted mb-0">No courses are available right now.</p>
+            </div>
+            @endforelse
         </div>
 
         <div class="text-center mt-4">
-            <a href="{{ route('home') ?? '#' }}" class="btn-st-primary" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;">
+            <a href="{{ route('courses') }}" class="btn-st-primary" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;">
                 <i class="fas fa-th-large"></i> View All Courses
             </a>
         </div>

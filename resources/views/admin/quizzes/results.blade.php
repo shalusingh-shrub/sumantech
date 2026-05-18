@@ -80,7 +80,7 @@
             </tr>
             @empty
             <tr>
-              <td colspan="8" class="text-center py-5 text-muted">Koi result nahi abhi tak.</td>
+              <td colspan="8" class="text-center py-5 text-muted">No results available yet.</td>
             </tr>
             @endforelse
           </tbody>

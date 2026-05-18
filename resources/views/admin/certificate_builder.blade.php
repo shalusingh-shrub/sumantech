@@ -61,7 +61,7 @@
 </div>
 
 @if(session('success'))<div class="alert alert-success py-2">{{ session('success') }}</div>@endif
-@if(!$certUrl)<div class="alert alert-warning py-2"><i class="fas fa-exclamation-triangle me-2"></i>Pehle certificate template upload karo — <a href="{{ $editRoute }}">Edit karo</a></div>@endif
+@if(!$certUrl)<div class="alert alert-warning py-2"><i class="fas fa-exclamation-triangle me-2"></i>Please upload the certificate template first — <a href="{{ $editRoute }}">Edit</a></div>@endif
 
 <div class="builder-wrap">
     {{-- LEFT --}}
@@ -134,7 +134,7 @@
         {{-- Save --}}
         <div class="card border-0 shadow-sm p-3">
             <div class="fw-bold mb-2" style="font-size:13px;color:#1a2a6c;"><i class="fas fa-save me-1"></i>SAVE LAYOUT</div>
-            <p style="font-size:12px;color:#666;">Layout save hone ke baad, har naye participant ka certificate auto-generate hoga.</p>
+            <p style="font-size:12px;color:#666;">After the layout is saved, certificates will be generated automatically for every new participant.</p>
             <form action="{{ $saveRoute }}" method="POST">
                 @csrf
                 <input type="hidden" name="layout" id="layoutJson">
@@ -144,7 +144,7 @@
             </form>
             @if($model->cert_layout)
             <div class="mt-2 p-2 bg-success bg-opacity-10 rounded text-success" style="font-size:12px;">
-                <i class="fas fa-check-circle me-1"></i>Layout already saved! Participants ko update karo.
+                <i class="fas fa-check-circle me-1"></i>Layout already saved. Update participants.
             </div>
             @endif
         </div>
@@ -163,7 +163,7 @@
                 <div class="d-flex align-items-center justify-content-center h-100 text-muted">
                     <div class="text-center">
                         <i class="fas fa-image fa-4x mb-3"></i>
-                        <p>Certificate template upload karo pehle</p>
+                        <p>Please upload the certificate template first.</p>
                     </div>
                 </div>
                 @endif

@@ -70,7 +70,7 @@ class DataController extends Controller
         if (!$news) {
             return response()->json([
                 'success' => false,
-                'message' => 'News nahi mili',
+                'message' => 'News not found',
             ], 404);
         }
 
@@ -117,7 +117,7 @@ class DataController extends Controller
         if (!$publication) {
             return response()->json([
                 'success' => false,
-                'message' => 'Publication nahi mili',
+                'message' => 'Publication not found',
             ], 404);
         }
 
@@ -182,7 +182,7 @@ class DataController extends Controller
         if (!$member) {
             return response()->json([
                 'success' => false,
-                'message' => 'Team member nahi mila',
+                'message' => 'Team member not found',
             ], 404);
         }
 
@@ -288,7 +288,7 @@ class DataController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Message bhej diya gaya! Hum jald sampark karenge.',
+            'message' => 'Message sent successfully. We will contact you soon.',
             'data'    => $contact,
         ], 201);
     }
@@ -321,7 +321,7 @@ class DataController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Shukriya! Aapka message mil gaya.',
+            'message' => 'Thank you! Your message has been received.',
             'data'    => $suggestion,
         ], 201);
     }
@@ -354,7 +354,7 @@ class DataController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Aapki ray mil gayi! Shukriya.',
+            'message' => 'Thank you! Your opinion has been received.',
             'data'    => $opinion,
         ], 201);
     }

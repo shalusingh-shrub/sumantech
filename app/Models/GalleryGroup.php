@@ -37,7 +37,7 @@ class GalleryGroup extends Model
     public function getCoverImageUrlAttribute()
     {
         if ($this->cover_image) return asset('storage/' . $this->cover_image);
-        // First item ki image return karo agar cover nahi hai
+        // Return the first item image when no cover is available
         $first = $this->items()->whereNotNull('file_path')->first();
         if ($first) return asset('storage/' . $first->file_path);
         return null;

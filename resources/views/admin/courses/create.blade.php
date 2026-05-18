@@ -36,7 +36,7 @@
                    value="{{ old('slug', $course->slug ?? '') }}"
                    placeholder="e.g. advanced-diploma-computer-application">
           </div>
-          <small class="text-muted">Auto-generate hoga Course Name se — ya manually type karo</small>
+          <small class="text-muted">Auto-generated from the course name, or you can enter it manually.</small>
         </div>
 
         <div class="mb-3">
@@ -52,6 +52,40 @@
                  value="{{ old('fee', $course->fee ?? '') }}"
                  placeholder="e.g. 5999">
         </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Course Image</label>
+          <input type="file" name="image" class="form-control" accept="image/*">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Description</label>
+          <textarea name="description" class="form-control" rows="3"
+                    placeholder="Write a short course description...">{{ old('description', $course->description ?? '') }}</textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Homepage Badge</label>
+          <input type="text" name="badge_label" class="form-control"
+                 value="{{ old('badge_label', $course->badge_label ?? '') }}"
+                 placeholder="e.g. Popular, Bestseller, Job Ready">
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Card Icon Class</label>
+            <input type="text" name="icon_class" class="form-control"
+                   value="{{ old('icon_class', $course->icon_class ?? '') }}"
+                   placeholder="e.g. fa-desktop">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-bold">Card Color</label>
+            <input type="text" name="card_color" class="form-control"
+                   value="{{ old('card_color', $course->card_color ?? '') }}"
+                   placeholder="e.g. #0B3D8C">
+          </div>
+        </div>
+        <small class="text-muted d-block mb-3">Optional. Leave blank to auto-select badge, icon, and color from the course name.</small>
 
         <div class="mb-3">
           <label class="form-label fw-bold">Status</label><br>
@@ -81,7 +115,7 @@
 <script>
 function autoSlug(input) {
     const slugField = document.getElementById('slugField');
-    // Sirf tab auto-generate karo jab slug field empty ho
+    // Auto-generate only when the slug field is empty
     if (!slugField.dataset.manual) {
         slugField.value = input.value.toLowerCase()
             .replace(/[^a-z0-9\s-]/g, '')
@@ -91,7 +125,7 @@ function autoSlug(input) {
     }
 }
 
-// Agar user manually slug type kare toh auto-generate band karo
+// Disable auto-generation when the user manually types a slug
 document.getElementById('slugField').addEventListener('input', function() {
     if (this.value) {
         this.dataset.manual = 'true';

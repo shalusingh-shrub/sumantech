@@ -34,7 +34,7 @@
             <div class="card-header"><i class="fas fa-list me-2"></i>All Categories ({{ $categories->count() }})</div>
             <div class="card-body p-0">
                 @if($categories->isEmpty())
-                    <div class="text-center text-muted p-4">Koi category nahi hai. Upar se add karo!</div>
+                    <div class="text-center text-muted p-4">No categories available. Add one above.</div>
                 @else
                 <table class="table table-hover mb-0">
                     <thead>
@@ -54,7 +54,7 @@
                             <td><code>{{ $cat->slug }}</code></td>
                             <td><span class="badge bg-primary">{{ $cat->newsEvents()->count() }}</span></td>
                             <td>
-                                <form action="{{ route('admin.news-categories.destroy', $cat) }}" method="POST" onsubmit="return confirm('Delete karna chahte ho?')">
+                                <form action="{{ route('admin.news-categories.destroy', $cat) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this?')">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
                                 </form>
