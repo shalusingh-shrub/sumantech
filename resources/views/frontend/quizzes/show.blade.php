@@ -33,7 +33,7 @@
           {{-- STEP 1: Info --}}
           <div id="infoStep" class="card border-0 shadow-sm mb-4 p-4" style="border-radius:12px;">
             <h5 class="fw-bold mb-1" style="color:#1a2a6c;">
-              <i class="fas fa-user-circle me-2"></i>Apni Jaankari Bharo
+              <i class="fas fa-user-circle me-2"></i>Enter Your Details
             </h5>
             <p class="text-muted mb-4" style="font-size:.85rem;">Please complete the information below before starting the quiz.</p>
 

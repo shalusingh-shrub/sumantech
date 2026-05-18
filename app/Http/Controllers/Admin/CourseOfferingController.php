@@ -19,6 +19,7 @@ class CourseOfferingController extends Controller
         $offerings = CourseOffering::with(['course', 'priceHistories' => function($q) {
             $q->whereNull('effective_to');
         }])
+        ->withcount('enrollments')
         ->latest()
         ->paginate(10);
 

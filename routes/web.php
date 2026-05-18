@@ -379,15 +379,15 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 });
 
 // ─── Enrollments (User) ───────────────────────────────────────────────────
-Route::middleware(['auth'])->group(function () {
-    Route::get('my-enrollments',
-        [App\Http\Controllers\EnrollmentController::class, 'index'])
-        ->name('enrollments.index');
+Route::get('my-enrollments',
+    [App\Http\Controllers\EnrollmentController::class, 'index'])
+    ->middleware('auth')
+    ->name('my.enrollments');
 
-    Route::post('enroll',
-        [App\Http\Controllers\EnrollmentController::class, 'store'])
-        ->name('enrollments.store');
-});
+Route::post('enroll',
+    [App\Http\Controllers\EnrollmentController::class, 'store'])
+    ->middleware('auth')
+    ->name('enrollments.store');
 // Registered Users - show, edit, update
 Route::get('admin/registered-users/{user}', [App\Http\Controllers\Admin\RegisteredUserController::class, 'show'])->name('admin.registered-users.show')->middleware('auth');
 Route::get('admin/registered-users/{user}/edit', [App\Http\Controllers\Admin\RegisteredUserController::class, 'edit'])->name('admin.registered-users.edit')->middleware('auth');

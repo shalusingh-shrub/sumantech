@@ -28,10 +28,10 @@ class EnrollmentController extends Controller
 
         try {
             $enrollment = $this->enrollmentService->enroll(auth()->user(), $offering);
-            return redirect()->route('enrollments.index')
-                ->with('success', 'Successfully enrolled! Start: ' . $enrollment->start_date->format('d M Y'));
+            return redirect()->route('courses')
+                ->with('success', 'Successfully enrolled in ' . $offering->course->name . '!');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->route('courses')->with('error', $e->getMessage());
         }
     }
 

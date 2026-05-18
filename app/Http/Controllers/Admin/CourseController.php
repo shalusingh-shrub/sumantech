@@ -29,16 +29,24 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'        => 'required|string|max:255',
+            'name'        => 'required|string|max:255|unique:courses,name',
             'slug'        => 'nullable|string|unique:courses,slug',
             'duration'    => 'required|string|max:100',
-            'fee'         => 'required|numeric|min:0',
-            'image'       => 'nullable|image|max:2048',
-            'description' => 'nullable|string',
-            'highlights'  => 'nullable|string',
-            'badge_label' => 'nullable|string|max:50',
-            'icon_class'  => 'nullable|string|max:100',
-            'card_color'  => 'nullable|string|max:20',
+            'fee'         => 'required|numeric|min:0|max:999999',
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'description' => 'nullable|string|max:5000',
+            'highlights'  => 'nullable|string|max:3000',
+            'course_level'=> 'nullable|in:beginner,intermediate,advanced',
+            'eligibility' => 'nullable|string|max:500',
+        ], [
+            'name.required'  => 'course name zaroori hai!',
+            'name.unique'    => 'ye course already exist karta hai!',
+            'duration.required' => 'duration zaroori hai!',
+            'fee.required'   => 'fee zaroori hai!',
+            'fee.numeric'    => 'fee sirf number mein honi chahiye!',
+            'fee.min'        => 'fee 0 se kam nahi ho sakti!',
+            'image.mimes'    => 'image sirf jpg, png, webp format mein honi chahiye!',
+            'image.max'      => 'image 2mb se zyada nahi honi chahiye!',
         ]);
 
         $data = $request->except(['image', 'syllabus']);
@@ -73,8 +81,8 @@ class CourseController extends Controller
     public function update(Request $request, Course $course)
     {
         $request->validate([
-            'name'        => 'required|string|max:255',
-            'slug'        => 'nullable|string|unique:courses,slug,' . $course->id,
+            'name'        => 'required|string|max:255|unique:courses,name,'.$course->id,
+            'slug'        => 'nullable|string|unique:courses,slug,'.$course->id,
             'duration'    => 'required|string|max:100',
             'fee'         => 'required|numeric|min:0',
             'image'       => 'nullable|image|max:2048',

@@ -290,9 +290,14 @@
     {{-- Profile Dropdown --}}
     <div class="dropdown">
         <a href="#" class="d-flex align-items-center gap-2 text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+            @if(auth()->user()->profile?->avatar)
+            <img src="{{ asset('storage/'.auth()->user()->profile->avatar) }}"
+                 style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid #ffd700;">
+            @else
             <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1a2a6c,#6b3a1f);display:flex;align-items:center;justify-content:center;color:#ffd700;font-weight:700;font-size:14px;">
                 {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
             </div>
+            @endif
             <div style="line-height:1.2;">
                 <div style="font-size:11px;color:#999;">{{ auth()->user()->getRoleNames()->first() ?? 'admin' }}</div>
                 <div style="font-size:13px;font-weight:700;color:#1a2a6c;">{{ auth()->user()->name }}</div>

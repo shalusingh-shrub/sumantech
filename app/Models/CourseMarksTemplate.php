@@ -24,8 +24,8 @@ class CourseMarksTemplate extends Model
     }
 
     protected $casts = [
-        'subjects'        => 'json',
-        'grade_standards' => 'json',
+        'subjects'        => 'array',
+        'grade_standards' => 'array',
     ];
 
     public function course()
@@ -35,21 +35,33 @@ class CourseMarksTemplate extends Model
 
     public function getTotalMaxMarksAttribute()
     {
-        return collect($this->subjects)->sum('max_marks');
+        $subjects = is_array($this->subjects) ? $this->subjects : [];
+        return collect($subjects)->sum('max_marks');
     }
 
     public function calculateGrade($percentage)
     {
-        if (!$this->grade_standards) return ['grade' => 'N/A', 'result' => 'N/A'];
+        $standards = $this->grade_standards;
 
-        foreach ($this->grade_standards as $standard) {
-            if ($percentage >= $standard['min'] && $percentage <= $standard['max']) {
+        if (is_string($standards)) {
+            $standards = json_decode($standards, true);
+        }
+
+        if (!$standards || !is_array($standards)) {
+            return ['grade' => 'N/A', 'result' => 'N/A'];
+        }
+
+        foreach ($standards as $standard) {
+            if (isset($standard['min'], $standard['max']) &&
+                $percentage >= $standard['min'] &&
+                $percentage <= $standard['max']) {
                 return [
-                    'grade'  => $standard['grade'],
-                    'result' => $standard['result'],
+                    'grade'  => $standard['grade'] ?? 'N/A',
+                    'result' => $standard['result'] ?? 'N/A',
                 ];
             }
         }
+
         return ['grade' => 'F', 'result' => 'Fail'];
     }
 }
